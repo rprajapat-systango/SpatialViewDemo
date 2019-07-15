@@ -1,0 +1,379 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8C2C5922CF87110055D544 /* WMSpatialView.m */; };
+		DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285222CB8B2C00E250B8 /* AppDelegate.m */; };
+		DCFE285622CB8B2C00E250B8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285522CB8B2C00E250B8 /* ViewController.m */; };
+		DCFE285922CB8B2C00E250B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCFE285722CB8B2C00E250B8 /* Main.storyboard */; };
+		DCFE285C22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285A22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld */; };
+		DCFE285E22CB8B3800E250B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCFE285D22CB8B3800E250B8 /* Assets.xcassets */; };
+		DCFE286122CB8B3800E250B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCFE285F22CB8B3800E250B8 /* LaunchScreen.storyboard */; };
+		DCFE286422CB8B3800E250B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE286322CB8B3800E250B8 /* main.m */; };
+		DCFE286C22CB8CEB00E250B8 /* WMShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE286B22CB8CEB00E250B8 /* WMShapeView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DC8C2C5822CF87110055D544 /* WMSpatialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMSpatialView.h; sourceTree = "<group>"; };
+		DC8C2C5922CF87110055D544 /* WMSpatialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMSpatialView.m; sourceTree = "<group>"; };
+		DCFE284E22CB8B2C00E250B8 /* SpatialViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCFE285122CB8B2C00E250B8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DCFE285222CB8B2C00E250B8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DCFE285422CB8B2C00E250B8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DCFE285522CB8B2C00E250B8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DCFE285822CB8B2C00E250B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DCFE285B22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SpatialViewDemo.xcdatamodel; sourceTree = "<group>"; };
+		DCFE285D22CB8B3800E250B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DCFE286022CB8B3800E250B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DCFE286222CB8B3800E250B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DCFE286322CB8B3800E250B8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DCFE286A22CB8CEB00E250B8 /* WMShapeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMShapeView.h; sourceTree = "<group>"; };
+		DCFE286B22CB8CEB00E250B8 /* WMShapeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMShapeView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DCFE284B22CB8B2C00E250B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DC2581BA22D5C47A0043CC6F /* WMSpatialView */ = {
+			isa = PBXGroup;
+			children = (
+				DCFE286A22CB8CEB00E250B8 /* WMShapeView.h */,
+				DCFE286B22CB8CEB00E250B8 /* WMShapeView.m */,
+				DC8C2C5822CF87110055D544 /* WMSpatialView.h */,
+				DC8C2C5922CF87110055D544 /* WMSpatialView.m */,
+			);
+			path = WMSpatialView;
+			sourceTree = "<group>";
+		};
+		DCFE284522CB8B2C00E250B8 = {
+			isa = PBXGroup;
+			children = (
+				DCFE285022CB8B2C00E250B8 /* SpatialViewDemo */,
+				DCFE284F22CB8B2C00E250B8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DCFE284F22CB8B2C00E250B8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DCFE284E22CB8B2C00E250B8 /* SpatialViewDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DCFE285022CB8B2C00E250B8 /* SpatialViewDemo */ = {
+			isa = PBXGroup;
+			children = (
+				DCFE285122CB8B2C00E250B8 /* AppDelegate.h */,
+				DCFE285222CB8B2C00E250B8 /* AppDelegate.m */,
+				DCFE285422CB8B2C00E250B8 /* ViewController.h */,
+				DCFE285522CB8B2C00E250B8 /* ViewController.m */,
+				DCFE285722CB8B2C00E250B8 /* Main.storyboard */,
+				DCFE285D22CB8B3800E250B8 /* Assets.xcassets */,
+				DCFE285F22CB8B3800E250B8 /* LaunchScreen.storyboard */,
+				DCFE286222CB8B3800E250B8 /* Info.plist */,
+				DCFE286322CB8B3800E250B8 /* main.m */,
+				DCFE285A22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld */,
+				DC2581BA22D5C47A0043CC6F /* WMSpatialView */,
+			);
+			path = SpatialViewDemo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DCFE284D22CB8B2C00E250B8 /* SpatialViewDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DCFE286722CB8B3800E250B8 /* Build configuration list for PBXNativeTarget "SpatialViewDemo" */;
+			buildPhases = (
+				DCFE284A22CB8B2C00E250B8 /* Sources */,
+				DCFE284B22CB8B2C00E250B8 /* Frameworks */,
+				DCFE284C22CB8B2C00E250B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpatialViewDemo;
+			productName = SpatialViewDemo;
+			productReference = DCFE284E22CB8B2C00E250B8 /* SpatialViewDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DCFE284622CB8B2C00E250B8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = Systango;
+				TargetAttributes = {
+					DCFE284D22CB8B2C00E250B8 = {
+						CreatedOnToolsVersion = 10.2;
+					};
+				};
+			};
+			buildConfigurationList = DCFE284922CB8B2C00E250B8 /* Build configuration list for PBXProject "SpatialViewDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DCFE284522CB8B2C00E250B8;
+			productRefGroup = DCFE284F22CB8B2C00E250B8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DCFE284D22CB8B2C00E250B8 /* SpatialViewDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DCFE284C22CB8B2C00E250B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DCFE286122CB8B3800E250B8 /* LaunchScreen.storyboard in Resources */,
+				DCFE285E22CB8B3800E250B8 /* Assets.xcassets in Resources */,
+				DCFE285922CB8B2C00E250B8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DCFE284A22CB8B2C00E250B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DCFE285622CB8B2C00E250B8 /* ViewController.m in Sources */,
+				DCFE286C22CB8CEB00E250B8 /* WMShapeView.m in Sources */,
+				DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */,
+				DCFE286422CB8B3800E250B8 /* main.m in Sources */,
+				DCFE285C22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld in Sources */,
+				DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DCFE285722CB8B2C00E250B8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DCFE285822CB8B2C00E250B8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DCFE285F22CB8B3800E250B8 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DCFE286022CB8B3800E250B8 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DCFE286522CB8B3800E250B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DCFE286622CB8B3800E250B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DCFE286822CB8B3800E250B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SpatialViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.systango.SpatialViewDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DCFE286922CB8B3800E250B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SpatialViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.systango.SpatialViewDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DCFE284922CB8B2C00E250B8 /* Build configuration list for PBXProject "SpatialViewDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DCFE286522CB8B3800E250B8 /* Debug */,
+				DCFE286622CB8B3800E250B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DCFE286722CB8B3800E250B8 /* Build configuration list for PBXNativeTarget "SpatialViewDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DCFE286822CB8B3800E250B8 /* Debug */,
+				DCFE286922CB8B3800E250B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DCFE285A22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DCFE285B22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodel */,
+			);
+			currentVersion = DCFE285B22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodel */;
+			path = SpatialViewDemo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = DCFE284622CB8B2C00E250B8 /* Project object */;
+}
