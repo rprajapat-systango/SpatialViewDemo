@@ -11,7 +11,6 @@
 
 @interface ViewController ()
 
-
 @end
 
 @implementation ViewController
@@ -26,15 +25,13 @@
 
 -(void)setZoomScale{
     self.spatialView.minimumZoomScale = 0.1;
-    self.spatialView.maximumZoomScale = 6.0;
+    self.spatialView.maximumZoomScale = 2.0;
 //    self.spatialView.minimumZoomScale = MIN(self.spatialView.bounds.size.width /self.spatialView.contentView.bounds.size.width, self.spatialView.bounds.size.height / self.spatialView.contentView.bounds.size.height);
 //
 //    if (self.spatialView.zoomScale < self.spatialView.minimumZoomScale){
 //            self.spatialView.zoomScale = self.spatialView.minimumZoomScale;
 //    }
-    
 }
-
 
 #pragma mark UIScrollViewDelegate
 

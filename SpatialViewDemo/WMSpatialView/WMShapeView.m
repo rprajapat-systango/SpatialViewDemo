@@ -13,47 +13,52 @@
 @property(strong, nonatomic) NSString *title;
 @property(retain, nonatomic) UILabel *labelResourceName;
 @property(retain, nonatomic) UILabel *labelPartyName;
+@property(retain, nonatomic) id<WMShapeViewDelegate> delegate;
 
 @end
 
 @implementation WMShapeView
 
-- (instancetype)initWithFrame:(CGRect)frame type:(Shape)shape title:(NSString *)title andColor:(UIColor *)color
+- (void)setupView {
+    _labelResourceName = [UILabel new];
+    _labelPartyName = [UILabel new];
+    [self setBackgroundColor:[UIColor clearColor]];
+    self.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    [self addGestureRecognizer:[self getTapGesture]];
+    self.isSelected = NO;
+    self.identifier = self.title;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame type:(Shape)shape title:(NSString *)title andColor:(UIColor *)color withDelegate:(id<WMShapeViewDelegate>) delegate
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.shape = shape;
         self.color = color;
         self.title = title;
-        _labelResourceName = [UILabel new];
-        _labelPartyName = [UILabel new];
-        [self setBackgroundColor:[UIColor clearColor]];
+        self.delegate = delegate;
+        [self setupView];
     }
     return self;
 }
 
--(void)configureLables{
-    // Configuring Resource name label
-    _labelResourceName.textColor = [UIColor blackColor];
-    _labelResourceName.backgroundColor = [UIColor clearColor];
-    _labelResourceName.adjustsFontSizeToFitWidth = YES;
-    _labelResourceName.minimumScaleFactor = 0.6;
-    [_labelResourceName setFont:[UIFont boldSystemFontOfSize:24]];
-    // Configuring Party name label
-    _labelPartyName.textColor = [UIColor whiteColor];
-    _labelPartyName.backgroundColor = [UIColor blueColor];
-    
+- (UITapGestureRecognizer *) getTapGesture{
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+    [tapGesture addTarget:self action:@selector(didTapOnView)];
+    return tapGesture;
 }
 
--(void)setData{
-    [self configureLables];
-    _labelResourceName.text = self.title;
-    [_labelResourceName sizeToFit];
-    NSUInteger size = arc4random_uniform(16)%10;
-    if (size == 0) size = 1;
-    _labelPartyName.text = [NSString stringWithFormat:@" %lu ",(unsigned long)size];
-    [_labelPartyName sizeToFit];
+- (void)didTapOnView{
+    NSLog(@"did tap on view %@", self);
+    if ([self.delegate  respondsToSelector:@selector(didTapOnView:)]){
+        [self.delegate  didTapOnView:self];
+    }
 }
+
+- (void)setIsSelected:(BOOL)isSelected{
+    self.layer.borderWidth = isSelected ? 5.0 : 0.0;
+}
+
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -77,6 +82,29 @@
     }
     [self addStackView];
     [self setData];
+}
+
+-(void)configureLables{
+    // Configuring Resource name label
+    _labelResourceName.textColor = [UIColor blackColor];
+    _labelResourceName.backgroundColor = [UIColor clearColor];
+    _labelResourceName.adjustsFontSizeToFitWidth = YES;
+    _labelResourceName.minimumScaleFactor = 0.6;
+    [_labelResourceName setFont:[UIFont boldSystemFontOfSize:24]];
+    // Configuring Party name label
+    _labelPartyName.textColor = [UIColor whiteColor];
+    _labelPartyName.backgroundColor = [UIColor blueColor];
+    
+}
+
+-(void)setData{
+    [self configureLables];
+    _labelResourceName.text = self.title;
+    [_labelResourceName sizeToFit];
+    NSUInteger size = arc4random_uniform(16)%10;
+    if (size == 0) size = 1;
+    _labelPartyName.text = [NSString stringWithFormat:@" %lu ",(unsigned long)size];
+    [_labelPartyName sizeToFit];
 }
 
 

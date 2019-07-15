@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WMGraphView.h"
+#import "WMShapeView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WMSpatialView : UIScrollView
+@interface WMSpatialView : UIScrollView <WMShapeViewDelegate>
 @property (assign, nonatomic) NSInteger margin;
 
-@property (strong) UIView *contentView;
+@property (strong) WMGraphView *contentView;
 - (void)loadViewsOnCanvas;
 
 @end

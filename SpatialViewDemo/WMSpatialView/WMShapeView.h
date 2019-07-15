@@ -16,11 +16,18 @@ typedef enum : NSUInteger {
     ELLIPSE,
     DIAMOND
 } Shape;
+@class WMShapeView;
+
+@protocol WMShapeViewDelegate <NSObject>
+- (void) didTapOnView:(WMShapeView *)shape;
+@end
 
 
 @interface WMShapeView : UIView
-- (instancetype)initWithFrame:(CGRect)frame type:(Shape)shape title:(NSString *)title andColor:(UIColor *)color;
+- (instancetype)initWithFrame:(CGRect)frame type:(Shape)shape title:(NSString *)title andColor:(UIColor *)color withDelegate:(id<WMShapeViewDelegate>) delegate;
 @property(assign) UIColor *borderColor;
+@property(assign) NSString *identifier;
+@property(nonatomic, assign) BOOL isSelected;
 @end
 
 

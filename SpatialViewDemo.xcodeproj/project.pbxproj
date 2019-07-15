@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8C2C5922CF87110055D544 /* WMSpatialView.m */; };
+		DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97ABD22DCA00700B634B0 /* WMGraphView.m */; };
 		DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285222CB8B2C00E250B8 /* AppDelegate.m */; };
 		DCFE285622CB8B2C00E250B8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285522CB8B2C00E250B8 /* ViewController.m */; };
 		DCFE285922CB8B2C00E250B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCFE285722CB8B2C00E250B8 /* Main.storyboard */; };
@@ -21,6 +22,8 @@
 /* Begin PBXFileReference section */
 		DC8C2C5822CF87110055D544 /* WMSpatialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMSpatialView.h; sourceTree = "<group>"; };
 		DC8C2C5922CF87110055D544 /* WMSpatialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMSpatialView.m; sourceTree = "<group>"; };
+		DCC97ABC22DCA00700B634B0 /* WMGraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMGraphView.h; sourceTree = "<group>"; };
+		DCC97ABD22DCA00700B634B0 /* WMGraphView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMGraphView.m; sourceTree = "<group>"; };
 		DCFE284E22CB8B2C00E250B8 /* SpatialViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFE285122CB8B2C00E250B8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DCFE285222CB8B2C00E250B8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -54,6 +57,8 @@
 				DCFE286B22CB8CEB00E250B8 /* WMShapeView.m */,
 				DC8C2C5822CF87110055D544 /* WMSpatialView.h */,
 				DC8C2C5922CF87110055D544 /* WMSpatialView.m */,
+				DCC97ABC22DCA00700B634B0 /* WMGraphView.h */,
+				DCC97ABD22DCA00700B634B0 /* WMGraphView.m */,
 			);
 			path = WMSpatialView;
 			sourceTree = "<group>";
@@ -77,6 +82,7 @@
 		DCFE285022CB8B2C00E250B8 /* SpatialViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				DC2581BA22D5C47A0043CC6F /* WMSpatialView */,
 				DCFE285122CB8B2C00E250B8 /* AppDelegate.h */,
 				DCFE285222CB8B2C00E250B8 /* AppDelegate.m */,
 				DCFE285422CB8B2C00E250B8 /* ViewController.h */,
@@ -87,7 +93,6 @@
 				DCFE286222CB8B3800E250B8 /* Info.plist */,
 				DCFE286322CB8B3800E250B8 /* main.m */,
 				DCFE285A22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld */,
-				DC2581BA22D5C47A0043CC6F /* WMSpatialView */,
 			);
 			path = SpatialViewDemo;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 				DCFE286C22CB8CEB00E250B8 /* WMShapeView.m in Sources */,
 				DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */,
 				DCFE286422CB8B3800E250B8 /* main.m in Sources */,
+				DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */,
 				DCFE285C22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld in Sources */,
 				DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */,
 			);
@@ -309,7 +315,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SpatialViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -318,6 +325,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.systango.SpatialViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -326,7 +334,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SpatialViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -335,6 +344,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.systango.SpatialViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
