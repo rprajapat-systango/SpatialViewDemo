@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSInteger margin;
 
 @property (strong) WMGraphView *contentView;
-- (void)loadViewsOnCanvas;
+- (void)loadShapes:(NSArray *)shapes;
 
 @end
 

@@ -23,9 +23,8 @@
     _labelResourceName = [UILabel new];
     _labelPartyName = [UILabel new];
     [self setBackgroundColor:[UIColor clearColor]];
-    self.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.layer.borderColor = [UIColor blueColor].CGColor;
     [self addGestureRecognizer:[self getTapGesture]];
-    self.isSelected = NO;
     self.identifier = self.title;
 }
 
@@ -56,9 +55,15 @@
 }
 
 - (void)setIsSelected:(BOOL)isSelected{
-    self.layer.borderWidth = isSelected ? 5.0 : 0.0;
+    self.layer.borderWidth = isSelected ? 2.0 : 0.0;
+    //[self setNeedsDisplay];
 }
 
+-(void)makeTransform{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGRect rect = CGRectFromString(@"{{0,0},{20,20}}");
+    [self drawRectangle:context rect:&rect];
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

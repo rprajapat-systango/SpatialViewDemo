@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8C2C5922CF87110055D544 /* WMSpatialView.m */; };
 		DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97ABD22DCA00700B634B0 /* WMGraphView.m */; };
+		DCC97AC222DF330900B634B0 /* WMShape.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97AC122DF330900B634B0 /* WMShape.m */; };
 		DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285222CB8B2C00E250B8 /* AppDelegate.m */; };
 		DCFE285622CB8B2C00E250B8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285522CB8B2C00E250B8 /* ViewController.m */; };
 		DCFE285922CB8B2C00E250B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCFE285722CB8B2C00E250B8 /* Main.storyboard */; };
@@ -24,6 +25,8 @@
 		DC8C2C5922CF87110055D544 /* WMSpatialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMSpatialView.m; sourceTree = "<group>"; };
 		DCC97ABC22DCA00700B634B0 /* WMGraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMGraphView.h; sourceTree = "<group>"; };
 		DCC97ABD22DCA00700B634B0 /* WMGraphView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMGraphView.m; sourceTree = "<group>"; };
+		DCC97AC022DF330900B634B0 /* WMShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMShape.h; sourceTree = "<group>"; };
+		DCC97AC122DF330900B634B0 /* WMShape.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMShape.m; sourceTree = "<group>"; };
 		DCFE284E22CB8B2C00E250B8 /* SpatialViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFE285122CB8B2C00E250B8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DCFE285222CB8B2C00E250B8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -53,6 +56,24 @@
 		DC2581BA22D5C47A0043CC6F /* WMSpatialView */ = {
 			isa = PBXGroup;
 			children = (
+				DCC97ABF22DF32E800B634B0 /* Models */,
+				DCC97AC422DF5E4400B634B0 /* CustomViews */,
+			);
+			path = WMSpatialView;
+			sourceTree = "<group>";
+		};
+		DCC97ABF22DF32E800B634B0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DCC97AC022DF330900B634B0 /* WMShape.h */,
+				DCC97AC122DF330900B634B0 /* WMShape.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DCC97AC422DF5E4400B634B0 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
 				DCFE286A22CB8CEB00E250B8 /* WMShapeView.h */,
 				DCFE286B22CB8CEB00E250B8 /* WMShapeView.m */,
 				DC8C2C5822CF87110055D544 /* WMSpatialView.h */,
@@ -60,7 +81,36 @@
 				DCC97ABC22DCA00700B634B0 /* WMGraphView.h */,
 				DCC97ABD22DCA00700B634B0 /* WMGraphView.m */,
 			);
-			path = WMSpatialView;
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		DCC97AC522DF5E5500B634B0 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				DCFE285122CB8B2C00E250B8 /* AppDelegate.h */,
+				DCFE285222CB8B2C00E250B8 /* AppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		DCC97AC622DF5E6600B634B0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DCFE285422CB8B2C00E250B8 /* ViewController.h */,
+				DCFE285522CB8B2C00E250B8 /* ViewController.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DCC97AC722DF5E8F00B634B0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DCFE285722CB8B2C00E250B8 /* Main.storyboard */,
+				DCFE285D22CB8B3800E250B8 /* Assets.xcassets */,
+				DCFE285F22CB8B3800E250B8 /* LaunchScreen.storyboard */,
+				DCFE286222CB8B3800E250B8 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		DCFE284522CB8B2C00E250B8 = {
@@ -83,14 +133,9 @@
 			isa = PBXGroup;
 			children = (
 				DC2581BA22D5C47A0043CC6F /* WMSpatialView */,
-				DCFE285122CB8B2C00E250B8 /* AppDelegate.h */,
-				DCFE285222CB8B2C00E250B8 /* AppDelegate.m */,
-				DCFE285422CB8B2C00E250B8 /* ViewController.h */,
-				DCFE285522CB8B2C00E250B8 /* ViewController.m */,
-				DCFE285722CB8B2C00E250B8 /* Main.storyboard */,
-				DCFE285D22CB8B3800E250B8 /* Assets.xcassets */,
-				DCFE285F22CB8B3800E250B8 /* LaunchScreen.storyboard */,
-				DCFE286222CB8B3800E250B8 /* Info.plist */,
+				DCC97AC622DF5E6600B634B0 /* Views */,
+				DCC97AC522DF5E5500B634B0 /* AppDelegate */,
+				DCC97AC722DF5E8F00B634B0 /* Resources */,
 				DCFE286322CB8B3800E250B8 /* main.m */,
 				DCFE285A22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld */,
 			);
@@ -168,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCFE285622CB8B2C00E250B8 /* ViewController.m in Sources */,
+				DCC97AC222DF330900B634B0 /* WMShape.m in Sources */,
 				DCFE286C22CB8CEB00E250B8 /* WMShapeView.m in Sources */,
 				DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */,
 				DCFE286422CB8B3800E250B8 /* main.m in Sources */,
