@@ -108,7 +108,6 @@
 				DCFE285722CB8B2C00E250B8 /* Main.storyboard */,
 				DCFE285D22CB8B3800E250B8 /* Assets.xcassets */,
 				DCFE285F22CB8B3800E250B8 /* LaunchScreen.storyboard */,
-				DCFE286222CB8B3800E250B8 /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -137,6 +136,7 @@
 				DCC97AC522DF5E5500B634B0 /* AppDelegate */,
 				DCC97AC722DF5E8F00B634B0 /* Resources */,
 				DCFE286322CB8B3800E250B8 /* main.m */,
+				DCFE286222CB8B3800E250B8 /* Info.plist */,
 				DCFE285A22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld */,
 			);
 			path = SpatialViewDemo;

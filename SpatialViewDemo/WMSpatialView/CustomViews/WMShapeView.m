@@ -7,7 +7,9 @@
 //
 
 #import "WMShapeView.h"
-@interface WMShapeView()
+@interface WMShapeView(){
+    CGLayerRef shapeLayer_;
+}
 @property(assign) Shape shape;
 @property(assign) UIColor *color;
 @property(strong, nonatomic) NSString *title;
@@ -28,13 +30,13 @@
     self.identifier = self.title;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame type:(Shape)shape title:(NSString *)title andColor:(UIColor *)color withDelegate:(id<WMShapeViewDelegate>) delegate
-{
-    self = [super initWithFrame:frame];
+- (instancetype)initWithModel:(WMShape *)shapeModel withDelegate:(id<WMShapeViewDelegate>)delegate{
+    self = [super initWithFrame:shapeModel.frame];
     if (self) {
-        self.shape = shape;
-        self.color = color;
-        self.title = title;
+        self.shape = shapeModel.shapeType;
+        self.color = shapeModel.fillColor;
+        self.borderColor = shapeModel.borderColor;
+        self.title = shapeModel.title;
         self.delegate = delegate;
         [self setupView];
     }
@@ -59,10 +61,19 @@
     //[self setNeedsDisplay];
 }
 
--(void)makeTransform{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGRect rect = CGRectFromString(@"{{0,0},{20,20}}");
-    [self drawRectangle:context rect:&rect];
+//-(void)makeTransform{
+//    CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI_2);
+//    CGPathRef rotatedPath = CGPathCreateCopyByTransformingPath(myPath, &transform);
+//}
+
+static CGPathRef createPathRotatedAroundBoundingBoxCenter(CGPathRef path, CGFloat radians) {
+    CGRect bounds = CGPathGetBoundingBox(path); // might want to use CGPathGetPathBoundingBox
+    CGPoint center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformTranslate(transform, center.x, center.y);
+    transform = CGAffineTransformRotate(transform, radians);
+    transform = CGAffineTransformTranslate(transform, -center.x, -center.y);
+    return CGPathCreateCopyByTransformingPath(path, &transform);
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -82,6 +93,9 @@
         case DIAMOND:
             [self drawDiomond:context rect:&rect];
             break;
+        case TRIANGLE:
+            [self drawTriangle:context rect:&rect];
+            break;
         default:
             break;
     }
@@ -89,7 +103,7 @@
     [self setData];
 }
 
--(void)configureLables{
+- (void)configureLables{
     // Configuring Resource name label
     _labelResourceName.textColor = [UIColor blackColor];
     _labelResourceName.backgroundColor = [UIColor clearColor];
@@ -174,17 +188,29 @@
 - (void)drawDiomond:(CGContextRef)context rect:(const CGRect *)rect {
     float W = rect->size.width;
     float H = rect->size.height;
-    
-    CGContextSetFillColor(context, CGColorGetComponents(self.color.CGColor));
     CGPoint points[5] = { CGPointMake(W/2, 0), CGPointMake(W, H/2),
         CGPointMake(W/2, H), CGPointMake(0, H/2),
         CGPointMake(W/2, 0) };
-    CGContextAddLines(context, points, 5);
-    CGContextClosePath(context);
-    CGContextFillPath(context);
-    // Creating CGPathRef for drawing line around the shape
+    [self drawPathWithContext:context points:points size:5];
     [self addBorder:points size:5];
 }
+
+- (void)drawPathWithContext:(CGContextRef)context points:(CGPoint *)points size:(int)size {
+    CGContextSetFillColor(context, CGColorGetComponents(self.color.CGColor));
+    CGContextAddLines(context, points, size);
+    CGContextClosePath(context);
+    CGContextFillPath(context);
+}
+
+//drawTriangle
+- (void)drawTriangle:(CGContextRef)context rect:(const CGRect *)rect {
+    float W = rect->size.width;
+    float H = rect->size.height;
+    CGPoint points[5] = { CGPointMake(W/2, 0), CGPointMake(W, H), CGPointMake(0, H)};
+    [self drawPathWithContext:context points:points size:3];
+    [self addBorder:points size:3];
+}
+
 
 -  (void)addStackView{
     UIStackView *stackView = [[UIStackView alloc] init];

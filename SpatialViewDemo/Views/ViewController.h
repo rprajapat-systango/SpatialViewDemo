@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WMSpatialView.h"
 
-@interface ViewController : UIViewController<UIScrollViewDelegate>
+@interface ViewController : UIViewController<UIScrollViewDelegate, WMSpatialViewDelegate, WMSpatialViewDataSource, WMShapeViewDelegate>
 
 @property (weak, nonatomic) IBOutlet WMSpatialView *spatialView;
 
