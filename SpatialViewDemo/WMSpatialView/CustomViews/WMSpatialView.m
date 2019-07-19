@@ -39,7 +39,8 @@
     
     if ([self.delegate respondsToSelector:@selector(spatialView:viewForItem:)]){
         for (int i = 0; i < totalItems; i++) {
-           WMShapeView *shapeView = [self.dataSource spatialView:self viewForItem:i];
+            WMShapeView *shapeView = [self.dataSource spatialView:self viewForItem:i];
+            shapeView.delegate = self;
             if (shapeView) {
                 [_contentView addSubview:shapeView];
             }

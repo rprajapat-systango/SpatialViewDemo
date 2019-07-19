@@ -15,7 +15,6 @@
 @property(strong, nonatomic) NSString *title;
 @property(retain, nonatomic) UILabel *labelResourceName;
 @property(retain, nonatomic) UILabel *labelPartyName;
-@property(retain, nonatomic) id<WMShapeViewDelegate> delegate;
 
 @end
 
@@ -30,14 +29,13 @@
     self.identifier = self.title;
 }
 
-- (instancetype)initWithModel:(WMShape *)shapeModel withDelegate:(id<WMShapeViewDelegate>)delegate{
+- (instancetype)initWithModel:(WMShape *)shapeModel{
     self = [super initWithFrame:shapeModel.frame];
     if (self) {
         self.shape = shapeModel.shapeType;
         self.color = shapeModel.fillColor;
         self.borderColor = shapeModel.borderColor;
         self.title = shapeModel.title;
-        self.delegate = delegate;
         [self setupView];
     }
     return self;
@@ -51,8 +49,8 @@
 
 - (void)didTapOnView{
     NSLog(@"did tap on view %@", self);
-    if ([self.delegate  respondsToSelector:@selector(didTapOnView:)]){
-        [self.delegate  didTapOnView:self];
+    if ([self.delegate respondsToSelector:@selector(didTapOnView:)]){
+        [self.delegate didTapOnView:self];
     }
 }
 
@@ -64,17 +62,8 @@
 //-(void)makeTransform{
 //    CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI_2);
 //    CGPathRef rotatedPath = CGPathCreateCopyByTransformingPath(myPath, &transform);
+//    https://stackoverflow.com/questions/13738364/rotate-cgpath-without-changing-its-position
 //}
-
-static CGPathRef createPathRotatedAroundBoundingBoxCenter(CGPathRef path, CGFloat radians) {
-    CGRect bounds = CGPathGetBoundingBox(path); // might want to use CGPathGetPathBoundingBox
-    CGPoint center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-    CGAffineTransform transform = CGAffineTransformIdentity;
-    transform = CGAffineTransformTranslate(transform, center.x, center.y);
-    transform = CGAffineTransformRotate(transform, radians);
-    transform = CGAffineTransformTranslate(transform, -center.x, -center.y);
-    return CGPathCreateCopyByTransformingPath(path, &transform);
-}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -125,7 +114,6 @@ static CGPathRef createPathRotatedAroundBoundingBoxCenter(CGPathRef path, CGFloa
     _labelPartyName.text = [NSString stringWithFormat:@" %lu ",(unsigned long)size];
     [_labelPartyName sizeToFit];
 }
-
 
 /**
  Drwawnig ellipse
@@ -202,7 +190,6 @@ static CGPathRef createPathRotatedAroundBoundingBoxCenter(CGPathRef path, CGFloa
     CGContextFillPath(context);
 }
 
-//drawTriangle
 - (void)drawTriangle:(CGContextRef)context rect:(const CGRect *)rect {
     float W = rect->size.width;
     float H = rect->size.height;

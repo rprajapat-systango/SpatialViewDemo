@@ -25,11 +25,11 @@ typedef enum : NSUInteger {
 
 
 @interface WMShapeView : UIView
-//- (instancetype)initWithFrame:(CGRect)frame type:(Shape)shape title:(NSString *)title andColor:(UIColor *)color withDelegate:(id<WMShapeViewDelegate>) delegate;
-- (instancetype)initWithModel:(WMShape *)shapeModel withDelegate:(id<WMShapeViewDelegate>)delegate;
+- (instancetype)initWithModel:(WMShape *)shapeModel;
 @property(assign) UIColor *borderColor;
 @property(assign) NSString *identifier;
 @property(nonatomic, assign) BOOL isSelected;
+@property (weak) id<WMShapeViewDelegate> delegate;
 @end
 
 

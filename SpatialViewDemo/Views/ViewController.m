@@ -18,6 +18,7 @@
 @implementation ViewController
 
 - (void)setupSpatialView {
+    
     self.spatialView.delegate = self;
     self.spatialView.actionDelegate = self;
     self.spatialView.dataSource = self;
@@ -41,7 +42,8 @@
 - (WMShapeView *)spatialView:(WMSpatialView *)spatialView viewForItem:(NSInteger)index{
     if (index < dataSource.count){
         WMShape *shapeModel = [dataSource objectAtIndex:index];
-        WMShapeView *shape = [[WMShapeView alloc] initWithModel:shapeModel withDelegate:self];
+        WMShapeView *shape = [[WMShapeView alloc] initWithModel:shapeModel];
+        shape.delegate = self;
         return shape;
     }
      return nil;
@@ -67,6 +69,10 @@
 
 - (void)didTapOnView:(nonnull WMShapeView *)shape {
     
+}
+
+- (void)didSelectItem:(WMShapeView *)shape{
+    shape.isSelected = !shape.isSelected;
 }
 
 #pragma Helper Methods
@@ -124,7 +130,7 @@
     shapeModel.frame = CGRectMake(300, 460, 140, 140);
     shapeModel.title = @"107";
     shapeModel.shapeType = TRIANGLE;
-    shapeModel.fillColor = [UIColor yellowColor];
+    shapeModel.fillColor = [UIColor brownColor];
     [shapes addObject:shapeModel];
     
     
@@ -132,7 +138,7 @@
     shapeModel.frame = CGRectMake(460, 460, 140, 140);
     shapeModel.title = @"108";
     shapeModel.shapeType = TRIANGLE;
-    shapeModel.fillColor = [UIColor yellowColor];
+    shapeModel.fillColor = [UIColor brownColor];
     shapeModel.angle = 45;
     [shapes addObject:shapeModel];
     
