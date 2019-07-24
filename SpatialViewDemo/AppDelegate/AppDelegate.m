@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  SpatialViewDemo
 //
-//  Created by SGVVN on 02/07/19.
+//  Created by Systango on 02/07/19.
 //  Copyright © 2019 Systango. All rights reserved.
 //
 

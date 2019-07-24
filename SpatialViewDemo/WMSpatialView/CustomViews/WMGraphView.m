@@ -2,7 +2,7 @@
 //  WMGraphView.m
 //  SpatialViewDemo
 //
-//  Created by SGVVN on 15/07/19.
+//  Created by Systango on 15/07/19.
 //  Copyright © 2019 Systango. All rights reserved.
 //
 
@@ -34,7 +34,7 @@
     }
 
     // Adding horizontal lines
-    int y = space;
+    int y = 0;
     while (y < H) {
         CGContextMoveToPoint(context, 0, y);
         CGContextAddLineToPoint(context, W, y);

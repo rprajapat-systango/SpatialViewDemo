@@ -1,8 +1,8 @@
 //
-//  WMShapeView.h
+//  WMSpatialViewShape.h
 //  SpatialViewDemo
 //
-//  Created by SGVVN on 02/07/19.
+//  Created by Systango on 02/07/19.
 //  Copyright © 2019 Systango. All rights reserved.
 //
 
@@ -17,21 +17,20 @@ typedef enum : NSUInteger {
     DIAMOND,
     TRIANGLE
 } Shape;
-@class WMShapeView;
+@class WMSpatialViewShape;
 
-@protocol WMShapeViewDelegate <NSObject>
-- (void) didTapOnView:(WMShapeView *)shape;
+@protocol WMSpatialViewShapeDelegate <NSObject>
+- (void) didTapOnView:(WMSpatialViewShape *)shape;
 @end
 
 
-@interface WMShapeView : UIView
+@interface WMSpatialViewShape : UIView
 - (instancetype)initWithModel:(WMShape *)shapeModel;
 @property(assign) UIColor *borderColor;
 @property(assign) NSString *identifier;
+@property (strong, nonatomic) UIStackView *stackView;
 @property(nonatomic, assign) BOOL isSelected;
-@property (weak) id<WMShapeViewDelegate> delegate;
+@property (weak) id<WMSpatialViewShapeDelegate> delegate;
 @end
-
-
 
 NS_ASSUME_NONNULL_END

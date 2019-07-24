@@ -2,28 +2,28 @@
 //  WMSpatialView.h
 //  SpatialViewDemo
 //
-//  Created by SGVVN on 05/07/19.
+//  Created by Systango on 05/07/19.
 //  Copyright © 2019 Systango. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "WMGraphView.h"
-#import "WMShapeView.h"
+#import "WMSpatialViewShape.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class WMSpatialView;
 
 @protocol WMSpatialViewDelegate <NSObject>
-- (void) didSelectItem:(WMShapeView *)shape;
+- (void) spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape;
 @end
 
 @protocol WMSpatialViewDataSource <NSObject>
 - (NSInteger) numberOfItems;
-- (WMShapeView *) spatialView:(WMSpatialView *)spatialView viewForItem:(NSInteger)index;
+- (WMSpatialViewShape *) spatialView:(WMSpatialView *)spatialView viewForItem:(NSInteger)index;
 @end
 
-@interface WMSpatialView : UIScrollView <WMShapeViewDelegate>
+@interface WMSpatialView : UIScrollView <WMSpatialViewShapeDelegate>
 @property (assign, nonatomic) NSInteger margin;
 
 @property (weak) id<WMSpatialViewDataSource> dataSource;
@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong) WMGraphView *contentView;
 - (void)reloadShapes;
+- (void)clearSelection;
+- (void)contentViewSizeToFit;
 
 @end
 

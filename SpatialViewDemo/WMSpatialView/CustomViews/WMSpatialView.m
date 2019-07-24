@@ -2,12 +2,12 @@
 //  WMSpatialView.m
 //  SpatialViewDemo
 //
-//  Created by SGVVN on 05/07/19.
+//  Created by Systango on 05/07/19.
 //  Copyright © 2019 Systango. All rights reserved.
 //
 
 #import "WMSpatialView.h"
-#import "WMShapeView.h"
+#import "WMSpatialViewShape.h"
 
 @interface WMSpatialView(){
     NSMutableArray *arrSelectedItems;
@@ -39,7 +39,7 @@
     
     if ([self.delegate respondsToSelector:@selector(spatialView:viewForItem:)]){
         for (int i = 0; i < totalItems; i++) {
-            WMShapeView *shapeView = [self.dataSource spatialView:self viewForItem:i];
+            WMSpatialViewShape *shapeView = [self.dataSource spatialView:self viewForItem:i];
             shapeView.delegate = self;
             if (shapeView) {
                 [_contentView addSubview:shapeView];
@@ -50,10 +50,21 @@
         return;
     }
     
-    [self setContentViewRect];
+    [self contentViewSizeToFit];
 }
 
-- (void)didTapOnView:(WMShapeView *)shape{
+- (void)clearSelection{
+    for (WMSpatialViewShape *oldSelection in arrSelectedItems) {
+        oldSelection.isSelected = NO;
+        [arrSelectedItems removeObject: oldSelection];
+        if ([self.actionDelegate respondsToSelector:@selector(spatialView:didSelectItem:)]){
+            [self.actionDelegate spatialView:self didSelectItem:oldSelection];
+        }
+    }
+}
+
+- (void)didTapOnView:(WMSpatialViewShape *)shape{
+    
 /*
     CGRect oldRect = shape.frame;
     UIView *superView = shape.superview;
@@ -68,7 +79,7 @@
     shape.transform = transform;
     */
     if (arrSelectedItems.count){
-        WMShapeView *oldSelection = (WMShapeView *)arrSelectedItems.firstObject;
+        WMSpatialViewShape *oldSelection = (WMSpatialViewShape *)arrSelectedItems.firstObject;
         oldSelection.isSelected = NO;
         if(shape == oldSelection){
             // Matching with existing one.
@@ -82,9 +93,12 @@
         [arrSelectedItems addObject:shape];
         shape.isSelected = YES;
     }
+    if ([self.actionDelegate respondsToSelector:@selector(spatialView:didSelectItem:)]){
+        [self.actionDelegate spatialView:self didSelectItem:shape];
+    }
 }
 
-- (void) setContentViewRect{
+- (void) contentViewSizeToFit{
     CGRect rect = CGRectZero;
     for (UIView *view in self.contentView.subviews) {
         rect = CGRectUnion(rect, view.frame);
@@ -92,7 +106,8 @@
     CGSize contentSize = rect.size;
     contentSize.width += 2*self.margin;
     contentSize.height += 2*self.margin;
-    _contentView.frame = CGRectMake(0, 0, contentSize.width, contentSize.height);
+    
+    _contentView.frame = CGRectMake(0, 0, contentSize.width*self.zoomScale, contentSize.height*self.zoomScale);
     self.contentSize = _contentView.frame.size;
 }
 

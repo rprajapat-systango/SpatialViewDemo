@@ -1,13 +1,13 @@
 //
-//  WMShapeView.m
+//  WMSpatialViewShape.m
 //  SpatialViewDemo
 //
-//  Created by SGVVN on 02/07/19.
+//  Created by Systango on 02/07/19.
 //  Copyright © 2019 Systango. All rights reserved.
 //
 
-#import "WMShapeView.h"
-@interface WMShapeView(){
+#import "WMSpatialViewShape.h"
+@interface WMSpatialViewShape(){
     CGLayerRef shapeLayer_;
 }
 @property(assign) Shape shape;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation WMShapeView
+@implementation WMSpatialViewShape
 
 - (void)setupView {
     _labelResourceName = [UILabel new];
@@ -200,16 +200,16 @@
 
 
 -  (void)addStackView{
-    UIStackView *stackView = [[UIStackView alloc] init];
-    stackView.axis = UILayoutConstraintAxisVertical;
-    stackView.distribution = UIStackViewDistributionEqualSpacing;
-    stackView.alignment = UIStackViewAlignmentCenter;
-    stackView.spacing = 1;
+    _stackView = [[UIStackView alloc] init];
+    _stackView.axis = UILayoutConstraintAxisVertical;
+    _stackView.distribution = UIStackViewDistributionEqualSpacing;
+    _stackView.alignment = UIStackViewAlignmentCenter;
+    _stackView.spacing = 1;
     
-    [stackView addArrangedSubview:_labelResourceName];
-    [stackView addArrangedSubview:_labelPartyName];
-    [self addSubview:stackView];
-    [self setupStackViewCenterConstraints:stackView];
+    [_stackView addArrangedSubview:_labelResourceName];
+    [_stackView addArrangedSubview:_labelPartyName];
+    [self addSubview:_stackView];
+    [self setupStackViewCenterConstraints:_stackView];
 }
 
 - (void) setupStackViewCenterConstraints:(UIStackView *)stackView{
