@@ -109,6 +109,7 @@
     
     _contentView.frame = CGRectMake(0, 0, contentSize.width*self.zoomScale, contentSize.height*self.zoomScale);
     self.contentSize = _contentView.frame.size;
+    [self.contentView setNeedsDisplay];
 }
 
 @end

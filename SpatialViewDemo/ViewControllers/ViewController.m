@@ -20,6 +20,7 @@ typedef enum : NSUInteger {
     NSArray *dataSource;
     WMSpatialViewMenuOptions selectedMenuOption;
     WMSpatialViewShape *selectedShape;
+    CGPoint previousPosition;
 }
 
 //@property (weak, nonatomic) IBOutlet UIView *viewMenu;
@@ -120,7 +121,8 @@ typedef enum : NSUInteger {
 
 - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return scrollView.subviews[0];
-}     // return a view that will be scaled. if delegate returns nil, nothing happens
+}
+// return a view that will be scaled. if delegate returns nil, nothing happens
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
     NSLog(@"View rect %@", NSStringFromCGRect(view.frame));
@@ -226,9 +228,22 @@ typedef enum : NSUInteger {
 // GEsture
 - (void)handlePan:(UIPanGestureRecognizer *)gesture
 {
-//    CGPoint location = [gesture locationInView:self.spatialView.contentView];
-//    selectedShape.center = location;
-//    return;
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"Begin");
+        previousPosition = selectedShape.center;
+    }
+    CGPoint location = [gesture locationInView:self.spatialView.contentView];
+    selectedShape.center = location;
+    _viewShapeSelection.center = location;
+    [self.spatialView contentViewSizeToFit];
+    
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        // if new rect is intersecting any rect or not
+        
+        selectedShape.center = previousPosition;
+        _viewShapeSelection.center = previousPosition;
+    }
+    return;
     if (gesture.state == UIGestureRecognizerStateBegan) {
         // Get the location of the touch in the view we're dragging.
         CGPoint location = [gesture locationInView:_viewShapeSelection];

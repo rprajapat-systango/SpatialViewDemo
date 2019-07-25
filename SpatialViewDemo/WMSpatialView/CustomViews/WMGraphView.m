@@ -46,8 +46,6 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-//    CGRect rect = self.frame;
-//    [self drawGraphLines:&rect];
 }
 
 @end
