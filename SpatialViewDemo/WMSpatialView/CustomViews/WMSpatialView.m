@@ -11,6 +11,8 @@
 
 @interface WMSpatialView(){
     NSMutableArray *arrSelectedItems;
+    UIView *viewShapeOutline;
+    CGPoint fromPosition;
 }
 
 @end
@@ -61,6 +63,11 @@
             [self.actionDelegate spatialView:self didSelectItem:oldSelection];
         }
     }
+    
+    if(viewShapeOutline){
+        [viewShapeOutline removeFromSuperview];
+    }
+     
 }
 
 - (void)didTapOnView:(WMSpatialViewShape *)shape{
@@ -93,9 +100,17 @@
         [arrSelectedItems addObject:shape];
         shape.isSelected = YES;
     }
+
     if ([self.actionDelegate respondsToSelector:@selector(spatialView:didSelectItem:)]){
         [self.actionDelegate spatialView:self didSelectItem:shape];
     }
+    
+    if ([self.dataSource respondsToSelector:@selector(spatialView:outlineViewForShape:)]){
+       viewShapeOutline = [self.dataSource spatialView:self outlineViewForShape:shape];
+       [self.contentView addSubview:viewShapeOutline];
+       [viewShapeOutline addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
+    }
+    
 }
 
 - (void) contentViewSizeToFit{
@@ -111,5 +126,69 @@
     self.contentSize = _contentView.frame.size;
     [self.contentView setNeedsDisplay];
 }
+
+- (BOOL) isOverlappingView:(WMSpatialViewShape *)shape{
+    for (UIView *view in self.contentView.subviews) {
+        if (view == shape) continue;
+        if ([view isKindOfClass:[WMSpatialViewShape class]]){
+            if (CGRectIntersectsRect(shape.frame, view.frame)){
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+- (void) setFocusOnView:(WMSpatialViewShape *)shape{
+    /*CGPoint offset = self.contentOffset;
+    CGSize frameSize = self.frame.size;
+    
+    CGRect shapeRect = shape.frame;
+    float maxX = shapeRect.origin.x + shapeRect.size.width+self.margin;
+    float maxY = shapeRect.origin.y + shapeRect.size.height+self.margin;
+    
+    if (maxX > frameSize.width-offset.x){
+        offset.x = (maxX - frameSize.width);
+        [self setContentOffset:offset];
+    }
+    
+    if (maxY > frameSize.width-offset.y){
+        offset.x = (maxX - frameSize.width);
+        [self setContentOffset:offset];
+    }
+    */
+}
+
+#pragma UIPanGestureRecognizer selector
+- (void)handlePanGesture:(UIPanGestureRecognizer *)gesture
+{
+    if (arrSelectedItems.count == 0 || gesture.view == self) return;
+    
+    WMSpatialViewShape *selectedShape = arrSelectedItems.firstObject;
+    CGPoint location = [gesture locationInView:self.contentView];
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            NSLog(@"Begin");
+            // Disable scroll view gesture to making focus on selected shape.
+            self.userInteractionEnabled = NO;
+            fromPosition = selectedShape.center;
+            break;
+        case UIGestureRecognizerStateChanged:
+            self.userInteractionEnabled = YES;
+            selectedShape.center = location;
+            viewShapeOutline.center = location;
+            [self contentViewSizeToFit];
+            [self scrollRectToVisible:selectedShape.frame animated:NO];
+            break;
+        default:
+            if([self isOverlappingView:selectedShape]){
+                selectedShape.center = fromPosition;
+                viewShapeOutline.center = fromPosition;
+            }
+            self.userInteractionEnabled = YES;
+            break;
+    }
+}
+
 
 @end

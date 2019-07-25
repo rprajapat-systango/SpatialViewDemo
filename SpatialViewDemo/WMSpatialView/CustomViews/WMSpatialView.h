@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol WMSpatialViewDataSource <NSObject>
 - (NSInteger) numberOfItems;
 - (WMSpatialViewShape *) spatialView:(WMSpatialView *)spatialView viewForItem:(NSInteger)index;
+- (nullable UIView *) spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape;
+
 @end
 
 @interface WMSpatialView : UIScrollView <WMSpatialViewShapeDelegate>
@@ -33,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reloadShapes;
 - (void)clearSelection;
 - (void)contentViewSizeToFit;
+- (BOOL) isOverlappingView:(WMSpatialViewShape *)shape;
+- (void) setFocusOnView:(WMSpatialViewShape *)shape;
 
 @end
 

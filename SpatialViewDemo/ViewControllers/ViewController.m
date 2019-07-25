@@ -78,6 +78,8 @@ typedef enum : NSUInteger {
 
 - (void)rotateShapeViewByAngle:(CGFloat)angle{
     if (selectedShape){
+//        [UIView animateWithDuration:0.30 animations:^{
+        
         CGAffineTransform transform = selectedShape.transform;
         transform = CGAffineTransformConcat(transform,
                                             CGAffineTransformMakeRotation(angle));
@@ -89,6 +91,7 @@ typedef enum : NSUInteger {
         stackViewTransform = CGAffineTransformConcat(stackViewTransform,
                                             CGAffineTransformMakeRotation(-angle));
         selectedShape.stackView.transform = stackViewTransform;
+//            }];
     }
     [self.spatialView contentViewSizeToFit];
 }
@@ -117,6 +120,15 @@ typedef enum : NSUInteger {
      return nil;
 }
 
+- (UIView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
+    CGRect shapeRect = CGRectZero;
+    shapeRect.size = CGSizeMake(shape.bounds.size.width+70, shape.bounds.size.height+70);
+    _viewShapeSelection.frame = shapeRect;
+    _viewShapeSelection.transform = shape.transform;
+    _viewShapeSelection.center = shape.center;
+    return _viewShapeSelection;
+}
+
 #pragma mark UIScrollViewDelegate
 
 - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
@@ -140,16 +152,9 @@ typedef enum : NSUInteger {
         [_viewShapeSelection removeFromSuperview];
     }else{
         selectedShape = shape;
-        CGRect shapeRect = CGRectZero;
-        shapeRect.size = CGSizeMake(shape.bounds.size.width+70, shape.bounds.size.height+70);
-        _viewShapeSelection.frame = shapeRect;
-        _viewShapeSelection.transform = shape.transform;
-        _viewShapeSelection.center = shape.center;
+        
         [spatialView.contentView bringSubviewToFront:shape];
-        [spatialView.contentView addSubview:_viewShapeSelection];
-        
-        [_viewShapeSelection addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)]];
-        
+        [self.spatialView scrollRectToVisible:selectedShape.frame animated:NO];
     }
 }
 
@@ -228,22 +233,33 @@ typedef enum : NSUInteger {
 // GEsture
 - (void)handlePan:(UIPanGestureRecognizer *)gesture
 {
-    if (gesture.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"Begin");
-        previousPosition = selectedShape.center;
-    }
     CGPoint location = [gesture locationInView:self.spatialView.contentView];
-    selectedShape.center = location;
-    _viewShapeSelection.center = location;
-    [self.spatialView contentViewSizeToFit];
-    
-    if (gesture.state == UIGestureRecognizerStateEnded) {
-        // if new rect is intersecting any rect or not
-        
-        selectedShape.center = previousPosition;
-        _viewShapeSelection.center = previousPosition;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            NSLog(@"Begin");
+            // Disable scroll view gesture to making focus on selected shape.
+            self.spatialView.userInteractionEnabled = NO;
+            previousPosition = selectedShape.center;
+            break;
+        case UIGestureRecognizerStateChanged:
+            self.spatialView.userInteractionEnabled = YES;
+            selectedShape.center = location;
+            _viewShapeSelection.center = location;
+            [self.spatialView contentViewSizeToFit];
+            [self.spatialView scrollRectToVisible:selectedShape.frame animated:NO];
+            break;
+        default:
+            if([self.spatialView isOverlappingView:selectedShape]){
+                selectedShape.center = previousPosition;
+                _viewShapeSelection.center = previousPosition;
+            }
+            self.spatialView.userInteractionEnabled = YES;
+            break;
     }
+    
+  
     return;
+    
     if (gesture.state == UIGestureRecognizerStateBegan) {
         // Get the location of the touch in the view we're dragging.
         CGPoint location = [gesture locationInView:_viewShapeSelection];
