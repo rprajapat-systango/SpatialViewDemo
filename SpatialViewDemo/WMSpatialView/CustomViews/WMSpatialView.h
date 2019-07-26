@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface WMSpatialView : UIScrollView <WMSpatialViewShapeDelegate>
+@interface WMSpatialView : UIScrollView <WMSpatialViewShapeDelegate, UIScrollViewDelegate>
 @property (assign, nonatomic) NSInteger margin;
 
 @property (weak) id<WMSpatialViewDataSource> dataSource;

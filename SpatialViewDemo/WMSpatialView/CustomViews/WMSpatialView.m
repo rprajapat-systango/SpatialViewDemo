@@ -20,8 +20,9 @@
 @implementation WMSpatialView
 
 - (void)reloadShapes{
+    self.delegate = self;
     arrSelectedItems = [NSMutableArray new];
-    // Clear spatial view if alrady have contents.
+    // Clear spatial view if it's content alrady rendered.
     if (_contentView) {
         [_contentView removeFromSuperview];
     }else{
@@ -39,7 +40,7 @@
         return;
     }
     
-    if ([self.delegate respondsToSelector:@selector(spatialView:viewForItem:)]){
+    if ([self.dataSource respondsToSelector:@selector(spatialView:viewForItem:)]){
         for (int i = 0; i < totalItems; i++) {
             WMSpatialViewShape *shapeView = [self.dataSource spatialView:self viewForItem:i];
             shapeView.delegate = self;
@@ -71,20 +72,7 @@
 }
 
 - (void)didTapOnView:(WMSpatialViewShape *)shape{
-    
-/*
-    CGRect oldRect = shape.frame;
-    UIView *superView = shape.superview;
-    oldRect.size = CGSizeMake(oldRect.size.width+20, oldRect.size.height+20);
-    shape.frame = oldRect;
-*/
-    /*
- Transform using angle
-    CGAffineTransform transform = shape.transform;
-    transform = CGAffineTransformConcat(CGAffineTransformScale(transform,  1.1, 1.1),
-                                        CGAffineTransformRotate(transform, 10));
-    shape.transform = transform;
-    */
+
     if (arrSelectedItems.count){
         WMSpatialViewShape *oldSelection = (WMSpatialViewShape *)arrSelectedItems.firstObject;
         oldSelection.isSelected = NO;
@@ -116,6 +104,7 @@
 - (void) contentViewSizeToFit{
     CGRect rect = CGRectZero;
     for (UIView *view in self.contentView.subviews) {
+        if (view == viewShapeOutline) continue;
         rect = CGRectUnion(rect, view.frame);
     }
     CGSize contentSize = rect.size;
@@ -140,7 +129,8 @@
 }
 
 - (void) setFocusOnView:(WMSpatialViewShape *)shape{
-    /*CGPoint offset = self.contentOffset;
+    /*
+    CGPoint offset = self.contentOffset;
     CGSize frameSize = self.frame.size;
     
     CGRect shapeRect = shape.frame;
@@ -159,6 +149,12 @@
     */
 }
 
+#pragma mark UIScrollViewDelegate
+
+- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return scrollView.subviews[0];
+}
+
 #pragma UIPanGestureRecognizer selector
 - (void)handlePanGesture:(UIPanGestureRecognizer *)gesture
 {
@@ -172,18 +168,36 @@
             // Disable scroll view gesture to making focus on selected shape.
             self.userInteractionEnabled = NO;
             fromPosition = selectedShape.center;
+            viewShapeOutline.alpha = 0.0;
             break;
         case UIGestureRecognizerStateChanged:
             self.userInteractionEnabled = YES;
+            // Avoid to drag the shape outside of graph view
+            NSLog(@"Location [%f, %f]",location.x, location.y);
+            if ((location.x < (self.margin + selectedShape.frame.size.width/2))  ){
+                location.x = self.margin + selectedShape.frame.size.width/2;
+            }
+            if ((location.y < (self.margin + selectedShape.frame.size.height/2))  ){
+                location.y = self.margin + selectedShape.frame.size.height/2;
+            }
+            // set the new location of the shape via drag an drop
             selectedShape.center = location;
             viewShapeOutline.center = location;
             [self contentViewSizeToFit];
             [self scrollRectToVisible:selectedShape.frame animated:NO];
             break;
         default:
+            viewShapeOutline.alpha = 1.0;
             if([self isOverlappingView:selectedShape]){
-                selectedShape.center = fromPosition;
-                viewShapeOutline.center = fromPosition;
+                [UIView animateWithDuration:0.5 animations:^{
+                selectedShape.center = self->fromPosition;
+                self->viewShapeOutline.center = self->fromPosition;
+                CGRect rectToVisible = selectedShape.frame;
+                rectToVisible.origin = self->fromPosition;
+                [self contentViewSizeToFit];
+                [self scrollRectToVisible:rectToVisible animated:YES];
+                [self layoutIfNeeded];
+                }];
             }
             self.userInteractionEnabled = YES;
             break;

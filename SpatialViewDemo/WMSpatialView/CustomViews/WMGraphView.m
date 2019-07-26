@@ -36,6 +36,7 @@
     // Adding horizontal lines
     int y = 0;
     while (y < H) {
+        CGContextSetStrokeColorWithColor(context, [UIColor lightGrayColor].CGColor);
         CGContextMoveToPoint(context, 0, y);
         CGContextAddLineToPoint(context, W, y);
         y += space;

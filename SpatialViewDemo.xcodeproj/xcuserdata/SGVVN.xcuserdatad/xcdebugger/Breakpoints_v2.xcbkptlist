@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpatialViewDemo/ViewControllers/ViewController.m"
-            timestampString = "585753841.3299119"
+            timestampString = "585838336.388328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "-handlePan:"
             landmarkType = "7">
          </BreakpointContent>

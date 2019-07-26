@@ -38,17 +38,6 @@ typedef enum : NSUInteger {
     [self setupSpatialView];
 }
 
-//- (void)setSelectedMenuButton:(UIButton *)sender{
-//    for (int tag = 100; tag <= 300; tag += 100 ) {
-//        UIButton *menuButton = [_viewMenu viewWithTag:tag];
-//        if (menuButton == sender){
-//            [menuButton setSelected: !sender.isSelected];
-//        }else{
-//            [menuButton setSelected:NO];
-//        }
-//    }
-//}
-
 - (IBAction)menuOptionTapped:(UIButton *)sender {
     [self perfomrActionOnShapeUsingMenuOption:sender.tag];
 }
@@ -97,12 +86,12 @@ typedef enum : NSUInteger {
 }
 
 - (void)setupSpatialView {
-    self.spatialView.delegate = self;
+//    self.spatialView.delegate = self;
     self.spatialView.actionDelegate = self;
     self.spatialView.dataSource = self;
     self.spatialView.margin = 20;
-    self.spatialView.minimumZoomScale = 0.1;
-    self.spatialView.maximumZoomScale = 2.0;
+    self.spatialView.minimumZoomScale = 0.4;
+    self.spatialView.maximumZoomScale = 1.5;
     [self.spatialView reloadShapes];
 }
 
@@ -129,20 +118,20 @@ typedef enum : NSUInteger {
     return _viewShapeSelection;
 }
 
-#pragma mark UIScrollViewDelegate
-
-- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
-    return scrollView.subviews[0];
-}
+//#pragma mark UIScrollViewDelegate
+//
+//- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+//    return scrollView.subviews[0];
+//}
 // return a view that will be scaled. if delegate returns nil, nothing happens
 
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
-    NSLog(@"View rect %@", NSStringFromCGRect(view.frame));
-} // called before the scroll view begins zooming its content
-
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale{
-    NSLog(@"New scale set to %01f", scale);
-} // scale between minimum and maximum. called after any 'bounce' animations
+//- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
+//    NSLog(@"View rect %@", NSStringFromCGRect(view.frame));
+//} // called before the scroll view begins zooming its content
+//
+//- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale{
+//    NSLog(@"New scale set to %01f", scale);
+//} // scale between minimum and maximum. called after any 'bounce' animations
 
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
     _viewShapeSelection.transform = CGAffineTransformIdentity;
