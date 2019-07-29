@@ -216,13 +216,18 @@
     stackView.translatesAutoresizingMaskIntoConstraints = false;
     if (@available(iOS 11.0, *)) {
         [stackView.leadingAnchor constraintGreaterThanOrEqualToSystemSpacingAfterAnchor:self.leadingAnchor multiplier:3].active = YES;
-    } else {
+    }else {
         // Fallback on earlier versions
         [stackView.leadingAnchor
          constraintEqualToAnchor:self.leadingAnchor].active = YES;
     }
     [stackView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor constant:0].active = YES;
     [stackView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor constant:0].active = YES;
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    NSLog(@"layoutSubviews methods called %@",self);
 }
 
 @end

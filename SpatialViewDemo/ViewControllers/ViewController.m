@@ -16,20 +16,28 @@ typedef enum : NSUInteger {
     Exit = 400,
 } WMSpatialViewMenuOptions;
 
+typedef enum : NSUInteger {
+    Up = 10,
+    Right = 20,
+    Down = 30,
+    Left = 40,
+    Aspect = 50,
+} WMSpatialViewDragDirection;
+
 @interface ViewController (){
     NSArray *dataSource;
     WMSpatialViewMenuOptions selectedMenuOption;
     WMSpatialViewShape *selectedShape;
-    CGPoint previousPosition;
+    CGRect previousShapeFrame;
+    CGRect previousOutlineFrame;
+    CGPoint previousTouchPoint;
 }
 
-//@property (weak, nonatomic) IBOutlet UIView *viewMenu;
 @property (strong, nonatomic) IBOutlet UIView *viewShapeSelection;
 
 @end
 
 @implementation ViewController
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -115,23 +123,18 @@ typedef enum : NSUInteger {
     _viewShapeSelection.frame = shapeRect;
     _viewShapeSelection.transform = shape.transform;
     _viewShapeSelection.center = shape.center;
+    [self setGestureOnButtons:_viewShapeSelection];
     return _viewShapeSelection;
 }
 
-//#pragma mark UIScrollViewDelegate
-//
-//- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
-//    return scrollView.subviews[0];
-//}
-// return a view that will be scaled. if delegate returns nil, nothing happens
-
-//- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
-//    NSLog(@"View rect %@", NSStringFromCGRect(view.frame));
-//} // called before the scroll view begins zooming its content
-//
-//- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale{
-//    NSLog(@"New scale set to %01f", scale);
-//} // scale between minimum and maximum. called after any 'bounce' animations
+- (void)setGestureOnButtons:(UIView *)view{
+    NSArray *arrTAGs = @[@10, @20, @30, @40, @50];
+    for (NSNumber *tag in arrTAGs) {
+        UIView *button = [view viewWithTag:tag.integerValue];
+        UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        [button addGestureRecognizer:gesture];
+    }
+}
 
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
     _viewShapeSelection.transform = CGAffineTransformIdentity;
@@ -141,7 +144,6 @@ typedef enum : NSUInteger {
         [_viewShapeSelection removeFromSuperview];
     }else{
         selectedShape = shape;
-        
         [spatialView.contentView bringSubviewToFront:shape];
         [self.spatialView scrollRectToVisible:selectedShape.frame animated:NO];
     }
@@ -223,66 +225,79 @@ typedef enum : NSUInteger {
 - (void)handlePan:(UIPanGestureRecognizer *)gesture
 {
     CGPoint location = [gesture locationInView:self.spatialView.contentView];
+    UIButton *button = (UIButton *)gesture.view;
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
             NSLog(@"Begin");
             // Disable scroll view gesture to making focus on selected shape.
             self.spatialView.userInteractionEnabled = NO;
-            previousPosition = selectedShape.center;
+            previousShapeFrame = selectedShape.frame;
+            previousOutlineFrame = _viewShapeSelection.frame;
+            previousTouchPoint = location;
             break;
         case UIGestureRecognizerStateChanged:
             self.spatialView.userInteractionEnabled = YES;
-            selectedShape.center = location;
-            _viewShapeSelection.center = location;
+            
+            float deltaX = location.x - previousTouchPoint.x;;
+            float deltaY = location.y - previousTouchPoint.y;;
+            
+            CGRect previousRect = selectedShape.frame;
+            CGRect outlineFrame = _viewShapeSelection.frame;
+            
+            switch (button.tag) {
+                case Left:
+                    NSLog(@"Left");
+                    previousRect.origin.x += deltaX;
+                    outlineFrame.origin.x += deltaX;
+                    previousRect.size.width -= deltaX;
+                    outlineFrame.size.width -= deltaX;
+                    break;
+                case Right:
+                    previousRect.size.width += deltaX;
+                    outlineFrame.size.width += deltaX;
+                    NSLog(@"Right");
+                    break;
+                case Up:
+                    NSLog(@"Up");
+                    previousRect.origin.y += deltaY;
+                    outlineFrame.origin.y += deltaY;
+                    previousRect.size.height -= deltaY;
+                    outlineFrame.size.height -= deltaY;
+                    break;
+                case Down:
+                    // Updating frame of selected shape;
+                    previousRect.size.height += deltaY;
+                    outlineFrame.size.height += deltaY;
+                    NSLog(@"Down");
+                    break;
+                case Aspect:
+                    // Updating frame of selected shape;
+                    previousRect.size.width += (deltaX+deltaY)/2;
+                    previousRect.size.height += (deltaX+deltaY)/2;
+                    outlineFrame.size.width += deltaX;
+                    outlineFrame.size.height += deltaY;
+                    NSLog(@"Down");
+                    break;
+                default:
+                    break;
+            }
+            
+            selectedShape.frame = previousRect;
+            // Updating frame of the outline view;
+            _viewShapeSelection.frame = outlineFrame;
+            [selectedShape setNeedsDisplay];
+            
             [self.spatialView contentViewSizeToFit];
-            [self.spatialView scrollRectToVisible:selectedShape.frame animated:NO];
+            previousTouchPoint = location;
             break;
         default:
             if([self.spatialView isOverlappingView:selectedShape]){
-                selectedShape.center = previousPosition;
-                _viewShapeSelection.center = previousPosition;
+                selectedShape.frame = previousShapeFrame;
+                _viewShapeSelection.frame = previousOutlineFrame;
             }
             self.spatialView.userInteractionEnabled = YES;
             break;
     }
-    
-  
-    return;
-    
-    if (gesture.state == UIGestureRecognizerStateBegan) {
-        // Get the location of the touch in the view we're dragging.
-        CGPoint location = [gesture locationInView:_viewShapeSelection];
-
-        // Now to fix the rotation we set a new anchor point to where our finger touched. Remember AnchorPoints are 0.0 - 1.0 so we need to convert from points to that by dividing
-        [selectedShape.layer setAnchorPoint:CGPointMake(location.x/selectedShape.frame.size.width, location.y/selectedShape.frame.size.height)];
-        
-        
-    } else if (gesture.state == UIGestureRecognizerStateChanged) {
-        // Calculate Our New Angle
-//        UIButton *button = [_viewShapeSelection viewWithTag:200];
-        CGPoint p1 = [gesture locationInView:selectedShape];
-//        CGPoint p1 = button.center;
-        CGPoint p2 = selectedShape.center;
-        
-        float adjacent = p2.x-p1.x;
-        float opposite = p2.y-p1.y;
-        
-        float angle = atan2f(adjacent, opposite);
-        
-        // Get the location of our touch, this time in the context of the superview.
-        CGPoint location = [gesture locationInView:self.view];
-        
-        // Set the center to that exact point, We don't need complicated original point translations anymore because we have changed the anchor point.
-        [selectedShape setCenter:CGPointMake(location.x, location.y)];
-        
-        [self rotateShapeViewByAngle:(angle*-1)];
-        // Rotate our view by the calculated angle around our new anchor point.
-        // [selectedShape setTransform:CGAffineTransformMakeRotation(angle*-1)];
-        
-    }
 }
-
-
-
 
 @end

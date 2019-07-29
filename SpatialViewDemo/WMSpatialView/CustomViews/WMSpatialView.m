@@ -13,6 +13,7 @@
     NSMutableArray *arrSelectedItems;
     UIView *viewShapeOutline;
     CGPoint fromPosition;
+    CGPoint previousTouchPosition;
 }
 
 @end
@@ -158,6 +159,7 @@
 #pragma UIPanGestureRecognizer selector
 - (void)handlePanGesture:(UIPanGestureRecognizer *)gesture
 {
+
     if (arrSelectedItems.count == 0 || gesture.view == self) return;
     
     WMSpatialViewShape *selectedShape = arrSelectedItems.firstObject;
@@ -169,27 +171,36 @@
             self.userInteractionEnabled = NO;
             fromPosition = selectedShape.center;
             viewShapeOutline.alpha = 0.0;
+            previousTouchPosition = location;
             break;
         case UIGestureRecognizerStateChanged:
             self.userInteractionEnabled = YES;
             // Avoid to drag the shape outside of graph view
             NSLog(@"Location [%f, %f]",location.x, location.y);
-            if ((location.x < (self.margin + selectedShape.frame.size.width/2))  ){
-                location.x = self.margin + selectedShape.frame.size.width/2;
-            }
-            if ((location.y < (self.margin + selectedShape.frame.size.height/2))  ){
-                location.y = self.margin + selectedShape.frame.size.height/2;
-            }
             // set the new location of the shape via drag an drop
-            selectedShape.center = location;
-            viewShapeOutline.center = location;
+            float deltaX = location.x - previousTouchPosition.x;
+            float deltaY = location.y - previousTouchPosition.y;
+            
+            CGPoint newCenterPoint = CGPointMake(selectedShape.center.x + deltaX, selectedShape.center.y + deltaY);
+
+            if ((newCenterPoint.x < (self.margin + selectedShape.frame.size.width/2))  ){
+                newCenterPoint.x = self.margin + selectedShape.frame.size.width/2;
+            }
+            if ((newCenterPoint.y < (self.margin + selectedShape.frame.size.height/2))  ){
+                newCenterPoint.y = self.margin + selectedShape.frame.size.height/2;
+            }
+
+            selectedShape.center = newCenterPoint;
+            viewShapeOutline.center = newCenterPoint;
             [self contentViewSizeToFit];
-            [self scrollRectToVisible:selectedShape.frame animated:NO];
+            //[self scrollRectToVisible:selectedShape.frame animated:NO];
+            previousTouchPosition = location;
             break;
         default:
-            viewShapeOutline.alpha = 1.0;
+            
             if([self isOverlappingView:selectedShape]){
                 [UIView animateWithDuration:0.5 animations:^{
+                self->viewShapeOutline.alpha = 1.0;
                 selectedShape.center = self->fromPosition;
                 self->viewShapeOutline.center = self->fromPosition;
                 CGRect rectToVisible = selectedShape.frame;
@@ -198,6 +209,8 @@
                 [self scrollRectToVisible:rectToVisible animated:YES];
                 [self layoutIfNeeded];
                 }];
+            }else{
+                self->viewShapeOutline.alpha = 1.0;
             }
             self.userInteractionEnabled = YES;
             break;
