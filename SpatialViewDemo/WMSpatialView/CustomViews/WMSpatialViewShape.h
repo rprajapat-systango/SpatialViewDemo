@@ -31,6 +31,8 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) UIStackView *stackView;
 @property(nonatomic, assign) BOOL isSelected;
 @property (weak) id<WMSpatialViewShapeDelegate> delegate;
+
+- (CGFloat)getAngleFromTransform;
 @end
 
 NS_ASSUME_NONNULL_END

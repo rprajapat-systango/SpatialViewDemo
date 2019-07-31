@@ -75,8 +75,6 @@ typedef enum : NSUInteger {
 
 - (void)rotateShapeViewByAngle:(CGFloat)angle{
     if (selectedShape){
-//        [UIView animateWithDuration:0.30 animations:^{
-        
         CGAffineTransform transform = selectedShape.transform;
         transform = CGAffineTransformConcat(transform,
                                             CGAffineTransformMakeRotation(angle));
@@ -88,7 +86,6 @@ typedef enum : NSUInteger {
         stackViewTransform = CGAffineTransformConcat(stackViewTransform,
                                             CGAffineTransformMakeRotation(-angle));
         selectedShape.stackView.transform = stackViewTransform;
-//            }];
     }
     [self.spatialView contentViewSizeToFit];
 }
@@ -123,18 +120,10 @@ typedef enum : NSUInteger {
     _viewShapeSelection.frame = shapeRect;
     _viewShapeSelection.transform = shape.transform;
     _viewShapeSelection.center = shape.center;
-    [self setGestureOnButtons:_viewShapeSelection];
     return _viewShapeSelection;
 }
 
-- (void)setGestureOnButtons:(UIView *)view{
-    NSArray *arrTAGs = @[@10, @20, @30, @40, @50];
-    for (NSNumber *tag in arrTAGs) {
-        UIView *button = [view viewWithTag:tag.integerValue];
-        UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        [button addGestureRecognizer:gesture];
-    }
-}
+
 
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
     _viewShapeSelection.transform = CGAffineTransformIdentity;
@@ -221,83 +210,5 @@ typedef enum : NSUInteger {
 
 // Pan gesture
 
-// GEsture
-- (void)handlePan:(UIPanGestureRecognizer *)gesture
-{
-    CGPoint location = [gesture locationInView:self.spatialView.contentView];
-    UIButton *button = (UIButton *)gesture.view;
-    switch (gesture.state) {
-        case UIGestureRecognizerStateBegan:
-            NSLog(@"Begin");
-            // Disable scroll view gesture to making focus on selected shape.
-            self.spatialView.userInteractionEnabled = NO;
-            previousShapeFrame = selectedShape.frame;
-            previousOutlineFrame = _viewShapeSelection.frame;
-            previousTouchPoint = location;
-            break;
-        case UIGestureRecognizerStateChanged:
-            self.spatialView.userInteractionEnabled = YES;
-            
-            float deltaX = location.x - previousTouchPoint.x;;
-            float deltaY = location.y - previousTouchPoint.y;;
-            
-            CGRect previousRect = selectedShape.frame;
-            CGRect outlineFrame = _viewShapeSelection.frame;
-            
-            switch (button.tag) {
-                case Left:
-                    NSLog(@"Left");
-                    previousRect.origin.x += deltaX;
-                    outlineFrame.origin.x += deltaX;
-                    previousRect.size.width -= deltaX;
-                    outlineFrame.size.width -= deltaX;
-                    break;
-                case Right:
-                    previousRect.size.width += deltaX;
-                    outlineFrame.size.width += deltaX;
-                    NSLog(@"Right");
-                    break;
-                case Up:
-                    NSLog(@"Up");
-                    previousRect.origin.y += deltaY;
-                    outlineFrame.origin.y += deltaY;
-                    previousRect.size.height -= deltaY;
-                    outlineFrame.size.height -= deltaY;
-                    break;
-                case Down:
-                    // Updating frame of selected shape;
-                    previousRect.size.height += deltaY;
-                    outlineFrame.size.height += deltaY;
-                    NSLog(@"Down");
-                    break;
-                case Aspect:
-                    // Updating frame of selected shape;
-                    previousRect.size.width += (deltaX+deltaY)/2;
-                    previousRect.size.height += (deltaX+deltaY)/2;
-                    outlineFrame.size.width += deltaX;
-                    outlineFrame.size.height += deltaY;
-                    NSLog(@"Down");
-                    break;
-                default:
-                    break;
-            }
-            
-            selectedShape.frame = previousRect;
-            // Updating frame of the outline view;
-            _viewShapeSelection.frame = outlineFrame;
-            [selectedShape setNeedsDisplay];
-            
-            [self.spatialView contentViewSizeToFit];
-            previousTouchPoint = location;
-            break;
-        default:
-            if([self.spatialView isOverlappingView:selectedShape]){
-                selectedShape.frame = previousShapeFrame;
-                _viewShapeSelection.frame = previousOutlineFrame;
-            }
-            self.spatialView.userInteractionEnabled = YES;
-            break;
-    }
-}
 
 @end

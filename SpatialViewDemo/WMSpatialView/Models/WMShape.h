@@ -16,8 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign) UIColor *borderColor;
 @property(assign) NSString *title;
 @property(assign) int shapeType;
-@property(assign) float angle;
-
+@property(assign) float angle; // 0.0 to 2_PI
 @end
 
 NS_ASSUME_NONNULL_END

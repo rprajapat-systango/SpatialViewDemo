@@ -29,6 +29,12 @@
     self.identifier = self.title;
 }
 
+- (void)updateStackViewTransform{
+    self.stackView.transform = CGAffineTransformIdentity;
+    CGFloat angle = [self getAngleFromTransform];
+    self.stackView.transform = CGAffineTransformMakeRotation(-angle);
+}
+
 - (instancetype)initWithModel:(WMShape *)shapeModel{
     self = [super initWithFrame:shapeModel.frame];
     if (self) {
@@ -113,6 +119,7 @@
     if (size == 0) size = 1;
     _labelPartyName.text = [NSString stringWithFormat:@" %lu ",(unsigned long)size];
     [_labelPartyName sizeToFit];
+    [self updateStackViewTransform];
 }
 
 /**
@@ -228,6 +235,12 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     NSLog(@"layoutSubviews methods called %@",self);
+}
+
+- (CGFloat)getAngleFromTransform{
+    CGFloat angle = [(NSNumber *)[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    NSLog(@"View Rotation is : %f", angle); // 0.020000
+    return angle;
 }
 
 @end
