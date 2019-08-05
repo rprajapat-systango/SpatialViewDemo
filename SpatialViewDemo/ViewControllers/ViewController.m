@@ -55,7 +55,7 @@ typedef enum : NSUInteger {
         case Rotate:
             // Code for rotate shape
             NSLog(@"Rotate");
-            [self rotateShapeViewByAngle:M_PI_2];
+            [self rotateShapeViewByAngle:M_PI_2/2];
             break;
         case Resize:
             // Code for resize shape
@@ -118,7 +118,7 @@ typedef enum : NSUInteger {
     CGRect shapeRect = CGRectZero;
     shapeRect.size = CGSizeMake(shape.bounds.size.width+70, shape.bounds.size.height+70);
     _viewShapeSelection.frame = shapeRect;
-    _viewShapeSelection.transform = shape.transform;
+    //_viewShapeSelection.transform = shape.transform;
     _viewShapeSelection.center = shape.center;
     return _viewShapeSelection;
 }

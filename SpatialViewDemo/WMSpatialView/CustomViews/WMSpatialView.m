@@ -26,8 +26,10 @@ typedef enum : NSUInteger {
     CGPoint fromPosition;
     CGPoint previousTouchPosition;
     
-    CGRect previousShapeFrame;
+//    CGRect previousShapeFrame;
     CGRect previousOutlineFrame;
+    
+    CGAffineTransform previousShapeTransform;
 }
 
 @end
@@ -259,7 +261,8 @@ typedef enum : NSUInteger {
             NSLog(@"Begin");
             // Disable scroll view gesture to making focus on selected shape.
             self.userInteractionEnabled = NO;
-            previousShapeFrame = selectedShape.frame;
+            previousShapeTransform = selectedShape.transform;
+            //previousShapeFrame = selectedShape.frame;
             previousOutlineFrame = viewShapeOutline.frame;
             previousTouchPosition = location;
             self->viewShapeOutline.alpha = 0.0;
@@ -280,10 +283,18 @@ typedef enum : NSUInteger {
                     outlineFrame.origin.x += deltaX;
                     previousRect.size.width -= deltaX;
                     outlineFrame.size.width -= deltaX;
+                    [selectedShape.layer setAnchorPoint:CGPointMake(1.0, 0.5)];
+                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), 1.0);
+                   // viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), 1.0);
+                    
                     break;
                 case Right:
                     previousRect.size.width += deltaX;
                     outlineFrame.size.width += deltaX;
+                    [selectedShape.layer setAnchorPoint:CGPointMake(0.0, 0.5)];
+                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), 1.0);
+                    //viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), 1.0);
+                    
                     NSLog(@"Right");
                     break;
                 case Up:
@@ -292,11 +303,17 @@ typedef enum : NSUInteger {
                     outlineFrame.origin.y += deltaY;
                     previousRect.size.height -= deltaY;
                     outlineFrame.size.height -= deltaY;
+                    
+                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), (1+deltaY/selectedShape.frame.size.height));
+                    //viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), (1+deltaY/viewShapeOutline.frame.size.height+70));
                     break;
                 case Down:
                     // Updating frame of selected shape;
                     previousRect.size.height += deltaY;
                     outlineFrame.size.height += deltaY;
+                    
+                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), (1+deltaY/selectedShape.frame.size.height));
+                   // viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), (1+deltaY/viewShapeOutline.frame.size.height+70));
                     NSLog(@"Down");
                     break;
                 case Aspect:
@@ -305,18 +322,23 @@ typedef enum : NSUInteger {
                     previousRect.size.height += (deltaX+deltaY)/2;
                     outlineFrame.size.width += deltaX;
                     outlineFrame.size.height += deltaY;
+                    
+                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), (1+deltaY/selectedShape.frame.size.height));
+                    //viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), (1+deltaY/viewShapeOutline.frame.size.height+70));
                     NSLog(@"Down");
                     break;
                 default:
                     break;
             }
             
-            previousRect.size.width = MAX(MIN_WIDTH, previousRect.size.width);
-            previousRect.size.height = MAX(MIN_HEIGHT, previousRect.size.height);
+//            previousRect.size.width = MAX(MIN_WIDTH, previousRect.size.width);
+//            previousRect.size.height = MAX(MIN_HEIGHT, previousRect.size.height);
             outlineFrame.size.width = MAX(MIN_WIDTH+70, outlineFrame.size.width);
             outlineFrame.size.height = MAX(MIN_HEIGHT+70, outlineFrame.size.height);
+
             
-            selectedShape.frame = previousRect;
+            
+//            selectedShape.frame = previousRect;
             // Updating frame of the outline view;
             viewShapeOutline.frame = outlineFrame;
             [selectedShape setNeedsDisplay];
@@ -328,8 +350,10 @@ typedef enum : NSUInteger {
             if([self isOverlappingView:selectedShape]){
                 [UIView animateWithDuration:0.5 animations:^{
                 self->viewShapeOutline.alpha = 1.0;
-                selectedShape.frame = self->previousShapeFrame;
-                self->viewShapeOutline.frame = self->previousOutlineFrame;
+                selectedShape.transform = self->previousShapeTransform;
+                //selectedShape.frame = self->previousShapeFrame;
+                self->viewShapeOutline.transform = self->previousShapeTransform;
+                    //self->viewShapeOutline.frame = self->previousOutlineFrame;
                 }];
             }else{
                 self->viewShapeOutline.alpha = 1.0;

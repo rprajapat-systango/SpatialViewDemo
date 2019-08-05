@@ -8,9 +8,9 @@
 
 #import "WMSpatialViewShape.h"
 @interface WMSpatialViewShape(){
-    CGLayerRef shapeLayer_;
+    
 }
-@property(assign) Shape shape;
+@property(assign) Shape shapeType;
 @property(assign) UIColor *color;
 @property(strong, nonatomic) NSString *title;
 @property(retain, nonatomic) UILabel *labelResourceName;
@@ -29,22 +29,30 @@
     self.identifier = self.title;
 }
 
+- (void)setTransform:(CGAffineTransform)transform{
+    [super setTransform:transform];
+    [self setNeedsDisplay];
+}
+
 - (void)updateStackViewTransform{
-    self.stackView.transform = CGAffineTransformIdentity;
-    CGFloat angle = [self getAngleFromTransform];
-    self.stackView.transform = CGAffineTransformMakeRotation(-angle);
+    self.stackView.transform = CGAffineTransformInvert(self.transform);
 }
 
 - (instancetype)initWithModel:(WMShape *)shapeModel{
     self = [super initWithFrame:shapeModel.frame];
     if (self) {
-        self.shape = shapeModel.shapeType;
+        self.shapeType = shapeModel.shapeType;
         self.color = shapeModel.fillColor;
         self.borderColor = shapeModel.borderColor;
         self.title = shapeModel.title;
         [self setupView];
     }
     return self;
+}
+
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
+    [self setupView];
 }
 
 - (UITapGestureRecognizer *) getTapGesture{
@@ -76,7 +84,7 @@
 - (void)drawRect:(CGRect)rect {
     /* Get the current context */
     CGContextRef context = UIGraphicsGetCurrentContext();
-    switch (self.shape) {
+    switch (self.shapeType) {
         case RECTANGLE:
             [self drawRectangle:context rect:&rect];
             [self addRectBorder:&rect];
@@ -221,6 +229,7 @@
 
 - (void) setupStackViewCenterConstraints:(UIStackView *)stackView{
     stackView.translatesAutoresizingMaskIntoConstraints = false;
+    
     if (@available(iOS 11.0, *)) {
         [stackView.leadingAnchor constraintGreaterThanOrEqualToSystemSpacingAfterAnchor:self.leadingAnchor multiplier:3].active = YES;
     }else {
@@ -234,12 +243,12 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    NSLog(@"layoutSubviews methods called %@",self);
+    NSLog(@"\nView origin %@\n",NSStringFromCGPoint(self.frame.origin));
 }
 
 - (CGFloat)getAngleFromTransform{
     CGFloat angle = [(NSNumber *)[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
-    NSLog(@"View Rotation is : %f", angle); // 0.020000
+    NSLog(@"\nView Rotation is : %f\n", angle); // 0.020000
     return angle;
 }
 
