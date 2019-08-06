@@ -25,10 +25,8 @@ typedef enum : NSUInteger {
     UIView *viewShapeOutline;
     CGPoint fromPosition;
     CGPoint previousTouchPosition;
-    
-//    CGRect previousShapeFrame;
     CGRect previousOutlineFrame;
-    
+
     CGAffineTransform previousShapeTransform;
 }
 
@@ -99,11 +97,8 @@ typedef enum : NSUInteger {
     if (arrSelectedItems.count){
         WMSpatialViewShape *oldSelection = (WMSpatialViewShape *)arrSelectedItems.firstObject;
         oldSelection.isSelected = NO;
-        if(shape == oldSelection){
-            // Matching with existing one.
-            [arrSelectedItems removeObject: oldSelection];
-        }else{
-            [arrSelectedItems removeObject: oldSelection];
+        [arrSelectedItems removeObject: oldSelection];
+        if(shape != oldSelection){
             shape.isSelected = YES;
             [arrSelectedItems addObject:shape];
         }
@@ -118,10 +113,11 @@ typedef enum : NSUInteger {
     
     if ([self.dataSource respondsToSelector:@selector(spatialView:outlineViewForShape:)]){
        viewShapeOutline = [self.dataSource spatialView:self outlineViewForShape:shape];
-       [self.contentView addSubview:viewShapeOutline];
-       [self setGestureOnButtons:viewShapeOutline];
+        if(viewShapeOutline){
+            [self.contentView addSubview:viewShapeOutline];
+            [self setGestureOnButtons:viewShapeOutline];
+        }
     }
-    
 }
 
 - (void) contentViewSizeToFit{
@@ -136,7 +132,7 @@ typedef enum : NSUInteger {
     
     _contentView.frame = CGRectMake(0, 0, contentSize.width*self.zoomScale, contentSize.height*self.zoomScale);
     self.contentSize = _contentView.frame.size;
-    [self.contentView setNeedsDisplay];
+  //  [self.contentView setNeedsDisplay];
 }
 
 - (BOOL) isOverlappingView:(WMSpatialViewShape *)shape{
@@ -260,89 +256,91 @@ typedef enum : NSUInteger {
         case UIGestureRecognizerStateBegan:
             NSLog(@"Begin");
             // Disable scroll view gesture to making focus on selected shape.
+            self->viewShapeOutline.alpha = 0.0;
             self.userInteractionEnabled = NO;
-            previousShapeTransform = selectedShape.transform;
-            //previousShapeFrame = selectedShape.frame;
             previousOutlineFrame = viewShapeOutline.frame;
             previousTouchPosition = location;
-            self->viewShapeOutline.alpha = 0.0;
-            break;
-        case UIGestureRecognizerStateChanged:
-            self.userInteractionEnabled = YES;
-            
-            float deltaX = location.x - previousTouchPosition.x;;
-            float deltaY = location.y - previousTouchPosition.y;;
-            
-            CGRect previousRect = selectedShape.frame;
-            CGRect outlineFrame = viewShapeOutline.frame;
+            previousShapeTransform = selectedShape.transform;
             
             switch (button.tag) {
                 case Left:
                     NSLog(@"Left");
-                    previousRect.origin.x += deltaX;
-                    outlineFrame.origin.x += deltaX;
-                    previousRect.size.width -= deltaX;
-                    outlineFrame.size.width -= deltaX;
-                    [selectedShape.layer setAnchorPoint:CGPointMake(1.0, 0.5)];
-                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), 1.0);
-                   // viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), 1.0);
-                    
+                    selectedShape.layer.position = CGPointMake(selectedShape.center.x + selectedShape.bounds.size.width/2, selectedShape.layer.position.y);
+                    selectedShape.layer.anchorPoint = CGPointMake(1, .5);
                     break;
                 case Right:
-                    previousRect.size.width += deltaX;
-                    outlineFrame.size.width += deltaX;
-                    [selectedShape.layer setAnchorPoint:CGPointMake(0.0, 0.5)];
-                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), 1.0);
-                    //viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), 1.0);
-                    
                     NSLog(@"Right");
+                    selectedShape.layer.position = CGPointMake(selectedShape.center.x - selectedShape.bounds.size.width/2, selectedShape.layer.position.y);
+                    selectedShape.layer.anchorPoint = CGPointMake(0, .5);
                     break;
                 case Up:
                     NSLog(@"Up");
-                    previousRect.origin.y += deltaY;
-                    outlineFrame.origin.y += deltaY;
-                    previousRect.size.height -= deltaY;
-                    outlineFrame.size.height -= deltaY;
-                    
-                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), (1+deltaY/selectedShape.frame.size.height));
-                    //viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), (1+deltaY/viewShapeOutline.frame.size.height+70));
+                   selectedShape.layer.anchorPoint = CGPointMake(.5, 1);
                     break;
                 case Down:
                     // Updating frame of selected shape;
-                    previousRect.size.height += deltaY;
-                    outlineFrame.size.height += deltaY;
-                    
-                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), (1+deltaY/selectedShape.frame.size.height));
-                   // viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), (1+deltaY/viewShapeOutline.frame.size.height+70));
                     NSLog(@"Down");
+                   selectedShape.layer.anchorPoint = CGPointMake(0.5, 0);
                     break;
                 case Aspect:
                     // Updating frame of selected shape;
-                    previousRect.size.width += (deltaX+deltaY)/2;
-                    previousRect.size.height += (deltaX+deltaY)/2;
-                    outlineFrame.size.width += deltaX;
-                    outlineFrame.size.height += deltaY;
-                    
-                    selectedShape.transform = CGAffineTransformScale(selectedShape.transform, (1+deltaX/selectedShape.frame.size.width), (1+deltaY/selectedShape.frame.size.height));
-                    //viewShapeOutline.transform = CGAffineTransformScale(viewShapeOutline.transform, (1+deltaX/viewShapeOutline.frame.size.width+70), (1+deltaY/viewShapeOutline.frame.size.height+70));
-                    NSLog(@"Down");
+                    NSLog(@"ASPECT");
+                   selectedShape.layer.anchorPoint = CGPointMake(0, 0);
                     break;
                 default:
                     break;
             }
             
-//            previousRect.size.width = MAX(MIN_WIDTH, previousRect.size.width);
-//            previousRect.size.height = MAX(MIN_HEIGHT, previousRect.size.height);
-            outlineFrame.size.width = MAX(MIN_WIDTH+70, outlineFrame.size.width);
-            outlineFrame.size.height = MAX(MIN_HEIGHT+70, outlineFrame.size.height);
+            
+            break;
+        case UIGestureRecognizerStateChanged:
+            self.userInteractionEnabled = YES;
+            float deltaX = location.x - previousTouchPosition.x;
+            float deltaY = location.y - previousTouchPosition.y;
+            NSLog(@"\nNew Rect to set Deltas %f:%f\n", deltaX, deltaY);
+            CGRect newRect = selectedShape.bounds;
+            switch (button.tag) {
+                case Left:
+                    NSLog(@"Left");
+                    newRect.size.width -= deltaX;
+                    break;
+                case Right:
+                    NSLog(@"Right");
+                    
+                    newRect.size.width += deltaX;
+                    break;
+                case Up:
+                    NSLog(@"Up");
+                    newRect.size.height -= deltaY;
+                    break;
+                case Down:
+                    // Updating frame of selected shape;
+                    NSLog(@"Down");
+                    newRect.size.height += deltaY;
+                    break;
+                case Aspect:
+                    // Updating frame of selected shape;
+                    NSLog(@"ASPECT");
+                    newRect.size.width += (deltaX+deltaY)/2;
+                    newRect.size.height += (deltaX+deltaY)/2;
+                    break;
+                default:
+                    break;
+            }
+            NSLog(@"\nNew Rect to set : %@\n", NSStringFromCGRect(newRect));
+            newRect.size.width = MAX(MIN_WIDTH, newRect.size.width);
+            newRect.size.height = MAX(MIN_HEIGHT, newRect.size.height);
 
+//            CGRect frame = selectedShape.bounds;
+//            frame.size.height += deltaY;
+//            frame.size.width += deltaX;
+            selectedShape.bounds = newRect;
             
-            
-//            selectedShape.frame = previousRect;
+            //selectedShape.transform = CGAffineTransformIdentity;
             // Updating frame of the outline view;
-            viewShapeOutline.frame = outlineFrame;
             [selectedShape setNeedsDisplay];
-            
+            //selectedShape.transform = t;
+            //[self.contentView addSubview:selectedShape];
             [self contentViewSizeToFit];
             previousTouchPosition = location;
             break;
@@ -350,17 +348,32 @@ typedef enum : NSUInteger {
             if([self isOverlappingView:selectedShape]){
                 [UIView animateWithDuration:0.5 animations:^{
                 self->viewShapeOutline.alpha = 1.0;
-                selectedShape.transform = self->previousShapeTransform;
-                //selectedShape.frame = self->previousShapeFrame;
-                self->viewShapeOutline.transform = self->previousShapeTransform;
-                    //self->viewShapeOutline.frame = self->previousOutlineFrame;
+//                    selectedShape.transform = self->previousShapeTransform;
+//                    self->viewShapeOutline.transform = self->previousShapeTransform;
                 }];
             }else{
                 self->viewShapeOutline.alpha = 1.0;
+                [self setOutlineViewOverShape:selectedShape];
             }
             self.userInteractionEnabled = YES;
             break;
     }
+}
+
+- (void)setOutlineViewOverShape:(WMSpatialViewShape *)shape{
+//    viewShapeOutline.transform = CGAffineTransformIdentity;
+//    CGRect rect = selectedShape.frame;
+//    rect.size.width += 70;
+//    rect.size.height += 70;
+//    viewShapeOutline.frame = rect;
+//    viewShapeOutline.center = selectedShape.center;
+//    viewShapeOutline.transform = selectedShape.transform;
+    
+    CGRect shapeRect = CGRectZero;
+    shapeRect.size = CGSizeMake(shape.frame.size.width+70, shape.frame.size.height+70);
+    viewShapeOutline.frame = shapeRect;
+    viewShapeOutline.transform = shape.transform;
+    viewShapeOutline.center = shape.center;
 }
 
 @end

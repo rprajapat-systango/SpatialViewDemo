@@ -30,8 +30,8 @@
 }
 
 - (void)setTransform:(CGAffineTransform)transform{
+   // [self setNeedsDisplay];
     [super setTransform:transform];
-    [self setNeedsDisplay];
 }
 
 - (void)updateStackViewTransform{
@@ -213,17 +213,17 @@
     [self addBorder:points size:3];
 }
 
-
 -  (void)addStackView{
-    _stackView = [[UIStackView alloc] init];
-    _stackView.axis = UILayoutConstraintAxisVertical;
-    _stackView.distribution = UIStackViewDistributionEqualSpacing;
-    _stackView.alignment = UIStackViewAlignmentCenter;
-    _stackView.spacing = 1;
-    
-    [_stackView addArrangedSubview:_labelResourceName];
-    [_stackView addArrangedSubview:_labelPartyName];
-    [self addSubview:_stackView];
+    if(!_stackView){
+        _stackView = [[UIStackView alloc] init];
+        _stackView.axis = UILayoutConstraintAxisVertical;
+        _stackView.distribution = UIStackViewDistributionEqualSpacing;
+        _stackView.alignment = UIStackViewAlignmentCenter;
+        _stackView.spacing = 1;
+        [_stackView addArrangedSubview:_labelResourceName];
+        [_stackView addArrangedSubview:_labelPartyName];
+        [self addSubview:_stackView];
+    }
     [self setupStackViewCenterConstraints:_stackView];
 }
 

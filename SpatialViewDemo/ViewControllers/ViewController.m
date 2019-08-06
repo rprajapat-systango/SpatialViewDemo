@@ -116,9 +116,9 @@ typedef enum : NSUInteger {
 
 - (UIView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
     CGRect shapeRect = CGRectZero;
-    shapeRect.size = CGSizeMake(shape.bounds.size.width+70, shape.bounds.size.height+70);
+    shapeRect.size = CGSizeMake(shape.frame.size.width+70, shape.frame.size.height+70);
     _viewShapeSelection.frame = shapeRect;
-    //_viewShapeSelection.transform = shape.transform;
+    _viewShapeSelection.transform = shape.transform;
     _viewShapeSelection.center = shape.center;
     return _viewShapeSelection;
 }
