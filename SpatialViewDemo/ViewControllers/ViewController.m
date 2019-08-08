@@ -26,7 +26,6 @@ typedef enum : NSUInteger {
 
 @interface ViewController (){
     NSArray *dataSource;
-    WMSpatialViewMenuOptions selectedMenuOption;
     WMSpatialViewShape *selectedShape;
     CGRect previousShapeFrame;
     CGRect previousOutlineFrame;
@@ -41,7 +40,6 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    selectedMenuOption = Rotate;
     dataSource = [self getShapesModel];
     [self setupSpatialView];
 }
@@ -55,7 +53,9 @@ typedef enum : NSUInteger {
         case Rotate:
             // Code for rotate shape
             NSLog(@"Rotate");
-            [self rotateShapeViewByAngle:M_PI_2/2];
+            [selectedShape rotateByAngle:M_PI_2/2];
+            [self.spatialView setOutlineViewOverShape:selectedShape];
+            [self.spatialView contentViewSizeToFit];
             break;
         case Resize:
             // Code for resize shape
@@ -73,25 +73,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)rotateShapeViewByAngle:(CGFloat)angle{
-    if (selectedShape){
-        CGAffineTransform transform = selectedShape.transform;
-        transform = CGAffineTransformConcat(transform,
-                                            CGAffineTransformMakeRotation(angle));
-        selectedShape.transform = transform;
-        _viewShapeSelection.transform = transform;
-        
-        // Reverse transfroming the subview of shapeview;
-        CGAffineTransform stackViewTransform = selectedShape.stackView.transform;
-        stackViewTransform = CGAffineTransformConcat(stackViewTransform,
-                                            CGAffineTransformMakeRotation(-angle));
-        selectedShape.stackView.transform = stackViewTransform;
-    }
-    [self.spatialView contentViewSizeToFit];
-}
-
 - (void)setupSpatialView {
-//    self.spatialView.delegate = self;
     self.spatialView.actionDelegate = self;
     self.spatialView.dataSource = self;
     self.spatialView.margin = 20;
@@ -115,11 +97,11 @@ typedef enum : NSUInteger {
 }
 
 - (UIView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
-    CGRect shapeRect = CGRectZero;
-    shapeRect.size = CGSizeMake(shape.frame.size.width+70, shape.frame.size.height+70);
-    _viewShapeSelection.frame = shapeRect;
-    _viewShapeSelection.transform = shape.transform;
-    _viewShapeSelection.center = shape.center;
+//    CGRect shapeRect = CGRectZero;
+//    shapeRect.size = CGSizeMake(shape.frame.size.width+70, shape.frame.size.height+70);
+//    _viewShapeSelection.frame = shapeRect;
+//    _viewShapeSelection.transform = shape.transform;
+//    _viewShapeSelection.center = shape.center;
     return _viewShapeSelection;
 }
 

@@ -33,6 +33,7 @@ typedef enum : NSUInteger {
 @property (weak) id<WMSpatialViewShapeDelegate> delegate;
 
 - (CGFloat)getAngleFromTransform;
+- (void)rotateByAngle:(CGFloat)angle;
 @end
 
 NS_ASSUME_NONNULL_END

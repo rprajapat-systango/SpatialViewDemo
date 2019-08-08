@@ -25,7 +25,7 @@ typedef enum : NSUInteger {
     UIView *viewShapeOutline;
     CGPoint fromPosition;
     CGPoint previousTouchPosition;
-    CGRect previousOutlineFrame;
+    CGRect previousFrame;
 
     CGAffineTransform previousShapeTransform;
 }
@@ -116,6 +116,7 @@ typedef enum : NSUInteger {
         if(viewShapeOutline){
             [self.contentView addSubview:viewShapeOutline];
             [self setGestureOnButtons:viewShapeOutline];
+            [self setOutlineViewOverShape:shape];
         }
     }
 }
@@ -186,9 +187,10 @@ typedef enum : NSUInteger {
             NSLog(@"Begin");
             // Disable scroll view gesture to making focus on selected shape.
             self.userInteractionEnabled = NO;
-            fromPosition = selectedShape.center;
             viewShapeOutline.alpha = 0.0;
             previousTouchPosition = location;
+            fromPosition = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
+            previousFrame = selectedShape.bounds;
             break;
         case UIGestureRecognizerStateChanged:
             self.userInteractionEnabled = YES;
@@ -200,15 +202,14 @@ typedef enum : NSUInteger {
             
             CGPoint newCenterPoint = CGPointMake(selectedShape.center.x + deltaX, selectedShape.center.y + deltaY);
 
-            if ((newCenterPoint.x < (self.margin + selectedShape.frame.size.width/2))  ){
-                newCenterPoint.x = self.margin + selectedShape.frame.size.width/2;
+            if ((newCenterPoint.x < (self.margin + selectedShape.bounds.size.width/2))  ){
+                newCenterPoint.x = self.margin + selectedShape.bounds.size.width/2;
             }
-            if ((newCenterPoint.y < (self.margin + selectedShape.frame.size.height/2))  ){
-                newCenterPoint.y = self.margin + selectedShape.frame.size.height/2;
+            if ((newCenterPoint.y < (self.margin + selectedShape.bounds.size.height/2))  ){
+                newCenterPoint.y = self.margin + selectedShape.bounds.size.height/2;
             }
 
             selectedShape.center = newCenterPoint;
-            viewShapeOutline.center = newCenterPoint;
             [self contentViewSizeToFit];
             //[self scrollRectToVisible:selectedShape.frame animated:NO];
             previousTouchPosition = location;
@@ -216,16 +217,17 @@ typedef enum : NSUInteger {
         default:
             if([self isOverlappingView:selectedShape]){
                 [UIView animateWithDuration:0.5 animations:^{
-                self->viewShapeOutline.alpha = 1.0;
-                selectedShape.center = self->fromPosition;
-                self->viewShapeOutline.center = self->fromPosition;
-                CGRect rectToVisible = selectedShape.frame;
-                rectToVisible.origin = self->fromPosition;
-                [self contentViewSizeToFit];
-                [self scrollRectToVisible:rectToVisible animated:YES];
-                [self layoutIfNeeded];
+                    selectedShape.bounds = self->previousFrame;
+                    selectedShape.center = self->fromPosition;
+                    [self setOutlineViewOverShape:selectedShape];
+
+                    CGRect rectToVisible = selectedShape.frame;
+                    [self scrollRectToVisible:rectToVisible animated:YES];
+                    [self contentViewSizeToFit];
+                    self->viewShapeOutline.alpha = 1.0;
                 }];
             }else{
+                [self setOutlineViewOverShape:selectedShape];
                 self->viewShapeOutline.alpha = 1.0;
             }
             self.userInteractionEnabled = YES;
@@ -258,34 +260,41 @@ typedef enum : NSUInteger {
             // Disable scroll view gesture to making focus on selected shape.
             self->viewShapeOutline.alpha = 0.0;
             self.userInteractionEnabled = NO;
-            previousOutlineFrame = viewShapeOutline.frame;
+            fromPosition = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
+            previousFrame = selectedShape.bounds;
             previousTouchPosition = location;
             previousShapeTransform = selectedShape.transform;
             
+            [selectedShape getAngleFromTransform];
+            
+            CGRectGetMaxX(selectedShape.frame);
+            CGRectGetMinX(selectedShape.frame);
             switch (button.tag) {
                 case Left:
                     NSLog(@"Left");
-                    selectedShape.layer.position = CGPointMake(selectedShape.center.x + selectedShape.bounds.size.width/2, selectedShape.layer.position.y);
+                    selectedShape.layer.position = CGPointMake(CGRectGetMaxX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
                     selectedShape.layer.anchorPoint = CGPointMake(1, .5);
                     break;
                 case Right:
                     NSLog(@"Right");
-                    selectedShape.layer.position = CGPointMake(selectedShape.center.x - selectedShape.bounds.size.width/2, selectedShape.layer.position.y);
+                    selectedShape.layer.position = CGPointMake(CGRectGetMinX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
                     selectedShape.layer.anchorPoint = CGPointMake(0, .5);
                     break;
                 case Up:
                     NSLog(@"Up");
-                   selectedShape.layer.anchorPoint = CGPointMake(.5, 1);
+                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMaxY(selectedShape.frame));
+                    selectedShape.layer.anchorPoint = CGPointMake(.5, 1);
                     break;
                 case Down:
-                    // Updating frame of selected shape;
                     NSLog(@"Down");
-                   selectedShape.layer.anchorPoint = CGPointMake(0.5, 0);
+                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMinY(selectedShape.frame));
+                    selectedShape.layer.anchorPoint = CGPointMake(0.5, 0);
                     break;
                 case Aspect:
                     // Updating frame of selected shape;
                     NSLog(@"ASPECT");
-                   selectedShape.layer.anchorPoint = CGPointMake(0, 0);
+                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMinY(selectedShape.frame));
+                    selectedShape.layer.anchorPoint = CGPointMake(0, 0);
                     break;
                 default:
                     break;
@@ -306,7 +315,6 @@ typedef enum : NSUInteger {
                     break;
                 case Right:
                     NSLog(@"Right");
-                    
                     newRect.size.width += deltaX;
                     break;
                 case Up:
@@ -330,30 +338,28 @@ typedef enum : NSUInteger {
             NSLog(@"\nNew Rect to set : %@\n", NSStringFromCGRect(newRect));
             newRect.size.width = MAX(MIN_WIDTH, newRect.size.width);
             newRect.size.height = MAX(MIN_HEIGHT, newRect.size.height);
-
-//            CGRect frame = selectedShape.bounds;
-//            frame.size.height += deltaY;
-//            frame.size.width += deltaX;
             selectedShape.bounds = newRect;
-            
-            //selectedShape.transform = CGAffineTransformIdentity;
-            // Updating frame of the outline view;
             [selectedShape setNeedsDisplay];
-            //selectedShape.transform = t;
-            //[self.contentView addSubview:selectedShape];
+            
             [self contentViewSizeToFit];
             previousTouchPosition = location;
             break;
         default:
             if([self isOverlappingView:selectedShape]){
                 [UIView animateWithDuration:0.5 animations:^{
-                self->viewShapeOutline.alpha = 1.0;
-//                    selectedShape.transform = self->previousShapeTransform;
-//                    self->viewShapeOutline.transform = self->previousShapeTransform;
+                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
+                    selectedShape.layer.anchorPoint = CGPointMake(0.5, 0.5);
+
+                    selectedShape.center = self->fromPosition;
+                    selectedShape.bounds = self->previousFrame;
+                    [self setOutlineViewOverShape:selectedShape];
+                    self->viewShapeOutline.alpha = 1.0;
                 }];
             }else{
-                self->viewShapeOutline.alpha = 1.0;
+                selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
+                selectedShape.layer.anchorPoint = CGPointMake(0.5, 0.5);
                 [self setOutlineViewOverShape:selectedShape];
+                self->viewShapeOutline.alpha = 1.0;
             }
             self.userInteractionEnabled = YES;
             break;
@@ -361,19 +367,12 @@ typedef enum : NSUInteger {
 }
 
 - (void)setOutlineViewOverShape:(WMSpatialViewShape *)shape{
-//    viewShapeOutline.transform = CGAffineTransformIdentity;
-//    CGRect rect = selectedShape.frame;
-//    rect.size.width += 70;
-//    rect.size.height += 70;
-//    viewShapeOutline.frame = rect;
-//    viewShapeOutline.center = selectedShape.center;
-//    viewShapeOutline.transform = selectedShape.transform;
-    
+    viewShapeOutline.transform = CGAffineTransformIdentity;
     CGRect shapeRect = CGRectZero;
-    shapeRect.size = CGSizeMake(shape.frame.size.width+70, shape.frame.size.height+70);
+    shapeRect.size = CGSizeMake(shape.bounds.size.width+70, shape.bounds.size.height+70);
     viewShapeOutline.frame = shapeRect;
     viewShapeOutline.transform = shape.transform;
-    viewShapeOutline.center = shape.center;
+    viewShapeOutline.center = CGPointMake(CGRectGetMidX(shape.frame), CGRectGetMidY(shape.frame));
 }
 
 @end

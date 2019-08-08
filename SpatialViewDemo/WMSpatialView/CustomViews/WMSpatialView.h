@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)contentViewSizeToFit;
 - (BOOL) isOverlappingView:(WMSpatialViewShape *)shape;
 - (void) setFocusOnView:(WMSpatialViewShape *)shape;
+- (void)setOutlineViewOverShape:(WMSpatialViewShape *)shape;
 
 @end
 

@@ -15,6 +15,7 @@
 @property(strong, nonatomic) NSString *title;
 @property(retain, nonatomic) UILabel *labelResourceName;
 @property(retain, nonatomic) UILabel *labelPartyName;
+@property(assign) float rotation;
 
 @end
 
@@ -30,7 +31,6 @@
 }
 
 - (void)setTransform:(CGAffineTransform)transform{
-   // [self setNeedsDisplay];
     [super setTransform:transform];
 }
 
@@ -45,6 +45,7 @@
         self.color = shapeModel.fillColor;
         self.borderColor = shapeModel.borderColor;
         self.title = shapeModel.title;
+        self.rotation = 0.0;
         [self setupView];
     }
     return self;
@@ -116,7 +117,6 @@
     // Configuring Party name label
     _labelPartyName.textColor = [UIColor whiteColor];
     _labelPartyName.backgroundColor = [UIColor blueColor];
-    
 }
 
 -(void)setData{
@@ -250,6 +250,17 @@
     CGFloat angle = [(NSNumber *)[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     NSLog(@"\nView Rotation is : %f\n", angle); // 0.020000
     return angle;
+}
+
+- (void)rotateByAngle:(CGFloat)angle{
+        self.rotation += angle;
+        CGAffineTransform transform = self.transform;
+        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeRotation(angle));
+        self.transform = transform;
+        // Reverse transfroming the subview of shapeview;
+        CGAffineTransform stackViewTransform = self.stackView.transform;
+        stackViewTransform = CGAffineTransformConcat(stackViewTransform, CGAffineTransformMakeRotation(-angle));
+        self.stackView.transform = stackViewTransform;
 }
 
 @end
