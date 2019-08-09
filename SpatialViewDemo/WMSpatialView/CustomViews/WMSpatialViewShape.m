@@ -123,9 +123,9 @@
     [self configureLables];
     _labelResourceName.text = self.title;
     [_labelResourceName sizeToFit];
-    NSUInteger size = arc4random_uniform(16)%10;
-    if (size == 0) size = 1;
-    _labelPartyName.text = [NSString stringWithFormat:@" %lu ",(unsigned long)size];
+//    NSUInteger size = arc4random_uniform(16)%10;
+//    if (size == 0) size = 1;
+    _labelPartyName.text = @"5";//[NSString stringWithFormat:@" %lu ",(unsigned long)size];
     [_labelPartyName sizeToFit];
     [self updateStackViewTransform];
 }

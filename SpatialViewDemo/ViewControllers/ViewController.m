@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "WMSpatialViewShape.h"
+#import "SpatialViewDemo-Swift.h"
 
 typedef enum : NSUInteger {
     Rotate = 100,
@@ -15,14 +16,6 @@ typedef enum : NSUInteger {
     Move = 300,
     Exit = 400,
 } WMSpatialViewMenuOptions;
-
-typedef enum : NSUInteger {
-    Up = 10,
-    Right = 20,
-    Down = 30,
-    Left = 40,
-    Aspect = 50,
-} WMSpatialViewDragDirection;
 
 @interface ViewController (){
     NSArray *dataSource;
@@ -42,6 +35,10 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     dataSource = [self getShapesModel];
     [self setupSpatialView];
+    
+    UIImage *image = [[CustomImage alloc] init];
+    
+    NSLog(@"%@",image);
 }
 
 - (IBAction)menuOptionTapped:(UIButton *)sender {

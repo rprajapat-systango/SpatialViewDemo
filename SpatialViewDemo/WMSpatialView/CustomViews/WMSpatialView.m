@@ -26,7 +26,6 @@ typedef enum : NSUInteger {
     CGPoint fromPosition;
     CGPoint previousTouchPosition;
     CGRect previousFrame;
-
     CGAffineTransform previousShapeTransform;
 }
 
@@ -133,7 +132,7 @@ typedef enum : NSUInteger {
     
     _contentView.frame = CGRectMake(0, 0, contentSize.width*self.zoomScale, contentSize.height*self.zoomScale);
     self.contentSize = _contentView.frame.size;
-  //  [self.contentView setNeedsDisplay];
+    [self.contentView setNeedsDisplay];
 }
 
 - (BOOL) isOverlappingView:(WMSpatialViewShape *)shape{
@@ -224,6 +223,7 @@ typedef enum : NSUInteger {
                     CGRect rectToVisible = selectedShape.frame;
                     [self scrollRectToVisible:rectToVisible animated:YES];
                     [self contentViewSizeToFit];
+                } completion:^(BOOL finished) {
                     self->viewShapeOutline.alpha = 1.0;
                 }];
             }else{
@@ -254,9 +254,15 @@ typedef enum : NSUInteger {
     
     CGPoint location = [gesture locationInView:self.contentView];
     UIButton *button = (UIButton *)gesture.view;
+    
+    UIView *anchorView;
+    
+    float rotation = 0.0;
+    
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
             NSLog(@"Begin");
+            anchorView = [self->viewShapeOutline viewWithTag:button.tag/10];
             // Disable scroll view gesture to making focus on selected shape.
             self->viewShapeOutline.alpha = 0.0;
             self.userInteractionEnabled = NO;
@@ -265,35 +271,29 @@ typedef enum : NSUInteger {
             previousTouchPosition = location;
             previousShapeTransform = selectedShape.transform;
             
-            [selectedShape getAngleFromTransform];
+            rotation = [selectedShape getAngleFromTransform];
             
             CGRectGetMaxX(selectedShape.frame);
             CGRectGetMinX(selectedShape.frame);
+            selectedShape.layer.position = [viewShapeOutline convertPoint:anchorView.layer.position toView:self];
             switch (button.tag) {
-                case Left:
-                    NSLog(@"Left");
-                    selectedShape.layer.position = CGPointMake(CGRectGetMaxX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
-                    selectedShape.layer.anchorPoint = CGPointMake(1, .5);
+                case Up:
+                    selectedShape.layer.anchorPoint = CGPointMake(.5, 1);
                     break;
                 case Right:
                     NSLog(@"Right");
-                    selectedShape.layer.position = CGPointMake(CGRectGetMinX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
                     selectedShape.layer.anchorPoint = CGPointMake(0, .5);
-                    break;
-                case Up:
-                    NSLog(@"Up");
-                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMaxY(selectedShape.frame));
-                    selectedShape.layer.anchorPoint = CGPointMake(.5, 1);
                     break;
                 case Down:
                     NSLog(@"Down");
-                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMinY(selectedShape.frame));
                     selectedShape.layer.anchorPoint = CGPointMake(0.5, 0);
+                    break;
+                case Left:
+                    selectedShape.layer.anchorPoint = CGPointMake(1, .5);
                     break;
                 case Aspect:
                     // Updating frame of selected shape;
                     NSLog(@"ASPECT");
-                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMinY(selectedShape.frame));
                     selectedShape.layer.anchorPoint = CGPointMake(0, 0);
                     break;
                 default:
@@ -308,7 +308,14 @@ typedef enum : NSUInteger {
             float deltaY = location.y - previousTouchPosition.y;
             NSLog(@"\nNew Rect to set Deltas %f:%f\n", deltaX, deltaY);
             CGRect newRect = selectedShape.bounds;
-            switch (button.tag) {
+            
+            NSInteger newTag = button.tag;
+            if (button.tag != Aspect){
+                int multiply = rotation/M_PI_2;
+                newTag = (newTag + multiply*10)%40;
+            }
+            
+            switch (newTag) {
                 case Left:
                     NSLog(@"Left");
                     newRect.size.width -= deltaX;
@@ -340,7 +347,6 @@ typedef enum : NSUInteger {
             newRect.size.height = MAX(MIN_HEIGHT, newRect.size.height);
             selectedShape.bounds = newRect;
             [selectedShape setNeedsDisplay];
-            
             [self contentViewSizeToFit];
             previousTouchPosition = location;
             break;
@@ -349,10 +355,10 @@ typedef enum : NSUInteger {
                 [UIView animateWithDuration:0.5 animations:^{
                     selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
                     selectedShape.layer.anchorPoint = CGPointMake(0.5, 0.5);
-
                     selectedShape.center = self->fromPosition;
                     selectedShape.bounds = self->previousFrame;
                     [self setOutlineViewOverShape:selectedShape];
+                } completion:^(BOOL finished) {
                     self->viewShapeOutline.alpha = 1.0;
                 }];
             }else{
