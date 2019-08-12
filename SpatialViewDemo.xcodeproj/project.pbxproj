@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8C2C5922CF87110055D544 /* WMSpatialView.m */; };
-		DCBC2D2922FDA6C800AD7B24 /* CustomImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC2D2822FDA6C800AD7B24 /* CustomImage.swift */; };
 		DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97ABD22DCA00700B634B0 /* WMGraphView.m */; };
 		DCC97AC222DF330900B634B0 /* WMShape.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97AC122DF330900B634B0 /* WMShape.m */; };
 		DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285222CB8B2C00E250B8 /* AppDelegate.m */; };
@@ -24,8 +23,6 @@
 /* Begin PBXFileReference section */
 		DC8C2C5822CF87110055D544 /* WMSpatialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMSpatialView.h; sourceTree = "<group>"; };
 		DC8C2C5922CF87110055D544 /* WMSpatialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMSpatialView.m; sourceTree = "<group>"; };
-		DCBC2D2722FDA6C700AD7B24 /* SpatialViewDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SpatialViewDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		DCBC2D2822FDA6C800AD7B24 /* CustomImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImage.swift; sourceTree = "<group>"; };
 		DCC97ABC22DCA00700B634B0 /* WMGraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMGraphView.h; sourceTree = "<group>"; };
 		DCC97ABD22DCA00700B634B0 /* WMGraphView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMGraphView.m; sourceTree = "<group>"; };
 		DCC97AC022DF330900B634B0 /* WMShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMShape.h; sourceTree = "<group>"; };
@@ -149,8 +146,6 @@
 				DCFE286322CB8B3800E250B8 /* main.m */,
 				DCFE286222CB8B3800E250B8 /* Info.plist */,
 				DCFE285A22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld */,
-				DCBC2D2822FDA6C800AD7B24 /* CustomImage.swift */,
-				DCBC2D2722FDA6C700AD7B24 /* SpatialViewDemo-Bridging-Header.h */,
 			);
 			path = SpatialViewDemo;
 			sourceTree = "<group>";
@@ -234,7 +229,6 @@
 				DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */,
 				DCFE285C22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld in Sources */,
 				DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */,
-				DCBC2D2922FDA6C800AD7B24 /* CustomImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,17 +371,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nosh, Inc.";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = DW3AFR9QPM;
 				INFOPLIST_FILE = SpatialViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.systango.SpatialViewDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nosh.temp.NoshList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = NoshList_Enterprise_11_jan;
 				SWIFT_OBJC_BRIDGING_HEADER = "SpatialViewDemo/SpatialViewDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -400,17 +395,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nosh, Inc.";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = DW3AFR9QPM;
 				INFOPLIST_FILE = SpatialViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.systango.SpatialViewDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nosh.temp.NoshList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = NoshList_Enterprise_11_jan;
 				SWIFT_OBJC_BRIDGING_HEADER = "SpatialViewDemo/SpatialViewDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

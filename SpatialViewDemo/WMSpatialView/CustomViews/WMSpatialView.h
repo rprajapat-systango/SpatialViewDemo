@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) id<WMSpatialViewDataSource> dataSource;
 @property (weak) id<WMSpatialViewDelegate> actionDelegate;
 
+@property (assign) BOOL allowOverlappingView;
+
 @property (strong) WMGraphView *contentView;
 - (void)reloadShapes;
 - (void)clearSelection;
@@ -38,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) isOverlappingView:(WMSpatialViewShape *)shape;
 - (void) setFocusOnView:(WMSpatialViewShape *)shape;
 - (void)setOutlineViewOverShape:(WMSpatialViewShape *)shape;
-
+- (void)clearAll;
 @end
 
 NS_ASSUME_NONNULL_END

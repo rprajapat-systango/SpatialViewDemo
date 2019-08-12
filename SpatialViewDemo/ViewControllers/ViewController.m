@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "WMSpatialViewShape.h"
-#import "SpatialViewDemo-Swift.h"
 
 typedef enum : NSUInteger {
     Rotate = 100,
@@ -35,15 +34,21 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     dataSource = [self getShapesModel];
     [self setupSpatialView];
-    
-    UIImage *image = [[CustomImage alloc] init];
-    
-    NSLog(@"%@",image);
 }
 
 - (IBAction)menuOptionTapped:(UIButton *)sender {
     [self perfomrActionOnShapeUsingMenuOption:sender.tag];
 }
+
+- (IBAction)allowOverlappingAction:(UISwitch *)sender {
+    self.spatialView.allowOverlappingView = sender.isOn;
+}
+
+- (IBAction)resetAllShapes:(id)sender {
+    [self.spatialView clearAll];
+    [self.spatialView reloadShapes];
+}
+
 
 - (void)perfomrActionOnShapeUsingMenuOption:(WMSpatialViewMenuOptions)option{
     switch (option) {
@@ -94,15 +99,8 @@ typedef enum : NSUInteger {
 }
 
 - (UIView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
-//    CGRect shapeRect = CGRectZero;
-//    shapeRect.size = CGSizeMake(shape.frame.size.width+70, shape.frame.size.height+70);
-//    _viewShapeSelection.frame = shapeRect;
-//    _viewShapeSelection.transform = shape.transform;
-//    _viewShapeSelection.center = shape.center;
     return _viewShapeSelection;
 }
-
-
 
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
     _viewShapeSelection.transform = CGAffineTransformIdentity;
@@ -136,7 +134,6 @@ typedef enum : NSUInteger {
     shapeModel.fillColor = [UIColor blueColor];
     [shapes addObject:shapeModel];
     
-    
     shapeModel = [[WMShape alloc] init];
     shapeModel.frame = CGRectMake(650, 50, 120, 570);
     shapeModel.title = @"103";
@@ -144,14 +141,12 @@ typedef enum : NSUInteger {
     shapeModel.fillColor = [UIColor greenColor];
     [shapes addObject:shapeModel];
     
-    
     shapeModel = [[WMShape alloc] init];
     shapeModel.frame = CGRectMake(50, 300, 200, 300);
     shapeModel.title = @"104";
     shapeModel.shapeType = RECTANGLE;
     shapeModel.fillColor = [UIColor greenColor];
     [shapes addObject:shapeModel];
-    
     
     shapeModel = [[WMShape alloc] init];
     shapeModel.frame = CGRectMake(300, 300, 140, 140);
@@ -167,14 +162,12 @@ typedef enum : NSUInteger {
     shapeModel.fillColor = [UIColor yellowColor];
     [shapes addObject:shapeModel];
     
-    
     shapeModel = [[WMShape alloc] init];
     shapeModel.frame = CGRectMake(300, 460, 140, 140);
     shapeModel.title = @"107";
     shapeModel.shapeType = TRIANGLE;
     shapeModel.fillColor = [UIColor brownColor];
     [shapes addObject:shapeModel];
-    
     
     shapeModel = [[WMShape alloc] init];
     shapeModel.frame = CGRectMake(460, 460, 140, 140);
@@ -183,11 +176,7 @@ typedef enum : NSUInteger {
     shapeModel.fillColor = [UIColor brownColor];
     shapeModel.angle = 45;
     [shapes addObject:shapeModel];
-    
     return [shapes copy];
 }
-
-// Pan gesture
-
 
 @end
