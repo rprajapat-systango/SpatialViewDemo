@@ -242,41 +242,22 @@ typedef enum : NSUInteger {
 
 - (void)setGestureOnButtons:(UIView *)view{
    // Adding gesture on the view for drag to move the object
-    [viewShapeOutline addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
    // adding gesture for dragn left, top, right, bottom and digonaly.
     NSArray *arrTAGs = @[@10, @20, @30, @40, @50];
     for (NSNumber *tag in arrTAGs) {
         UIView *button = [view viewWithTag:tag.integerValue];
         UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanForDragToResize:)];
+        [self.panGestureRecognizer requireGestureRecognizerToFail:gesture];
         [button addGestureRecognizer:gesture];
     }
     
-//    UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotatedView:)];
-//    [viewShapeOutline addGestureRecognizer:rotation];
-    
+    UIPanGestureRecognizer *dragGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    [self.panGestureRecognizer requireGestureRecognizerToFail:dragGesture];
+    [viewShapeOutline addGestureRecognizer:dragGesture];
+
 }
 
-//- (void)rotatedView:(UIRotationGestureRecognizer *)sender{
-//    CGFloat originalRotation = 0.0;
-//    if (arrSelectedItems.count == 0 || sender.view == self) return;
-//    WMSpatialViewShape *selectedShape = arrSelectedItems.firstObject;
-//    switch (sender.state) {
-//        case UIGestureRecognizerStateBegan:
-//            sender.rotation = rotation;
-//            originalRotation = sender.rotation;
-//            break;
-//        case UIGestureRecognizerStateChanged:
-//            [selectedShape rotateByAngle:sender.rotation + originalRotation];
-//            break;
-//        case UIGestureRecognizerStateEnded:
-//            rotation = sender.rotation;
-//            break;
-//        default:
-//            break;
-//    }
-//}
-
-// GEsture
+// Gesture
 - (void)handlePanForDragToResize:(UIPanGestureRecognizer *)gesture
 {
     if (arrSelectedItems.count == 0 || gesture.view == self) return;

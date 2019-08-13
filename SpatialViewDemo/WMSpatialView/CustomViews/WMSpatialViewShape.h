@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef enum : NSUInteger {
     RECTANGLE = 0,
-    CIRCLE,
     ELLIPSE,
     DIAMOND,
     TRIANGLE
@@ -32,6 +31,7 @@ typedef enum : NSUInteger {
 @property(nonatomic, assign) BOOL isSelected;
 @property (weak) id<WMSpatialViewShapeDelegate> delegate;
 
+- (void)configureWithType:(Shape)type;
 - (CGFloat)getAngleFromTransform;
 - (void)rotateByAngle:(CGFloat)angle;
 @end

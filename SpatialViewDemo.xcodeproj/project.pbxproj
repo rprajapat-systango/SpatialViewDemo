@@ -10,6 +10,8 @@
 		DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8C2C5922CF87110055D544 /* WMSpatialView.m */; };
 		DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97ABD22DCA00700B634B0 /* WMGraphView.m */; };
 		DCC97AC222DF330900B634B0 /* WMShape.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97AC122DF330900B634B0 /* WMShape.m */; };
+		DCEB16622302B77C007EDF94 /* WMShapeSelectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEB16612302B77C007EDF94 /* WMShapeSelectionTableViewCell.m */; };
+		DCEB16652302BED9007EDF94 /* WMShapeSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEB16642302BED9007EDF94 /* WMShapeSelectionViewController.m */; };
 		DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285222CB8B2C00E250B8 /* AppDelegate.m */; };
 		DCFE285622CB8B2C00E250B8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFE285522CB8B2C00E250B8 /* ViewController.m */; };
 		DCFE285922CB8B2C00E250B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCFE285722CB8B2C00E250B8 /* Main.storyboard */; };
@@ -27,6 +29,10 @@
 		DCC97ABD22DCA00700B634B0 /* WMGraphView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMGraphView.m; sourceTree = "<group>"; };
 		DCC97AC022DF330900B634B0 /* WMShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMShape.h; sourceTree = "<group>"; };
 		DCC97AC122DF330900B634B0 /* WMShape.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMShape.m; sourceTree = "<group>"; };
+		DCEB16602302B77C007EDF94 /* WMShapeSelectionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMShapeSelectionTableViewCell.h; sourceTree = "<group>"; };
+		DCEB16612302B77C007EDF94 /* WMShapeSelectionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMShapeSelectionTableViewCell.m; sourceTree = "<group>"; };
+		DCEB16632302BED9007EDF94 /* WMShapeSelectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMShapeSelectionViewController.h; sourceTree = "<group>"; };
+		DCEB16642302BED9007EDF94 /* WMShapeSelectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMShapeSelectionViewController.m; sourceTree = "<group>"; };
 		DCFE284E22CB8B2C00E250B8 /* SpatialViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFE285122CB8B2C00E250B8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DCFE285222CB8B2C00E250B8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -105,8 +111,11 @@
 		DCC97AC622DF5E6600B634B0 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				DCEB165F2302B759007EDF94 /* CustomCells */,
 				DCFE285422CB8B2C00E250B8 /* ViewController.h */,
 				DCFE285522CB8B2C00E250B8 /* ViewController.m */,
+				DCEB16632302BED9007EDF94 /* WMShapeSelectionViewController.h */,
+				DCEB16642302BED9007EDF94 /* WMShapeSelectionViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -117,6 +126,15 @@
 				DCFE285D22CB8B3800E250B8 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		DCEB165F2302B759007EDF94 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				DCEB16602302B77C007EDF94 /* WMShapeSelectionTableViewCell.h */,
+				DCEB16612302B77C007EDF94 /* WMShapeSelectionTableViewCell.m */,
+			);
+			path = CustomCells;
 			sourceTree = "<group>";
 		};
 		DCFE284522CB8B2C00E250B8 = {
@@ -221,7 +239,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCEB16652302BED9007EDF94 /* WMShapeSelectionViewController.m in Sources */,
 				DCFE285622CB8B2C00E250B8 /* ViewController.m in Sources */,
+				DCEB16622302B77C007EDF94 /* WMShapeSelectionTableViewCell.m in Sources */,
 				DCC97AC222DF330900B634B0 /* WMShape.m in Sources */,
 				DCFE286C22CB8CEB00E250B8 /* WMSpatialViewShape.m in Sources */,
 				DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */,

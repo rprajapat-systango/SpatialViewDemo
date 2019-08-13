@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "WMSpatialViewShape.h"
+#import "WMShapeSelectionViewController.h"
 
 typedef enum : NSUInteger {
     Rotate = 100,
@@ -28,7 +29,7 @@ typedef enum : NSUInteger {
 
 @end
 
-@implementation ViewController
+@implementation ViewController 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,6 +41,10 @@ typedef enum : NSUInteger {
     [self perfomrActionOnShapeUsingMenuOption:sender.tag];
 }
 
+- (IBAction)addShapeAction:(UIButton *)sender {
+    
+}
+
 - (IBAction)allowOverlappingAction:(UISwitch *)sender {
     self.spatialView.allowOverlappingView = sender.isOn;
 }
@@ -48,7 +53,6 @@ typedef enum : NSUInteger {
     [self.spatialView clearAll];
     [self.spatialView reloadShapes];
 }
-
 
 - (void)perfomrActionOnShapeUsingMenuOption:(WMSpatialViewMenuOptions)option{
     switch (option) {
@@ -179,4 +183,17 @@ typedef enum : NSUInteger {
     return [shapes copy];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"segueShapeSelection"]){
+        WMShapeSelectionViewController *vc = (WMShapeSelectionViewController *)segue.destinationViewController;
+        vc.delegate = self;
+    }
+}
+
+#pragma mark WMShapeSelectionDelegate
+
+- (void)didSelectShapeWithType:(Shape) type{
+    NSLog(@"Selected Shape %d",type);
+}
+    
 @end

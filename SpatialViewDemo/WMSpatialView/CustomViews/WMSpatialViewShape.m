@@ -13,6 +13,7 @@
 @property(assign) Shape shapeType;
 @property(assign) UIColor *color;
 @property(strong, nonatomic) NSString *title;
+@property(strong, nonatomic) NSString *partyName;
 @property(retain, nonatomic) UILabel *labelResourceName;
 @property(retain, nonatomic) UILabel *labelPartyName;
 @property(assign) float rotation;
@@ -21,6 +22,15 @@
 
 @implementation WMSpatialViewShape
 
+- (void)configureWithType:(Shape)type {
+    self.shapeType = type;
+    self.color = [UIColor clearColor];
+    self.borderColor = [UIColor blueColor];
+    self.title = @"";
+    self.partyName = @"";
+    [self setNeedsDisplay];
+}
+
 - (void)setupView {
     _labelResourceName = [UILabel new];
     _labelPartyName = [UILabel new];
@@ -28,10 +38,6 @@
     self.layer.borderColor = [UIColor blueColor].CGColor;
     [self addGestureRecognizer:[self getTapGesture]];
     self.identifier = self.title;
-}
-
-- (void)setTransform:(CGAffineTransform)transform{
-    [super setTransform:transform];
 }
 
 - (void)updateStackViewTransform{
@@ -46,6 +52,7 @@
         self.borderColor = shapeModel.borderColor;
         self.title = shapeModel.title;
         self.rotation = 0.0;
+        self.partyName = @"5";
         [self setupView];
     }
     return self;
@@ -73,12 +80,6 @@
     self.layer.borderWidth = isSelected ? 2.0 : 0.0;
     //[self setNeedsDisplay];
 }
-
-//-(void)makeTransform{
-//    CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI_2);
-//    CGPathRef rotatedPath = CGPathCreateCopyByTransformingPath(myPath, &transform);
-//    https://stackoverflow.com/questions/13738364/rotate-cgpath-without-changing-its-position
-//}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -123,9 +124,7 @@
     [self configureLables];
     _labelResourceName.text = self.title;
     [_labelResourceName sizeToFit];
-//    NSUInteger size = arc4random_uniform(16)%10;
-//    if (size == 0) size = 1;
-    _labelPartyName.text = @"5";//[NSString stringWithFormat:@" %lu ",(unsigned long)size];
+    _labelPartyName.text = self.partyName;//[NSString stringWithFormat:@" %lu ",(unsigned long)size];
     [_labelPartyName sizeToFit];
     [self updateStackViewTransform];
 }

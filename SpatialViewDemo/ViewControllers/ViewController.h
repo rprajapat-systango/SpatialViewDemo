@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WMSpatialView.h"
+#import "WMShapeSelectionViewController.h"
 
-@interface ViewController : UIViewController<UIScrollViewDelegate, WMSpatialViewDelegate, WMSpatialViewDataSource>
+@interface ViewController : UIViewController<UIScrollViewDelegate,WMShapeSelectionDelegate ,WMSpatialViewDelegate, WMSpatialViewDataSource>
 
 @property (weak, nonatomic) IBOutlet WMSpatialView *spatialView;
 

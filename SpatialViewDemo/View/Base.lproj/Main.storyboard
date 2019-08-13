@@ -44,15 +44,30 @@
                                     <action selector="resetAllShapes:" destination="BYZ-38-t0r" eventType="touchUpInside" id="71w-21-HID"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pu3-ek-pLA">
+                                <rect key="frame" x="488" y="31.5" width="22" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="eaw-EA-79u"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="addShapeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tMG-GD-zg1"/>
+                                    <segue destination="3tz-Io-Yfw" kind="popoverPresentation" identifier="segueShapeSelection" popoverAnchorView="pu3-ek-pLA" id="dew-mh-c8e">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5aL-at-SKb" secondAttribute="trailing" constant="22" id="3PM-Fy-CBz"/>
+                            <constraint firstItem="9tp-RH-AMQ" firstAttribute="leading" secondItem="pu3-ek-pLA" secondAttribute="trailing" constant="36" id="4H6-L3-sfM"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="99E-yU-ZGp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6Jd-m3-IBi" secondAttribute="bottom" id="BVb-WU-Eub"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="D5N-Co-h5a"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="TPv-1n-euv" secondAttribute="bottom" constant="8" id="HB4-S9-bTO"/>
+                            <constraint firstItem="pu3-ek-pLA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TPv-1n-euv" secondAttribute="trailing" constant="10" id="gyY-ZQ-4eN"/>
                             <constraint firstItem="TPv-1n-euv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="k3N-vV-2hK"/>
+                            <constraint firstItem="pu3-ek-pLA" firstAttribute="centerY" secondItem="9tp-RH-AMQ" secondAttribute="centerY" id="l1c-au-5Os"/>
                             <constraint firstItem="5aL-at-SKb" firstAttribute="leading" secondItem="9tp-RH-AMQ" secondAttribute="trailing" constant="16" id="loH-m2-1ex"/>
                             <constraint firstItem="9tp-RH-AMQ" firstAttribute="centerY" secondItem="5aL-at-SKb" secondAttribute="centerY" id="ouL-Xd-tOv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6Jd-m3-IBi" secondAttribute="trailing" id="wcT-HT-AJe"/>
@@ -316,6 +331,76 @@
                 </view>
             </objects>
             <point key="canvasLocation" x="-201.5625" y="9.9609375"/>
+        </scene>
+        <!--Shape Selection View Controller-->
+        <scene sceneID="LkD-3U-NhN">
+            <objects>
+                <viewController id="3tz-Io-Yfw" customClass="WMShapeSelectionViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pTs-ZC-bWc">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LfC-nd-isy">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WMShapeSelectionTableViewCell" rowHeight="61" id="jQQ-Sy-Wpa" customClass="WMShapeSelectionTableViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="300" height="61"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jQQ-Sy-Wpa" id="Llq-h3-qxQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="60.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZrA-Wu-CD6" customClass="WMSpatialViewShape">
+                                                    <rect key="frame" x="16" y="15.5" width="36" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="36" id="E6L-XR-Z0R"/>
+                                                        <constraint firstAttribute="height" constant="30" id="iNk-SI-30h"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shape" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pjn-rZ-Whk">
+                                                    <rect key="frame" x="60" y="20" width="49" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pjn-rZ-Whk" firstAttribute="centerY" secondItem="ZrA-Wu-CD6" secondAttribute="centerY" id="E0g-dV-QBI"/>
+                                                <constraint firstItem="pjn-rZ-Whk" firstAttribute="leading" secondItem="ZrA-Wu-CD6" secondAttribute="trailing" constant="8" id="JwD-a7-QIt"/>
+                                                <constraint firstItem="ZrA-Wu-CD6" firstAttribute="leading" secondItem="Llq-h3-qxQ" secondAttribute="leading" constant="16" id="K0A-uj-1sV"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pjn-rZ-Whk" secondAttribute="trailing" constant="16" id="K5d-cJ-DAs"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ZrA-Wu-CD6" secondAttribute="bottom" constant="4.5" id="tkv-cj-pt1"/>
+                                                <constraint firstItem="ZrA-Wu-CD6" firstAttribute="top" secondItem="Llq-h3-qxQ" secondAttribute="topMargin" constant="4.5" id="vqs-Pr-ZtJ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lblShapeTitle" destination="pjn-rZ-Whk" id="twe-ce-mb2"/>
+                                            <outlet property="shapeView" destination="ZrA-Wu-CD6" id="fli-FS-QnT"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="3tz-Io-Yfw" id="ELf-C9-gl7"/>
+                                    <outlet property="delegate" destination="3tz-Io-Yfw" id="jAT-me-dib"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="LfC-nd-isy" firstAttribute="top" secondItem="pTs-ZC-bWc" secondAttribute="top" id="Ghe-dd-WRJ"/>
+                            <constraint firstItem="LfC-nd-isy" firstAttribute="leading" secondItem="pTs-ZC-bWc" secondAttribute="leading" id="WUf-Yf-W8j"/>
+                            <constraint firstItem="760-IL-8M1" firstAttribute="trailing" secondItem="LfC-nd-isy" secondAttribute="trailing" id="j9J-CP-at1"/>
+                            <constraint firstItem="LfC-nd-isy" firstAttribute="bottom" secondItem="760-IL-8M1" secondAttribute="bottom" id="oaT-yv-PYt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="760-IL-8M1"/>
+                    </view>
+                    <size key="freeformSize" width="300" height="300"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ipg-03-B43" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="407.8125" y="-89.0625"/>
         </scene>
     </scenes>
     <resources>
