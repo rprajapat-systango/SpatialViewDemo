@@ -45,6 +45,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([self.delegate respondsToSelector:@selector(didSelectShapeWithType:)]) {
         [self.delegate didSelectShapeWithType:indexPath.row];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol WMSpatialViewDelegate <NSObject>
 - (void) spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape;
+- (BOOL) spatialView:(WMSpatialView *) spatialView shouldDrawShapeOnPosition:(CGPoint)pos;
 @end
 
 @protocol WMSpatialViewDataSource <NSObject>

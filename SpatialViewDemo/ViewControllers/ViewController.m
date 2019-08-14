@@ -23,6 +23,7 @@ typedef enum : NSUInteger {
     CGRect previousShapeFrame;
     CGRect previousOutlineFrame;
     CGPoint previousTouchPoint;
+    Shape selectedShapeType;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *viewShapeSelection;
@@ -35,6 +36,7 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     dataSource = [self getShapesModel];
     [self setupSpatialView];
+    selectedShapeType = NONE;
 }
 
 - (IBAction)menuOptionTapped:(UIButton *)sender {
@@ -102,10 +104,6 @@ typedef enum : NSUInteger {
      return nil;
 }
 
-- (UIView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
-    return _viewShapeSelection;
-}
-
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
     _viewShapeSelection.transform = CGAffineTransformIdentity;
     if (selectedShape == shape)
@@ -117,6 +115,14 @@ typedef enum : NSUInteger {
         [spatialView.contentView bringSubviewToFront:shape];
         [self.spatialView scrollRectToVisible:selectedShape.frame animated:NO];
     }
+}
+
+- (UIView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
+    return _viewShapeSelection;
+}
+
+- (BOOL)spatialView:(WMSpatialView *)spatialView shouldDrawShapeOnPosition:(CGPoint)pos{
+    return selectedShapeType != NONE;
 }
 
 #pragma Helper Methods
@@ -186,6 +192,7 @@ typedef enum : NSUInteger {
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"segueShapeSelection"]){
         WMShapeSelectionViewController *vc = (WMShapeSelectionViewController *)segue.destinationViewController;
+        vc.preferredContentSize = CGSizeMake(300, 225);
         vc.delegate = self;
     }
 }
@@ -193,7 +200,8 @@ typedef enum : NSUInteger {
 #pragma mark WMShapeSelectionDelegate
 
 - (void)didSelectShapeWithType:(Shape) type{
-    NSLog(@"Selected Shape %d",type);
+    NSLog(@"Selected Shape %lu",(unsigned long)type);
+    selectedShapeType = type;
 }
     
 @end

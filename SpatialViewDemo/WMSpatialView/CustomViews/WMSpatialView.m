@@ -44,7 +44,7 @@ typedef enum : NSUInteger {
     }else{
         self.contentView = [[WMGraphView alloc] init];
         self.contentView.backgroundColor = [UIColor whiteColor];
-        [self.contentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOutside)]];
+        [self.contentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOutside:)]];
         
     }
     [self addSubview:_contentView];
@@ -74,8 +74,15 @@ typedef enum : NSUInteger {
     [self contentViewSizeToFit];
 }
 
--(void) tapOutside{
+-(void) tapOutside:(UITapGestureRecognizer *)gesture{
     [self clearSelection];
+    // Sending message to receiver when tapping outside of the shape
+    if ([self.actionDelegate respondsToSelector:@selector(spatialView:shouldDrawShapeOnPosition:)]){
+        BOOL shouldDraw = [self.actionDelegate spatialView:self shouldDrawShapeOnPosition:[gesture locationInView:self.contentView]];
+        if (shouldDraw){
+            
+        }
+    }
 }
 
 - (void)clearSelection{

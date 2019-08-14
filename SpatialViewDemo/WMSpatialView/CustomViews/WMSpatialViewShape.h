@@ -14,7 +14,9 @@ typedef enum : NSUInteger {
     RECTANGLE = 0,
     ELLIPSE,
     DIAMOND,
-    TRIANGLE
+    TRIANGLE,
+    NONE = -1
+    
 } Shape;
 @class WMSpatialViewShape;
 
