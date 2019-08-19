@@ -74,13 +74,21 @@ typedef enum : NSUInteger {
     [self contentViewSizeToFit];
 }
 
--(void) tapOutside:(UITapGestureRecognizer *)gesture{
+- (void) tapOutside:(UITapGestureRecognizer *)gesture{
     [self clearSelection];
     // Sending message to receiver when tapping outside of the shape
     if ([self.actionDelegate respondsToSelector:@selector(spatialView:shouldDrawShapeOnPosition:)]){
         BOOL shouldDraw = [self.actionDelegate spatialView:self shouldDrawShapeOnPosition:[gesture locationInView:self.contentView]];
         if (shouldDraw){
-            
+            if ([self.actionDelegate respondsToSelector:@selector(spatialView:shapeToAddAt:)]){
+                    WMSpatialViewShape *shapeToDraw = [self.actionDelegate spatialView:self shapeToAddAt:[gesture locationInView:self.contentView]];
+                    shapeToDraw.delegate = self;
+                    if (shapeToDraw) {
+                        [_contentView addSubview:shapeToDraw];
+                        [self didTapOnView:shapeToDraw];
+                        [self contentViewSizeToFit];
+                    }
+            }
         }
     }
 }
@@ -97,8 +105,14 @@ typedef enum : NSUInteger {
     if(viewShapeOutline){
         [viewShapeOutline removeFromSuperview];
     }
-     
 }
+
+- (void) removeShape:(WMSpatialViewShape *)selectedShape{
+    [self clearSelection];
+    [selectedShape removeFromSuperview];
+    [self contentViewSizeToFit];
+}
+
 
 - (void)didTapOnView:(WMSpatialViewShape *)shape{
 

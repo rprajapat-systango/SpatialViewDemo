@@ -98,7 +98,7 @@
                             </constraints>
                             <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                            <state key="normal" image="icon_cross_shape"/>
+                            <state key="normal" image="copy_icon"/>
                             <state key="selected">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
@@ -128,7 +128,7 @@
                             </constraints>
                             <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                            <state key="normal" image="icon_drag_shape"/>
+                            <state key="normal" image="delete_icon"/>
                             <state key="selected">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
@@ -412,8 +412,8 @@
         <image name="arrow_left" width="280" height="280"/>
         <image name="arrow_right" width="280" height="280"/>
         <image name="arrow_top" width="280" height="280"/>
-        <image name="icon_cross_shape" width="256" height="256"/>
-        <image name="icon_drag_shape" width="490" height="490"/>
+        <image name="copy_icon" width="138" height="188"/>
+        <image name="delete_icon" width="256" height="256"/>
         <image name="icon_resize_shape" width="490" height="490"/>
         <image name="icon_rotate_shape" width="256" height="256"/>
     </resources>

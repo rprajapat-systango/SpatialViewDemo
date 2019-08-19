@@ -72,6 +72,9 @@ typedef enum : NSUInteger {
         case Move:
             // Code for move shape
             NSLog(@"Move");
+            if (selectedShape){
+                [self.spatialView removeShape:selectedShape];
+            }
             break;
         case Exit:
             // Code for delete shape
@@ -124,6 +127,25 @@ typedef enum : NSUInteger {
 - (BOOL)spatialView:(WMSpatialView *)spatialView shouldDrawShapeOnPosition:(CGPoint)pos{
     return selectedShapeType != NONE;
 }
+
+- (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView shapeToAddAt:(CGPoint) point{
+    WMShape *shapeModel = [[WMShape alloc] init];
+    shapeModel.frame = CGRectMake(0, 0, 200, 200);
+    shapeModel.title = @"100";
+    shapeModel.shapeType = (int)selectedShapeType;
+    shapeModel.fillColor = [UIColor redColor];
+    
+    WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
+    shape.center = point;
+    NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
+    [mArray addObject:shapeModel];
+    dataSource = [mArray copy];
+    
+    selectedShapeType = NONE;
+    
+    return shape;
+}
+
 
 #pragma Helper Methods
 

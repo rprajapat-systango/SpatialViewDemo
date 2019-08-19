@@ -400,7 +400,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nosh.temp.NoshList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nosh.temp.Noshlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = NoshList_Enterprise_11_jan;
 				SWIFT_OBJC_BRIDGING_HEADER = "SpatialViewDemo/SpatialViewDemo-Bridging-Header.h";
@@ -424,7 +424,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nosh.temp.NoshList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nosh.temp.Noshlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = NoshList_Enterprise_11_jan;
 				SWIFT_OBJC_BRIDGING_HEADER = "SpatialViewDemo/SpatialViewDemo-Bridging-Header.h";
