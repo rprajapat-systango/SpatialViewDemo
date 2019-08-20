@@ -22,6 +22,24 @@
                                 <rect key="frame" x="0.0" y="70" width="768" height="954"/>
                                 <color key="backgroundColor" white="0.56103738579999995" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afK-cX-IX5">
+                                <rect key="frame" x="0.0" y="984" width="768" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to place the shape" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n0-9j-syC">
+                                        <rect key="frame" x="263.5" y="0.0" width="241" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <color key="textColor" white="0.29749036820000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="9n0-9j-syC" firstAttribute="top" secondItem="afK-cX-IX5" secondAttribute="top" id="11U-zm-Yxn"/>
+                                    <constraint firstAttribute="height" constant="40" id="U1s-xB-avX"/>
+                                    <constraint firstItem="9n0-9j-syC" firstAttribute="centerX" secondItem="afK-cX-IX5" secondAttribute="centerX" id="Xxd-Af-VCf"/>
+                                    <constraint firstAttribute="bottom" secondItem="9n0-9j-syC" secondAttribute="bottom" id="xEg-nc-AZU"/>
+                                </constraints>
+                            </view>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5aL-at-SKb">
                                 <rect key="frame" x="697" y="31" width="51" height="31"/>
                                 <connections>
@@ -67,8 +85,11 @@
                             <constraint firstItem="9tp-RH-AMQ" firstAttribute="leading" secondItem="pu3-ek-pLA" secondAttribute="trailing" constant="30" id="4H6-L3-sfM"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="99E-yU-ZGp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6Jd-m3-IBi" secondAttribute="bottom" id="BVb-WU-Eub"/>
+                            <constraint firstItem="afK-cX-IX5" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="C6z-Ca-CxH"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="D5N-Co-h5a"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="TPv-1n-euv" secondAttribute="bottom" constant="8" id="HB4-S9-bTO"/>
+                            <constraint firstItem="afK-cX-IX5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="L8A-Re-b53"/>
+                            <constraint firstItem="afK-cX-IX5" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="XU0-lV-d22"/>
                             <constraint firstItem="pu3-ek-pLA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TPv-1n-euv" secondAttribute="trailing" constant="10" id="gyY-ZQ-4eN"/>
                             <constraint firstItem="TPv-1n-euv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="k3N-vV-2hK"/>
                             <constraint firstItem="pu3-ek-pLA" firstAttribute="centerY" secondItem="9tp-RH-AMQ" secondAttribute="centerY" id="l1c-au-5Os"/>
@@ -80,6 +101,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="footerView" destination="afK-cX-IX5" id="lW2-zT-THU"/>
                         <outlet property="spatialView" destination="6Jd-m3-IBi" id="lCK-R6-hA0"/>
                         <outlet property="viewShapeSelection" destination="cdf-tJ-3nY" id="Rbu-cI-SQh"/>
                     </connections>

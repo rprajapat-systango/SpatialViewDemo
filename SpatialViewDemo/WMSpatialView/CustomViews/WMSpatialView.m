@@ -87,6 +87,9 @@ typedef enum : NSUInteger {
                         [_contentView addSubview:shapeToDraw];
                         [self didTapOnView:shapeToDraw];
                         [self contentViewSizeToFit];
+                        if ([self.actionDelegate respondsToSelector:@selector(spatialView:didAddShape:)]){
+                            [self.actionDelegate spatialView:self didAddShape:shapeToDraw];
+                        }
                     }
             }
         }

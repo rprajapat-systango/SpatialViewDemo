@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape;
 - (BOOL) spatialView:(WMSpatialView *) spatialView shouldDrawShapeOnPosition:(CGPoint)pos;
 - (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView shapeToAddAt:(CGPoint) point;
+- (void)spatialView:(WMSpatialView *)spatialView didAddShape:(WMSpatialViewShape *) shape;
 @end
 
 @protocol WMSpatialViewDataSource <NSObject>

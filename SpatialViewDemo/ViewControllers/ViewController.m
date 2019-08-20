@@ -27,6 +27,7 @@ typedef enum : NSUInteger {
 }
 
 @property (strong, nonatomic) IBOutlet UIView *viewShapeSelection;
+@property (strong, nonatomic) IBOutlet UIView *footerView;
 
 @end
 
@@ -37,6 +38,7 @@ typedef enum : NSUInteger {
     dataSource = [self getShapesModel];
     [self setupSpatialView];
     selectedShapeType = NONE;
+    [self showFooterView:NO withAnimation:NO] ;
 }
 
 - (IBAction)menuOptionTapped:(UIButton *)sender {
@@ -73,7 +75,7 @@ typedef enum : NSUInteger {
             // Code for move shape
             NSLog(@"Move");
             if (selectedShape){
-                [self.spatialView removeShape:selectedShape];
+                [self removeItemFromDatasource:selectedShape];
             }
             break;
         case Exit:
@@ -137,15 +139,17 @@ typedef enum : NSUInteger {
     
     WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
     shape.center = point;
-    NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
-    [mArray addObject:shapeModel];
-    dataSource = [mArray copy];
+    
+    [self addItemIntoDatasource:shape];
     
     selectedShapeType = NONE;
-    
     return shape;
 }
 
+- (void)spatialView:(WMSpatialView *)spatialView didAddShape:(WMSpatialViewShape *)shape{
+    NSLog(@"Shape Added successfully");
+    [self showFooterView:NO withAnimation:YES];
+}
 
 #pragma Helper Methods
 
@@ -223,7 +227,40 @@ typedef enum : NSUInteger {
 
 - (void)didSelectShapeWithType:(Shape) type{
     NSLog(@"Selected Shape %lu",(unsigned long)type);
+    self.footerView.hidden = NO;
     selectedShapeType = type;
+    [self showFooterView:YES withAnimation:YES];
 }
+
+- (void)addItemIntoDatasource:(WMSpatialViewShape *)shapeModel{
+    NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
+    [mArray addObject:shapeModel];
+    dataSource = [mArray copy];
+}
+
+- (void)removeItemFromDatasource:(WMSpatialViewShape *)shapeModel{
+    [self.spatialView removeShape:selectedShape];
+    NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
+    [mArray removeObject:shapeModel];
+    dataSource = [mArray copy];
+}
+
+- (void)showFooterView:(BOOL)isShow withAnimation:(BOOL) animated{
+    NSLayoutConstraint *heightConstraint;
+    for (NSLayoutConstraint *constraint in self.footerView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+            heightConstraint = constraint;
+            break;
+        }
+    }
     
+    if (animated){
+        [UIView animateWithDuration:0.4 animations:^{
+            heightConstraint.constant = isShow ? 40.0 : 0.0;
+        }];
+    }else{
+            heightConstraint.constant = isShow ? 40.0 : 0.0;
+    }
+}
+
 @end
