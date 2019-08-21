@@ -10,8 +10,8 @@
 @interface WMSpatialViewShape(){
     
 }
-@property(assign) Shape shapeType;
-@property(assign) UIColor *color;
+
+@property(strong, nonatomic) UIColor *color;
 @property(strong, nonatomic) NSString *title;
 @property(strong, nonatomic) NSString *partyName;
 @property(retain, nonatomic) UILabel *labelResourceName;

@@ -13,8 +13,8 @@
 typedef enum : NSUInteger {
     Rotate = 100,
     Resize = 200,
-    Move = 300,
-    Exit = 400,
+    Delete = 300,
+    Copy = 400,
 } WMSpatialViewMenuOptions;
 
 @interface ViewController (){
@@ -71,17 +71,21 @@ typedef enum : NSUInteger {
             // Code for resize shape
             NSLog(@"Resize");
             break;
-        case Move:
+        case Delete:
             // Code for move shape
-            NSLog(@"Move");
+            NSLog(@"Delete");
             if (selectedShape){
                 [self removeItemFromDatasource:selectedShape];
             }
             break;
-        case Exit:
+        case Copy:
             // Code for delete shape
-            NSLog(@"Exit");
-            [self.spatialView clearSelection];
+            NSLog(@"Copy");
+//            [self.spatialView clearSelection];
+            if (selectedShape){
+                selectedShapeType = selectedShape.shapeType;
+                [self showFooterView:YES withAnimation:YES];
+            }
             break;
     }
 }
@@ -135,12 +139,12 @@ typedef enum : NSUInteger {
     shapeModel.frame = CGRectMake(0, 0, 200, 200);
     shapeModel.title = @"100";
     shapeModel.shapeType = (int)selectedShapeType;
-    shapeModel.fillColor = [UIColor redColor];
+    shapeModel.fillColor = [UIColor purpleColor];//[UIColor colorWithRed:158.0/255.0    green:255.0/255.0 blue:158.0/255.0 alpha:1.0];
     
     WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
     shape.center = point;
-    
-    [self addItemIntoDatasource:shape];
+    shapeModel.frame = shape.frame;
+    [self addItemIntoDatasource:shapeModel];
     
     selectedShapeType = NONE;
     return shape;
@@ -155,63 +159,63 @@ typedef enum : NSUInteger {
 
 - (NSArray *)getShapesModel {
     NSMutableArray *shapes = [NSMutableArray new];
-    
+//
     WMShape *shapeModel = [[WMShape alloc] init];
     shapeModel.frame = CGRectMake(50, 50, 200, 200);
     shapeModel.title = @"100";
     shapeModel.shapeType = ELLIPSE;
-    shapeModel.fillColor = [UIColor redColor];
+    shapeModel.fillColor = [UIColor colorWithRed:0.35 green:0.64 blue:0.25 alpha:1.0]; //[UIColor cyanColor];
     [shapes addObject:shapeModel];
-    
-    shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(300, 50, 300, 200);
-    shapeModel.title = @"102";
-    shapeModel.shapeType = ELLIPSE;
-    shapeModel.fillColor = [UIColor blueColor];
-    [shapes addObject:shapeModel];
-    
-    shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(650, 50, 120, 570);
-    shapeModel.title = @"103";
-    shapeModel.shapeType = RECTANGLE;
-    shapeModel.fillColor = [UIColor greenColor];
-    [shapes addObject:shapeModel];
-    
-    shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(50, 300, 200, 300);
-    shapeModel.title = @"104";
-    shapeModel.shapeType = RECTANGLE;
-    shapeModel.fillColor = [UIColor greenColor];
-    [shapes addObject:shapeModel];
-    
-    shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(300, 300, 140, 140);
-    shapeModel.title = @"105";
-    shapeModel.shapeType = DIAMOND;
-    shapeModel.fillColor = [UIColor yellowColor];
-    [shapes addObject:shapeModel];
-    
-    shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(460, 300, 140, 140);
-    shapeModel.title = @"106";
-    shapeModel.shapeType = DIAMOND;
-    shapeModel.fillColor = [UIColor yellowColor];
-    [shapes addObject:shapeModel];
-    
-    shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(300, 460, 140, 140);
-    shapeModel.title = @"107";
-    shapeModel.shapeType = TRIANGLE;
-    shapeModel.fillColor = [UIColor brownColor];
-    [shapes addObject:shapeModel];
-    
-    shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(460, 460, 140, 140);
-    shapeModel.title = @"108";
-    shapeModel.shapeType = TRIANGLE;
-    shapeModel.fillColor = [UIColor brownColor];
-    shapeModel.angle = 45;
-    [shapes addObject:shapeModel];
+//
+//    shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(300, 50, 300, 200);
+//    shapeModel.title = @"102";
+//    shapeModel.shapeType = ELLIPSE;
+//    shapeModel.fillColor = [UIColor blueColor];
+//    [shapes addObject:shapeModel];
+//
+//    shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(650, 50, 120, 570);
+//    shapeModel.title = @"103";
+//    shapeModel.shapeType = RECTANGLE;
+//    shapeModel.fillColor = [UIColor greenColor];
+//    [shapes addObject:shapeModel];
+//
+//    shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(50, 300, 200, 300);
+//    shapeModel.title = @"104";
+//    shapeModel.shapeType = RECTANGLE;
+//    shapeModel.fillColor = [UIColor greenColor];
+//    [shapes addObject:shapeModel];
+//
+//    shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(300, 300, 140, 140);
+//    shapeModel.title = @"105";
+//    shapeModel.shapeType = DIAMOND;
+//    shapeModel.fillColor = [UIColor yellowColor];
+//    [shapes addObject:shapeModel];
+//
+//    shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(460, 300, 140, 140);
+//    shapeModel.title = @"106";
+//    shapeModel.shapeType = DIAMOND;
+//    shapeModel.fillColor = [UIColor yellowColor];
+//    [shapes addObject:shapeModel];
+//
+//    shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(300, 460, 140, 140);
+//    shapeModel.title = @"107";
+//    shapeModel.shapeType = TRIANGLE;
+//    shapeModel.fillColor = [UIColor brownColor];
+//    [shapes addObject:shapeModel];
+//
+//    shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(460, 460, 140, 140);
+//    shapeModel.title = @"108";
+//    shapeModel.shapeType = TRIANGLE;
+//    shapeModel.fillColor = [UIColor brownColor];
+//    shapeModel.angle = 45;
+//    [shapes addObject:shapeModel];
     return [shapes copy];
 }
 
@@ -232,7 +236,7 @@ typedef enum : NSUInteger {
     [self showFooterView:YES withAnimation:YES];
 }
 
-- (void)addItemIntoDatasource:(WMSpatialViewShape *)shapeModel{
+- (void)addItemIntoDatasource:(WMShape *)shapeModel{
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
     [mArray addObject:shapeModel];
     dataSource = [mArray copy];

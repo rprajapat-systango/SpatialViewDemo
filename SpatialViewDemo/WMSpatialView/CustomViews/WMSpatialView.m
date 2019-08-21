@@ -156,8 +156,13 @@ typedef enum : NSUInteger {
     contentSize.width += 2*self.margin;
     contentSize.height += 2*self.margin;
     
-    _contentView.frame = CGRectMake(0, 0, contentSize.width*self.zoomScale, contentSize.height*self.zoomScale);
-    self.contentSize = _contentView.frame.size;
+    CGSize desiredSize = self.bounds.size;
+    desiredSize.height = MAX(contentSize.height, desiredSize.height);
+    desiredSize.width = MAX(contentSize.width, desiredSize.width);
+    
+    _contentView.frame = CGRectMake(0, 0, desiredSize.width*self.zoomScale, desiredSize.height*self.zoomScale);
+
+    self.contentSize = desiredSize;
     [self.contentView setNeedsDisplay];
 }
 
