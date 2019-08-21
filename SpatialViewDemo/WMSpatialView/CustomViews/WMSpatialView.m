@@ -146,8 +146,15 @@ typedef enum : NSUInteger {
     }
 }
 
+-(void)setAspectRatio{
+    CGSize desiredSize = self.bounds.size;
+    CGSize size = [self getAspectFitSize:CGSizeMake(8.5, 11) boundingSize:desiredSize];
+    _contentView.frame = CGRectMake(0, 0, size.width*self.zoomScale, size.height*self.zoomScale);
+}
+
 - (void) contentViewSizeToFit{
-    CGRect rect = CGRectZero;
+    [self setAspectRatio];
+ /*   CGRect rect = CGRectZero;
     for (UIView *view in self.contentView.subviews) {
         if (view == viewShapeOutline) continue;
         rect = CGRectUnion(rect, view.frame);
@@ -164,6 +171,7 @@ typedef enum : NSUInteger {
 
     self.contentSize = desiredSize;
     [self.contentView setNeedsDisplay];
+  */
 }
 
 - (BOOL) isOverlappingView:(WMSpatialViewShape *)shape{
@@ -471,6 +479,20 @@ typedef enum : NSUInteger {
     {
         [b removeFromSuperview];
     }
+}
+
+- (CGSize) getAspectFitSize:(CGSize)aspectRatio boundingSize:(CGSize) boundingSize{
+    float mW = boundingSize.width / aspectRatio.width;
+    float mH = boundingSize.height / aspectRatio.height;
+    
+    if( mH < mW ) {
+        boundingSize.width = boundingSize.height / aspectRatio.height * aspectRatio.width;
+    }
+    else if( mW < mH ) {
+        boundingSize.height = boundingSize.width / aspectRatio.width * aspectRatio.height;
+    }
+    
+    return boundingSize;
 }
 
 @end

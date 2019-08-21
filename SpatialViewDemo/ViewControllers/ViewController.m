@@ -139,7 +139,7 @@ typedef enum : NSUInteger {
     shapeModel.frame = CGRectMake(0, 0, 200, 200);
     shapeModel.title = @"100";
     shapeModel.shapeType = (int)selectedShapeType;
-    shapeModel.fillColor = [UIColor purpleColor];//[UIColor colorWithRed:158.0/255.0    green:255.0/255.0 blue:158.0/255.0 alpha:1.0];
+    shapeModel.fillColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
     
     WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
     shape.center = point;
@@ -164,7 +164,7 @@ typedef enum : NSUInteger {
     shapeModel.frame = CGRectMake(50, 50, 200, 200);
     shapeModel.title = @"100";
     shapeModel.shapeType = ELLIPSE;
-    shapeModel.fillColor = [UIColor colorWithRed:0.35 green:0.64 blue:0.25 alpha:1.0]; //[UIColor cyanColor];
+    shapeModel.fillColor = [UIColor redColor];
     [shapes addObject:shapeModel];
 //
 //    shapeModel = [[WMShape alloc] init];

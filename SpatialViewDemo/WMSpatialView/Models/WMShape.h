@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WMShape : NSObject
 @property(assign) CGRect frame;
-@property(assign) UIColor *fillColor;
-@property(assign) UIColor *borderColor;
-@property(assign) NSString *title;
+@property(strong, retain) UIColor *fillColor;
+@property(strong, nonatomic) UIColor *borderColor;
+@property(strong, nonatomic) NSString *title;
 @property(assign) int shapeType;
 @property(assign) float angle; // 0.0 to 2_PI
 @end
