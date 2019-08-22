@@ -146,7 +146,7 @@ typedef enum : NSUInteger {
     }
 }
 
--(void)setAspectRatio{
+- (void)setAspectRatio{
     CGSize desiredSize = self.bounds.size;
     CGSize size = [self getAspectFitSize:CGSizeMake(8.5, 11) boundingSize:desiredSize];
     _contentView.frame = CGRectMake(0, 0, size.width*self.zoomScale, size.height*self.zoomScale);
@@ -154,7 +154,9 @@ typedef enum : NSUInteger {
 
 - (void) contentViewSizeToFit{
     [self setAspectRatio];
- /*   CGRect rect = CGRectZero;
+    
+  /*
+    CGRect rect = CGRectZero;
     for (UIView *view in self.contentView.subviews) {
         if (view == viewShapeOutline) continue;
         rect = CGRectUnion(rect, view.frame);
@@ -166,7 +168,7 @@ typedef enum : NSUInteger {
     CGSize desiredSize = self.bounds.size;
     desiredSize.height = MAX(contentSize.height, desiredSize.height);
     desiredSize.width = MAX(contentSize.width, desiredSize.width);
-    
+   
     _contentView.frame = CGRectMake(0, 0, desiredSize.width*self.zoomScale, desiredSize.height*self.zoomScale);
 
     self.contentSize = desiredSize;
@@ -175,9 +177,15 @@ typedef enum : NSUInteger {
 }
 
 - (BOOL) isOverlappingView:(WMSpatialViewShape *)shape{
+    // To avoid placing any shape outside of the graph view
+    if (CGRectGetMaxX(shape.frame) > CGRectGetMaxX(_contentView.frame)  || CGRectGetMaxY(shape.frame) > CGRectGetMaxY(_contentView.frame)) {
+        return YES;
+    }
+    
     if (self.allowOverlappingView){
         return NO;
     }
+    //
     for (UIView *view in self.contentView.subviews) {
         if (view == shape) continue;
         if ([view isKindOfClass:[WMSpatialViewShape class]]){

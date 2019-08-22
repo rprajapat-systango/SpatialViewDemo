@@ -38,7 +38,12 @@ typedef enum : NSUInteger {
     dataSource = [self getShapesModel];
     [self setupSpatialView];
     selectedShapeType = NONE;
-    [self showFooterView:NO withAnimation:NO] ;
+    [self showFooterView:NO withAnimation:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.spatialView contentViewSizeToFit];
 }
 
 - (IBAction)menuOptionTapped:(UIButton *)sender {
@@ -160,12 +165,12 @@ typedef enum : NSUInteger {
 - (NSArray *)getShapesModel {
     NSMutableArray *shapes = [NSMutableArray new];
 //
-    WMShape *shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(50, 50, 200, 200);
-    shapeModel.title = @"100";
-    shapeModel.shapeType = ELLIPSE;
-    shapeModel.fillColor = [UIColor redColor];
-    [shapes addObject:shapeModel];
+//    WMShape *shapeModel = [[WMShape alloc] init];
+//    shapeModel.frame = CGRectMake(50, 50, 200, 200);
+//    shapeModel.title = @"100";
+//    shapeModel.shapeType = ELLIPSE;
+//    shapeModel.fillColor = [UIColor redColor];
+//    [shapes addObject:shapeModel];
 //
 //    shapeModel = [[WMShape alloc] init];
 //    shapeModel.frame = CGRectMake(300, 50, 300, 200);
