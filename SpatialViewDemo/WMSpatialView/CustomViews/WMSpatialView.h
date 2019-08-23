@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @protocol WMSpatialViewDataSource <NSObject>
-- (NSInteger) numberOfItems;
+- (NSInteger)numberOfItemsInSpatialView:(WMSpatialView *)spatialView;
 - (WMSpatialViewShape *) spatialView:(WMSpatialView *)spatialView viewForItem:(NSInteger)index;
 - (nullable UIView *) spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape;
 
@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) setFocusOnView:(WMSpatialViewShape *)shape;
 - (void)setOutlineViewOverShape:(WMSpatialViewShape *)shape;
 - (void)clearAll;
+- (NSArray *)saveAllShapes;
 - (void) removeShape:(WMSpatialViewShape *)selectedShape;
 @end
 

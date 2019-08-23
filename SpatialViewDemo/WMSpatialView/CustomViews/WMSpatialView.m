@@ -51,10 +51,10 @@ typedef enum : NSUInteger {
     
     // Adding a all view shapes
     NSInteger totalItems;
-    if ([self.dataSource respondsToSelector:@selector(numberOfItems)]){
-        totalItems = [self.dataSource numberOfItems];
+    if ([self.dataSource respondsToSelector:@selector(numberOfItemsInSpatialView:)]){
+        totalItems = [self.dataSource numberOfItemsInSpatialView:self ];
     }else{
-        NSLog(@"method numberOfItems not found in %@", self.dataSource.description);
+        NSLog(@"method numberOfItemsInSpatialView: not found in %@", self.dataSource.description);
         return;
     }
     
@@ -383,7 +383,7 @@ typedef enum : NSUInteger {
             float newDistance = [self getDistanceBetweenPoint:fromPosition andPoint:location];
             NSLog(@"New Distance = %f",newDistance);
             
-            // after rotation is belongs to 90 to 180 or 270 to 360 degree then height and width will be exchange to each other
+            // After rotation is belongs to 90 to 180 or 270 to 360 degree then height and width will be exchange to each other
             BOOL shouldExchange = (multiplier == 1 || multiplier == 3);
             
             switch (newTag) {
@@ -438,6 +438,11 @@ typedef enum : NSUInteger {
             
             newRect.size.width = MAX(MIN_WIDTH, newRect.size.width);
             newRect.size.height = MAX(MIN_HEIGHT, newRect.size.height);
+            if (newRect.size.width == MIN_WIDTH && newRect.size.height == MIN_HEIGHT){
+                [gesture setEnabled:NO];
+                [gesture setEnabled:YES];
+            }
+            
             selectedShape.bounds = newRect;
             [selectedShape setNeedsDisplay];
             [self contentViewSizeToFit];
@@ -499,8 +504,20 @@ typedef enum : NSUInteger {
     else if( mW < mH ) {
         boundingSize.height = boundingSize.width / aspectRatio.width * aspectRatio.height;
     }
-    
     return boundingSize;
+}
+
+
+- (NSArray *)saveAllShapes{
+    NSMutableArray *shapeItems = [NSMutableArray new];
+    for (UIView *view in [_contentView subviews]){
+        if([view isKindOfClass:[WMSpatialViewShape class]]){
+            WMSpatialViewShape *shape = (WMSpatialViewShape *)view;
+            shape.shapeModel.frame = shape.frame;
+            [shapeItems addObject:shape.shapeModel];
+        }
+    }
+    return [shapeItems copy];
 }
 
 @end

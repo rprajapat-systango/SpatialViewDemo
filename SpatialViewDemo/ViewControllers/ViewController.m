@@ -19,6 +19,7 @@ typedef enum : NSUInteger {
 
 @interface ViewController (){
     NSArray *dataSource;
+    NSArray *originalItems;
     WMSpatialViewShape *selectedShape;
     CGRect previousShapeFrame;
     CGRect previousOutlineFrame;
@@ -46,12 +47,35 @@ typedef enum : NSUInteger {
     [self.spatialView contentViewSizeToFit];
 }
 
-- (IBAction)menuOptionTapped:(UIButton *)sender {
-    [self perfomrActionOnShapeUsingMenuOption:sender.tag];
+- (void)setupSpatialView {
+    self.spatialView.actionDelegate = self;
+    self.spatialView.dataSource = self;
+    self.spatialView.margin = 20;
+    self.spatialView.minimumZoomScale = 0.4;
+    self.spatialView.maximumZoomScale = 1.5;
+    [self.spatialView reloadShapes];
 }
 
-- (IBAction)addShapeAction:(UIButton *)sender {
+- (void)showFooterView:(BOOL)isShow withAnimation:(BOOL) animated{
+    NSLayoutConstraint *heightConstraint;
+    for (NSLayoutConstraint *constraint in self.footerView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+            heightConstraint = constraint;
+            break;
+        }
+    }
     
+    if (animated){
+        [UIView animateWithDuration:0.4 animations:^{
+            heightConstraint.constant = isShow ? 40.0 : 0.0;
+        }];
+    }else{
+        heightConstraint.constant = isShow ? 40.0 : 0.0;
+    }
+}
+
+- (IBAction)menuOptionTapped:(UIButton *)sender {
+    [self perfomrActionOnShapeUsingMenuOption:sender.tag];
 }
 
 - (IBAction)allowOverlappingAction:(UISwitch *)sender {
@@ -59,8 +83,13 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)resetAllShapes:(id)sender {
+    dataSource = originalItems;
     [self.spatialView clearAll];
     [self.spatialView reloadShapes];
+}
+
+- (IBAction)saveAllShapes:(id)sender {
+    originalItems = [self.spatialView saveAllShapes];
 }
 
 - (void)perfomrActionOnShapeUsingMenuOption:(WMSpatialViewMenuOptions)option{
@@ -72,40 +101,28 @@ typedef enum : NSUInteger {
             [self.spatialView setOutlineViewOverShape:selectedShape];
             [self.spatialView contentViewSizeToFit];
             break;
-        case Resize:
-            // Code for resize shape
-            NSLog(@"Resize");
-            break;
         case Delete:
-            // Code for move shape
+            // Code for delete shape
             NSLog(@"Delete");
             if (selectedShape){
                 [self removeItemFromDatasource:selectedShape];
             }
             break;
         case Copy:
-            // Code for delete shape
+            // Code for copy shape
             NSLog(@"Copy");
-//            [self.spatialView clearSelection];
             if (selectedShape){
                 selectedShapeType = selectedShape.shapeType;
                 [self showFooterView:YES withAnimation:YES];
             }
             break;
+        default:
+            break;
     }
 }
 
-- (void)setupSpatialView {
-    self.spatialView.actionDelegate = self;
-    self.spatialView.dataSource = self;
-    self.spatialView.margin = 20;
-    self.spatialView.minimumZoomScale = 0.4;
-    self.spatialView.maximumZoomScale = 1.5;
-    [self.spatialView reloadShapes];
-}
-
 #pragma mark WMSpatialViewDatasource
-- (NSInteger)numberOfItems{
+- (NSInteger)numberOfItemsInSpatialView:(WMSpatialView *)spatialView {
     return dataSource.count;
 }
 
@@ -164,7 +181,7 @@ typedef enum : NSUInteger {
 
 - (NSArray *)getShapesModel {
     NSMutableArray *shapes = [NSMutableArray new];
-//
+
 //    WMShape *shapeModel = [[WMShape alloc] init];
 //    shapeModel.frame = CGRectMake(50, 50, 200, 200);
 //    shapeModel.title = @"100";
@@ -247,29 +264,13 @@ typedef enum : NSUInteger {
     dataSource = [mArray copy];
 }
 
-- (void)removeItemFromDatasource:(WMSpatialViewShape *)shapeModel{
+- (void)removeItemFromDatasource:(WMSpatialViewShape *)shape{
     [self.spatialView removeShape:selectedShape];
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
-    [mArray removeObject:shapeModel];
+    [mArray removeObject:shape.shapeModel];
     dataSource = [mArray copy];
 }
 
-- (void)showFooterView:(BOOL)isShow withAnimation:(BOOL) animated{
-    NSLayoutConstraint *heightConstraint;
-    for (NSLayoutConstraint *constraint in self.footerView.constraints) {
-        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-            heightConstraint = constraint;
-            break;
-        }
-    }
-    
-    if (animated){
-        [UIView animateWithDuration:0.4 animations:^{
-            heightConstraint.constant = isShow ? 40.0 : 0.0;
-        }];
-    }else{
-            heightConstraint.constant = isShow ? 40.0 : 0.0;
-    }
-}
+
 
 @end

@@ -28,11 +28,11 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to place the shape" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n0-9j-syC">
                                         <rect key="frame" x="287" y="0.0" width="194.5" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" white="0.29749036820000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" red="0.43529411759999997" green="0.78823529410000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.82352941180000006" green="0.82352941180000006" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="9n0-9j-syC" firstAttribute="top" secondItem="afK-cX-IX5" secondAttribute="top" id="11U-zm-Yxn"/>
                                     <constraint firstAttribute="height" constant="40" id="U1s-xB-avX"/>
@@ -72,10 +72,19 @@
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="addShapeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tMG-GD-zg1"/>
                                     <segue destination="3tz-Io-Yfw" kind="popoverPresentation" identifier="segueShapeSelection" popoverAnchorView="pu3-ek-pLA" id="dew-mh-c8e">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                     </segue>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpN-Yc-Fnx">
+                                <rect key="frame" x="109" y="32" width="34" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="9zS-rg-CXr"/>
+                                </constraints>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveAllShapes:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iYP-py-6ai"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -90,11 +99,13 @@
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="TPv-1n-euv" secondAttribute="bottom" constant="8" id="HB4-S9-bTO"/>
                             <constraint firstItem="afK-cX-IX5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="L8A-Re-b53"/>
                             <constraint firstItem="afK-cX-IX5" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="XU0-lV-d22"/>
+                            <constraint firstItem="bpN-Yc-Fnx" firstAttribute="leading" secondItem="TPv-1n-euv" secondAttribute="trailing" constant="50" id="fiG-vf-tl4"/>
                             <constraint firstItem="pu3-ek-pLA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TPv-1n-euv" secondAttribute="trailing" constant="10" id="gyY-ZQ-4eN"/>
                             <constraint firstItem="TPv-1n-euv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="k3N-vV-2hK"/>
                             <constraint firstItem="pu3-ek-pLA" firstAttribute="centerY" secondItem="9tp-RH-AMQ" secondAttribute="centerY" id="l1c-au-5Os"/>
                             <constraint firstItem="5aL-at-SKb" firstAttribute="leading" secondItem="9tp-RH-AMQ" secondAttribute="trailing" constant="16" id="loH-m2-1ex"/>
                             <constraint firstItem="9tp-RH-AMQ" firstAttribute="centerY" secondItem="5aL-at-SKb" secondAttribute="centerY" id="ouL-Xd-tOv"/>
+                            <constraint firstItem="bpN-Yc-Fnx" firstAttribute="top" secondItem="TPv-1n-euv" secondAttribute="top" id="uIt-Cj-gH6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6Jd-m3-IBi" secondAttribute="trailing" id="wcT-HT-AJe"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="5aL-at-SKb" secondAttribute="bottom" constant="8" id="zGI-RZ-Iow"/>
                         </constraints>

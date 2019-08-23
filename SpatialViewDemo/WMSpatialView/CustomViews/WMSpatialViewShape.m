@@ -47,6 +47,7 @@
 - (instancetype)initWithModel:(WMShape *)shapeModel{
     self = [super initWithFrame:shapeModel.frame];
     if (self) {
+        self.shapeModel= shapeModel;
         self.shapeType = shapeModel.shapeType;
         self.color = shapeModel.fillColor;
         self.borderColor = shapeModel.borderColor;

@@ -33,6 +33,7 @@ typedef enum : NSUInteger {
 @property(nonatomic, assign) BOOL isSelected;
 @property (weak) id<WMSpatialViewShapeDelegate> delegate;
 @property(assign) Shape shapeType;
+@property (strong, nonatomic) WMShape *shapeModel;
 - (void)configureWithType:(Shape)type;
 - (CGFloat)getAngleFromTransform;
 - (void)rotateByAngle:(CGFloat)angle;
