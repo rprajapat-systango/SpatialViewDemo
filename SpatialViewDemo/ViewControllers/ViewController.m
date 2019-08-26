@@ -25,6 +25,7 @@ typedef enum : NSUInteger {
     CGRect previousOutlineFrame;
     CGPoint previousTouchPoint;
     Shape selectedShapeType;
+    WMSpatialViewShape *shapeToCopy;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *viewShapeSelection;
@@ -48,11 +49,13 @@ typedef enum : NSUInteger {
 }
 
 - (void)setupSpatialView {
+    [self.spatialView setAspectRatio:CGSizeMake(8.5, 11.0)];
     self.spatialView.actionDelegate = self;
     self.spatialView.dataSource = self;
     self.spatialView.margin = 20;
-    self.spatialView.minimumZoomScale = 0.4;
-    self.spatialView.maximumZoomScale = 1.5;
+//    self.spatialView.minimumZoomScale = 0.4;
+//    self.spatialView.maximumZoomScale = 1.5;
+    [self.spatialView setMinMaxZoomScale];
     [self.spatialView reloadShapes];
 }
 
@@ -112,6 +115,7 @@ typedef enum : NSUInteger {
             // Code for copy shape
             NSLog(@"Copy");
             if (selectedShape){
+                shapeToCopy = selectedShape;
                 selectedShapeType = selectedShape.shapeType;
                 [self showFooterView:YES withAnimation:YES];
             }
@@ -130,6 +134,7 @@ typedef enum : NSUInteger {
     if (index < dataSource.count){
         WMShape *shapeModel = [dataSource objectAtIndex:index];
         WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
+        [shape rotateByAngle:shapeModel.angle];
         return shape;
     }
      return nil;
@@ -158,17 +163,24 @@ typedef enum : NSUInteger {
 
 - (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView shapeToAddAt:(CGPoint) point{
     WMShape *shapeModel = [[WMShape alloc] init];
-    shapeModel.frame = CGRectMake(0, 0, 200, 200);
+    if (shapeToCopy){
+        shapeModel.frame = shapeToCopy.bounds;
+        shapeModel.angle = [shapeToCopy getAngleFromTransform];
+    }else{
+        shapeModel.frame = CGRectMake(0, 0, 50, 50);
+    }
+    
     shapeModel.title = @"100";
     shapeModel.shapeType = (int)selectedShapeType;
     shapeModel.fillColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
-    
     WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
+    [shape rotateByAngle:shapeModel.angle];
     shape.center = point;
     shapeModel.frame = shape.frame;
     [self addItemIntoDatasource:shapeModel];
     
     selectedShapeType = NONE;
+    shapeToCopy = nil;
     return shape;
 }
 

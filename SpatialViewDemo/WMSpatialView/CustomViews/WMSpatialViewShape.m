@@ -52,7 +52,7 @@
         self.color = shapeModel.fillColor;
         self.borderColor = shapeModel.borderColor;
         self.title = shapeModel.title;
-        self.rotation = 0.0;
+//        self.rotation = shapeModel.angle;
         self.partyName = @"5";
         [self setupView];
     }
@@ -105,8 +105,10 @@
         default:
             break;
     }
+    
     [self addStackView];
     [self setData];
+//    [self rotateByAngle:self.rotation];
 }
 
 - (void)configureLables{

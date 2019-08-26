@@ -9,8 +9,8 @@
 #import "WMSpatialView.h"
 #import "WMSpatialViewShape.h"
 
-#define MIN_WIDTH 150
-#define MIN_HEIGHT 150
+#define MIN_WIDTH 100
+#define MIN_HEIGHT 100
 
 typedef enum : NSUInteger {
     Up = 10,
@@ -148,12 +148,13 @@ typedef enum : NSUInteger {
 
 - (void)setAspectRatio{
     CGSize desiredSize = self.bounds.size;
-    CGSize size = [self getAspectFitSize:CGSizeMake(8.5, 11) boundingSize:desiredSize];
+    CGSize size = [self getAspectFitSize:self.aspectRatio boundingSize:desiredSize];
     _contentView.frame = CGRectMake(0, 0, size.width*self.zoomScale, size.height*self.zoomScale);
 }
 
 - (void) contentViewSizeToFit{
     [self setAspectRatio];
+    _contentView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
     
   /*
     CGRect rect = CGRectZero;
@@ -302,6 +303,26 @@ typedef enum : NSUInteger {
 
 }
 
+- (void)gestureEndDragging:(WMSpatialViewShape *)selectedShape {
+    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
+    selectedShape.layer.anchorPoint = CGPointMake(0.5, 0.5);
+    if([self isOverlappingView:selectedShape]){
+        [UIView animateWithDuration:0.5 animations:^{
+            selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
+            selectedShape.layer.anchorPoint = CGPointMake(0.5, 0.5);
+            selectedShape.center = self->fromPosition;
+            selectedShape.bounds = self->previousFrame;
+            [self setOutlineViewOverShape:selectedShape];
+        } completion:^(BOOL finished) {
+            self->viewShapeOutline.alpha = 1.0;
+        }];
+    }else{
+        [self setOutlineViewOverShape:selectedShape];
+        self->viewShapeOutline.alpha = 1.0;
+    }
+    self.userInteractionEnabled = YES;
+}
+
 // Gesture
 - (void)handlePanForDragToResize:(UIPanGestureRecognizer *)gesture
 {
@@ -329,8 +350,12 @@ typedef enum : NSUInteger {
             rotation = [selectedShape getAngleFromTransform];
             CGPoint scaledPosition = CGPointMake(anchorView.layer.position.x,  anchorView.layer.position.y);
             
+            NSLog(@"Change Size From [ %@ to %@]", NSStringFromCGPoint(anchorView.layer.position), NSStringFromCGPoint(scaledPosition));
+//            CGPoint scaledPosition = CGPointMake(anchorView.layer.position.x,  anchorView.layer.position.y );
+            
             float theScale = 1.0 / self.zoomScale;
-            CGPoint point = [viewShapeOutline convertPoint:scaledPosition toView:self];
+            CGPoint globalPosition = [viewShapeOutline convertPoint:scaledPosition toView:self];
+            CGPoint point = CGPointMake(globalPosition.x - CGRectGetMinX(_contentView.frame), globalPosition.y - CGRectGetMinY(_contentView.frame));
             selectedShape.layer.position = CGPointMake(point.x * theScale,  point.y * theScale);
             
             switch (button.tag) {
@@ -438,35 +463,29 @@ typedef enum : NSUInteger {
             
             newRect.size.width = MAX(MIN_WIDTH, newRect.size.width);
             newRect.size.height = MAX(MIN_HEIGHT, newRect.size.height);
-            if (newRect.size.width == MIN_WIDTH && newRect.size.height == MIN_HEIGHT){
+            if (newRect.size.width <= MIN_WIDTH && newRect.size.height <= MIN_HEIGHT){
+                // Disabling gesture, when the shap size is reaches to the minimum allowed size.
                 [gesture setEnabled:NO];
                 [gesture setEnabled:YES];
+                selectedShape.bounds = newRect;
+                [selectedShape setNeedsDisplay];
+                [self contentViewSizeToFit];
+                previousTouchPosition = location;
+                touchMovingDistance = newDistance;
+                [self gestureEndDragging:selectedShape];
+                NSLog(@"Disabling gesture, when the shap size is reaches to the minimum allowed size");
             }
-            
-            selectedShape.bounds = newRect;
-            [selectedShape setNeedsDisplay];
-            [self contentViewSizeToFit];
-            previousTouchPosition = location;
-            touchMovingDistance = newDistance;
+            else{
+                // Set new frame to the shape after darg gesture.
+                selectedShape.bounds = newRect;
+                [selectedShape setNeedsDisplay];
+                [self contentViewSizeToFit];
+                previousTouchPosition = location;
+                touchMovingDistance = newDistance;
+            }
             break;
         default:
-            selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
-            selectedShape.layer.anchorPoint = CGPointMake(0.5, 0.5);
-            if([self isOverlappingView:selectedShape]){
-                [UIView animateWithDuration:0.5 animations:^{
-                    selectedShape.layer.position = CGPointMake(CGRectGetMidX(selectedShape.frame), CGRectGetMidY(selectedShape.frame));
-                    selectedShape.layer.anchorPoint = CGPointMake(0.5, 0.5);
-                    selectedShape.center = self->fromPosition;
-                    selectedShape.bounds = self->previousFrame;
-                    [self setOutlineViewOverShape:selectedShape];
-                } completion:^(BOOL finished) {
-                    self->viewShapeOutline.alpha = 1.0;
-                }];
-            }else{
-                [self setOutlineViewOverShape:selectedShape];
-                self->viewShapeOutline.alpha = 1.0;
-            }
-            self.userInteractionEnabled = YES;
+            [self gestureEndDragging:selectedShape];
             break;
     }
 }
@@ -514,10 +533,22 @@ typedef enum : NSUInteger {
         if([view isKindOfClass:[WMSpatialViewShape class]]){
             WMSpatialViewShape *shape = (WMSpatialViewShape *)view;
             shape.shapeModel.frame = shape.frame;
+            shape.shapeModel.angle = [shape getAngleFromTransform];
             [shapeItems addObject:shape.shapeModel];
         }
     }
     return [shapeItems copy];
 }
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    _contentView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+}
+
+- (void)setMinMaxZoomScale{
+    self.minimumZoomScale = 0.1;
+    self.maximumZoomScale = 5.5;
+}
+
 
 @end

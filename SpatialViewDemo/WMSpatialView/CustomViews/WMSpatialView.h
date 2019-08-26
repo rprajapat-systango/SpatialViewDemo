@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) id<WMSpatialViewDelegate> actionDelegate;
 
 @property (assign) BOOL allowOverlappingView;
+@property (assign) CGSize aspectRatio;
 
 @property (strong) WMGraphView *contentView;
 - (void)reloadShapes;
@@ -45,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setOutlineViewOverShape:(WMSpatialViewShape *)shape;
 - (void)clearAll;
 - (NSArray *)saveAllShapes;
+- (void)setMinMaxZoomScale;
 - (void) removeShape:(WMSpatialViewShape *)selectedShape;
 @end
 
