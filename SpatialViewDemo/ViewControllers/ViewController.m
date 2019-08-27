@@ -49,12 +49,11 @@ typedef enum : NSUInteger {
 }
 
 - (void)setupSpatialView {
+    self.spatialView.allowOverlappingView = YES;
     [self.spatialView setAspectRatio:CGSizeMake(8.5, 11.0)];
     self.spatialView.actionDelegate = self;
     self.spatialView.dataSource = self;
     self.spatialView.margin = 20;
-//    self.spatialView.minimumZoomScale = 0.4;
-//    self.spatialView.maximumZoomScale = 1.5;
     [self.spatialView setMinMaxZoomScale];
     [self.spatialView reloadShapes];
 }
@@ -118,6 +117,7 @@ typedef enum : NSUInteger {
                 shapeToCopy = selectedShape;
                 selectedShapeType = selectedShape.shapeType;
                 [self showFooterView:YES withAnimation:YES];
+                [self.spatialView clearSelection];
             }
             break;
         default:
@@ -167,7 +167,7 @@ typedef enum : NSUInteger {
         shapeModel.frame = shapeToCopy.bounds;
         shapeModel.angle = [shapeToCopy getAngleFromTransform];
     }else{
-        shapeModel.frame = CGRectMake(0, 0, 50, 50);
+        shapeModel.frame = CGRectMake(0, 0, 80, 80);
     }
     
     shapeModel.title = @"100";

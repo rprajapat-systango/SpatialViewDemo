@@ -40,18 +40,6 @@
                                     <constraint firstAttribute="bottom" secondItem="9n0-9j-syC" secondAttribute="bottom" id="xEg-nc-AZU"/>
                                 </constraints>
                             </view>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5aL-at-SKb">
-                                <rect key="frame" x="697" y="31" width="51" height="31"/>
-                                <connections>
-                                    <action selector="allowOverlappingAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="I50-gB-LNz"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow overlapping" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tp-RH-AMQ">
-                                <rect key="frame" x="546" y="36" width="135" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TPv-1n-euv">
                                 <rect key="frame" x="20" y="32" width="39" height="30"/>
                                 <constraints>
@@ -63,7 +51,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pu3-ek-pLA">
-                                <rect key="frame" x="486" y="31.5" width="30" height="30"/>
+                                <rect key="frame" x="722" y="31.5" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="eaw-EA-79u"/>
                                 </constraints>
@@ -90,9 +78,9 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5aL-at-SKb" secondAttribute="trailing" constant="22" id="3PM-Fy-CBz"/>
-                            <constraint firstItem="9tp-RH-AMQ" firstAttribute="leading" secondItem="pu3-ek-pLA" secondAttribute="trailing" constant="30" id="4H6-L3-sfM"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="99E-yU-ZGp"/>
+                            <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="pu3-ek-pLA" secondAttribute="bottom" constant="8.5" id="AYX-uc-kZN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pu3-ek-pLA" secondAttribute="trailing" constant="16" id="BAP-lA-Qus"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6Jd-m3-IBi" secondAttribute="bottom" id="BVb-WU-Eub"/>
                             <constraint firstItem="afK-cX-IX5" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="C6z-Ca-CxH"/>
                             <constraint firstItem="6Jd-m3-IBi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="D5N-Co-h5a"/>
@@ -102,12 +90,8 @@
                             <constraint firstItem="bpN-Yc-Fnx" firstAttribute="leading" secondItem="TPv-1n-euv" secondAttribute="trailing" constant="50" id="fiG-vf-tl4"/>
                             <constraint firstItem="pu3-ek-pLA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TPv-1n-euv" secondAttribute="trailing" constant="10" id="gyY-ZQ-4eN"/>
                             <constraint firstItem="TPv-1n-euv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="k3N-vV-2hK"/>
-                            <constraint firstItem="pu3-ek-pLA" firstAttribute="centerY" secondItem="9tp-RH-AMQ" secondAttribute="centerY" id="l1c-au-5Os"/>
-                            <constraint firstItem="5aL-at-SKb" firstAttribute="leading" secondItem="9tp-RH-AMQ" secondAttribute="trailing" constant="16" id="loH-m2-1ex"/>
-                            <constraint firstItem="9tp-RH-AMQ" firstAttribute="centerY" secondItem="5aL-at-SKb" secondAttribute="centerY" id="ouL-Xd-tOv"/>
                             <constraint firstItem="bpN-Yc-Fnx" firstAttribute="top" secondItem="TPv-1n-euv" secondAttribute="top" id="uIt-Cj-gH6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6Jd-m3-IBi" secondAttribute="trailing" id="wcT-HT-AJe"/>
-                            <constraint firstItem="6Jd-m3-IBi" firstAttribute="top" secondItem="5aL-at-SKb" secondAttribute="bottom" constant="8" id="zGI-RZ-Iow"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

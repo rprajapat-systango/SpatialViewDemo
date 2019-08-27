@@ -154,7 +154,13 @@ typedef enum : NSUInteger {
 
 - (void) contentViewSizeToFit{
     [self setAspectRatio];
-    _contentView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    
+    CGSize desiredSize = _contentView.bounds.size;
+    desiredSize.width += 2 * CGRectGetMinX(_contentView.frame);
+    desiredSize.height += 2 * CGRectGetMinX(_contentView.frame);
+    
+    self.contentSize = desiredSize;
+    [self.contentView setNeedsDisplay];
     
   /*
     CGRect rect = CGRectZero;
@@ -538,11 +544,6 @@ typedef enum : NSUInteger {
         }
     }
     return [shapeItems copy];
-}
-
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    _contentView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 }
 
 - (void)setMinMaxZoomScale{
