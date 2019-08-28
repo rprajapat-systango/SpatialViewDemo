@@ -7,7 +7,7 @@
 //
 
 #import "WMGraphView.h"
-#define space 50
+
 @implementation WMGraphView
 
 
@@ -26,6 +26,7 @@
     float H = rect->size.height;
     
     // Adding vertical lines
+    int space = MIN(self.bounds.size.width/10, self.bounds.size.height/10);
     int x = space;
     while (x < W) {
         CGContextMoveToPoint(context, x, 0);

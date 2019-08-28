@@ -7,6 +7,7 @@
 //
 
 #import "WMSpatialViewShape.h"
+#import "WMSpatialView.h"
 @interface WMSpatialViewShape(){
     
 }
@@ -106,7 +107,7 @@
             break;
     }
     
-    [self addStackView];
+    [self addStackView:rect];
     [self setData];
 //    [self rotateByAngle:self.rotation];
 }
@@ -117,7 +118,17 @@
     _labelResourceName.backgroundColor = [UIColor clearColor];
     _labelResourceName.adjustsFontSizeToFitWidth = YES;
     _labelResourceName.minimumScaleFactor = 0.6;
-    [_labelResourceName setFont:[UIFont boldSystemFontOfSize:24]];
+    if ([WMSpatialView isDeviceTypeIpad])
+    {
+        // Ipad
+        [_labelResourceName setFont:[UIFont boldSystemFontOfSize:24]];
+    }
+    else
+    {
+        // Iphone
+        [_labelResourceName setFont:[UIFont boldSystemFontOfSize:16]];
+    }
+    
     // Configuring Party name label
     _labelPartyName.textColor = [UIColor whiteColor];
     _labelPartyName.backgroundColor = [UIColor blueColor];
@@ -127,7 +138,7 @@
     [self configureLables];
     _labelResourceName.text = self.title;
     [_labelResourceName sizeToFit];
-    _labelPartyName.text = self.partyName;//[NSString stringWithFormat:@" %lu ",(unsigned long)size];
+    _labelPartyName.text = self.partyName;
     [_labelPartyName sizeToFit];
     [self updateStackViewTransform];
 }
@@ -215,7 +226,7 @@
     [self addBorder:points size:3];
 }
 
--  (void)addStackView{
+-  (void)addStackView:(CGRect)rect {
     if(!_stackView){
         _stackView = [[UIStackView alloc] init];
         _stackView.axis = UILayoutConstraintAxisVertical;
@@ -231,14 +242,6 @@
 
 - (void) setupStackViewCenterConstraints:(UIStackView *)stackView{
     stackView.translatesAutoresizingMaskIntoConstraints = false;
-    
-    if (@available(iOS 11.0, *)) {
-        [stackView.leadingAnchor constraintGreaterThanOrEqualToSystemSpacingAfterAnchor:self.leadingAnchor multiplier:3].active = YES;
-    }else {
-        // Fallback on earlier versions
-        [stackView.leadingAnchor
-         constraintEqualToAnchor:self.leadingAnchor].active = YES;
-    }
     [stackView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor constant:0].active = YES;
     [stackView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor constant:0].active = YES;
 }

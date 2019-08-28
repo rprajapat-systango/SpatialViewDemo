@@ -140,8 +140,12 @@
                             <rect key="frame" x="0.0" y="160" width="40" height="40"/>
                             <color key="backgroundColor" red="0.82352941180000006" green="0.82352941180000006" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="brZ-4s-lPi"/>
-                                <constraint firstAttribute="width" constant="40" id="hJU-2k-Lfv"/>
+                                <constraint firstAttribute="height" constant="40" id="brZ-4s-lPi">
+                                    <variation key="heightClass=regular" constant="40"/>
+                                </constraint>
+                                <constraint firstAttribute="width" constant="40" id="hJU-2k-Lfv">
+                                    <variation key="heightClass=regular" constant="40"/>
+                                </constraint>
                             </constraints>
                             <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
@@ -351,7 +355,7 @@
                     <viewLayoutGuide key="safeArea" id="8gG-Qz-tcN"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="-201.5625" y="9.9609375"/>
+            <point key="canvasLocation" x="-492" y="26"/>
         </scene>
         <!--Shape Selection View Controller-->
         <scene sceneID="LkD-3U-NhN">
@@ -368,19 +372,19 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WMShapeSelectionTableViewCell" rowHeight="61" id="jQQ-Sy-Wpa" customClass="WMShapeSelectionTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="300" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jQQ-Sy-Wpa" id="Llq-h3-qxQ">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jQQ-Sy-Wpa" id="Llq-h3-qxQ">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="60.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZrA-Wu-CD6" customClass="WMSpatialViewShape">
-                                                    <rect key="frame" x="16" y="12.5" width="36" height="30"/>
+                                                    <rect key="frame" x="16" y="15.5" width="36" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="36" id="E6L-XR-Z0R"/>
                                                         <constraint firstAttribute="height" constant="30" id="iNk-SI-30h"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shape" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pjn-rZ-Whk">
-                                                    <rect key="frame" x="60" y="17" width="49" height="21"/>
+                                                    <rect key="frame" x="60" y="20" width="49" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>

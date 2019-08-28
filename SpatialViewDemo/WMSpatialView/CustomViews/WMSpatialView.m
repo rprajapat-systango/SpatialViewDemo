@@ -9,8 +9,8 @@
 #import "WMSpatialView.h"
 #import "WMSpatialViewShape.h"
 
-#define MIN_WIDTH 100
-#define MIN_HEIGHT 100
+//#define MIN_WIDTH 100
+//#define MIN_HEIGHT 100
 
 typedef enum : NSUInteger {
     Up = 10,
@@ -29,8 +29,8 @@ typedef enum : NSUInteger {
     CGAffineTransform previousShapeTransform;
     CGFloat touchMovingDistance;
     CGFloat rotation;
+    CGPoint layerAnchorPosition;
 }
-
 @end
 
 @implementation WMSpatialView
@@ -185,7 +185,7 @@ typedef enum : NSUInteger {
 
 - (BOOL) isOverlappingView:(WMSpatialViewShape *)shape{
     // To avoid placing any shape outside of the graph view
-    if (CGRectGetMaxX(shape.frame) > CGRectGetMaxX(_contentView.frame)  || CGRectGetMaxY(shape.frame) > CGRectGetMaxY(_contentView.frame)) {
+    if (CGRectGetMaxX(shape.frame)*self.zoomScale > CGRectGetMaxX(_contentView.frame)  || CGRectGetMaxY(shape.frame)*self.zoomScale > CGRectGetMaxY(_contentView.frame)) {
         return YES;
     }
     
@@ -352,18 +352,17 @@ typedef enum : NSUInteger {
             previousFrame = selectedShape.bounds;
             previousTouchPosition = location;
             previousShapeTransform = selectedShape.transform;
-            
             rotation = [selectedShape getAngleFromTransform];
             CGPoint scaledPosition = CGPointMake(anchorView.layer.position.x,  anchorView.layer.position.y);
             
             NSLog(@"Change Size From [ %@ to %@]", NSStringFromCGPoint(anchorView.layer.position), NSStringFromCGPoint(scaledPosition));
-//            CGPoint scaledPosition = CGPointMake(anchorView.layer.position.x,  anchorView.layer.position.y );
             
             float theScale = 1.0 / self.zoomScale;
             CGPoint globalPosition = [viewShapeOutline convertPoint:scaledPosition toView:self];
             CGPoint point = CGPointMake(globalPosition.x - CGRectGetMinX(_contentView.frame), globalPosition.y - CGRectGetMinY(_contentView.frame));
-            selectedShape.layer.position = CGPointMake(point.x * theScale,  point.y * theScale);
-            
+            CGPoint anchorPosition = CGPointMake(point.x * theScale,  point.y * theScale);
+            selectedShape.layer.position = anchorPosition;
+            layerAnchorPosition = anchorPosition;
             switch (button.tag) {
                 case Up:
                     selectedShape.layer.anchorPoint = CGPointMake(.5, 1);
@@ -411,7 +410,7 @@ typedef enum : NSUInteger {
                 newTag = newTag%40 == 0 ? 40 : newTag%40;
             }
             
-            float newDistance = [self getDistanceBetweenPoint:fromPosition andPoint:location];
+            float newDistance = [self getDistanceBetweenPoint:layerAnchorPosition andPoint:location];
             NSLog(@"New Distance = %f",newDistance);
             
             // After rotation is belongs to 90 to 180 or 270 to 360 degree then height and width will be exchange to each other
@@ -466,10 +465,10 @@ typedef enum : NSUInteger {
                 default:
                     break;
             }
-            
-            newRect.size.width = MAX(MIN_WIDTH, newRect.size.width);
-            newRect.size.height = MAX(MIN_HEIGHT, newRect.size.height);
-            if (newRect.size.width <= MIN_WIDTH && newRect.size.height <= MIN_HEIGHT){
+            CGSize minSize = [self getMinSize];
+            newRect.size.width = MAX(minSize.width, newRect.size.width);
+            newRect.size.height = MAX(minSize.height, newRect.size.height);
+            if (newRect.size.width <= minSize.width && newRect.size.height <= minSize.height){
                 // Disabling gesture, when the shap size is reaches to the minimum allowed size.
                 [gesture setEnabled:NO];
                 [gesture setEnabled:YES];
@@ -549,6 +548,14 @@ typedef enum : NSUInteger {
 - (void)setMinMaxZoomScale{
     self.minimumZoomScale = 0.1;
     self.maximumZoomScale = 5.5;
+}
+
+- (CGSize) getMinSize{
+    int min = MIN(self.contentView.bounds.size.width/7, self.contentView.bounds.size.height/7);
+    return CGSizeMake(min, min);
+}
++ (BOOL)isDeviceTypeIpad{
+    return  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 }
 
 

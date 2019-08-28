@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray *)saveAllShapes;
 - (void)setMinMaxZoomScale;
 - (void) removeShape:(WMSpatialViewShape *)selectedShape;
++ (BOOL)isDeviceTypeIpad;
 @end
 
 NS_ASSUME_NONNULL_END

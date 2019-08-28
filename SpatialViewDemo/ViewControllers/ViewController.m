@@ -14,7 +14,7 @@ typedef enum : NSUInteger {
     Rotate = 100,
     Resize = 200,
     Delete = 300,
-    Copy = 400,
+      Copy = 400,
 } WMSpatialViewMenuOptions;
 
 @interface ViewController (){
@@ -53,7 +53,7 @@ typedef enum : NSUInteger {
     [self.spatialView setAspectRatio:CGSizeMake(8.5, 11.0)];
     self.spatialView.actionDelegate = self;
     self.spatialView.dataSource = self;
-    self.spatialView.margin = 20;
+    self.spatialView.margin = 2;
     [self.spatialView setMinMaxZoomScale];
     [self.spatialView reloadShapes];
 }
@@ -167,7 +167,9 @@ typedef enum : NSUInteger {
         shapeModel.frame = shapeToCopy.bounds;
         shapeModel.angle = [shapeToCopy getAngleFromTransform];
     }else{
-        shapeModel.frame = CGRectMake(0, 0, 80, 80);
+        float minSize = MIN(self.spatialView.contentView.bounds.size.width, self.spatialView.contentView.bounds.size.height);
+        CGSize shapeSize = CGSizeMake(minSize*self.spatialView.zoomScale/7, minSize*self.spatialView.zoomScale/7);
+        shapeModel.frame = CGRectMake(0, 0, shapeSize.width, shapeSize.height);
     }
     
     shapeModel.title = @"100";
