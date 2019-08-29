@@ -46,8 +46,5 @@
     CGContextStrokePath(context);
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-}
 
 @end

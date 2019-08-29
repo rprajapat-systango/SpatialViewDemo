@@ -45,8 +45,14 @@
     self.stackView.transform = CGAffineTransformInvert(self.transform);
 }
 
-- (instancetype)initWithModel:(WMShape *)shapeModel{
-    self = [super initWithFrame:shapeModel.frame];
+- (instancetype)initWithModel:(WMShape *)shapeModel aspectRatio:(CGSize)aspectRatio{
+    NSLog(@"Aspect Ration : %@", NSStringFromCGSize(aspectRatio));
+    if (shapeModel.frame.size.width < 1.0 && shapeModel.frame.size.height < 1.0 ){
+        CGRect rect =  CGRectMake(shapeModel.frame.origin.x*aspectRatio.width, shapeModel.frame.origin.y*aspectRatio.height, shapeModel.frame.size.width*aspectRatio.width, shapeModel.frame.size.height*aspectRatio.height);
+        self = [super initWithFrame:rect];
+    }else{
+        self = [super initWithFrame:shapeModel.frame];
+    }
     if (self) {
         self.shapeModel= shapeModel;
         self.shapeType = shapeModel.shapeType;

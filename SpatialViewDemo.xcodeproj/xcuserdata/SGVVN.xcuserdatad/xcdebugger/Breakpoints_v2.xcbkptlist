@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpatialViewDemo/WMSpatialView/CustomViews/WMSpatialViewShape.m"
-            timestampString = "588690050.9514101"
+            timestampString = "588777252.201133"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "-setData"
             landmarkType = "7">
          </BreakpointContent>

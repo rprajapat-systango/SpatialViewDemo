@@ -37,6 +37,7 @@ typedef enum : NSUInteger {
 
 - (void)reloadShapes{
     self.delegate = self;
+    [self contentViewSizeToFit];
     arrSelectedItems = [NSMutableArray new];
     // Clear spatial view if it's content alrady rendered.
     if (_contentView) {
@@ -534,11 +535,19 @@ typedef enum : NSUInteger {
 
 - (NSArray *)saveAllShapes{
     NSMutableArray *shapeItems = [NSMutableArray new];
+    CGSize contentSize =  _contentView.bounds.size;
     for (UIView *view in [_contentView subviews]){
         if([view isKindOfClass:[WMSpatialViewShape class]]){
             WMSpatialViewShape *shape = (WMSpatialViewShape *)view;
-            shape.shapeModel.frame = shape.frame;
             shape.shapeModel.angle = [shape getAngleFromTransform];
+            CGAffineTransform oldTran = shape.transform;
+            shape.transform = CGAffineTransformIdentity;
+            CGRect frame = shape.frame;
+            shape.transform = oldTran;
+            CGPoint scaledOrigin = CGPointMake(frame.origin.x/contentSize.width, frame.origin.y/contentSize.height);
+            CGSize scaledSize = CGSizeMake(frame.size.width/contentSize.width, frame.size.height/contentSize.height);
+            // Scalling the shape size relatively to room size.
+            shape.shapeModel.frame = CGRectMake(scaledOrigin.x, scaledOrigin.y, scaledSize.width, scaledSize.height);
             [shapeItems addObject:shape.shapeModel];
         }
     }
@@ -554,6 +563,7 @@ typedef enum : NSUInteger {
     int min = MIN(self.contentView.bounds.size.width/7, self.contentView.bounds.size.height/7);
     return CGSizeMake(min, min);
 }
+
 + (BOOL)isDeviceTypeIpad{
     return  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 }

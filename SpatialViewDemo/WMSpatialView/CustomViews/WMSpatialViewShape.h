@@ -26,7 +26,7 @@ typedef enum : NSUInteger {
 
 
 @interface WMSpatialViewShape : UIView
-- (instancetype)initWithModel:(WMShape *)shapeModel;
+- (instancetype)initWithModel:(WMShape *)shapeModel aspectRatio:(CGSize)aspectRatio;
 @property(strong, retain) UIColor *borderColor;
 @property(assign) NSString *identifier;
 @property (strong, nonatomic) UIStackView *stackView;

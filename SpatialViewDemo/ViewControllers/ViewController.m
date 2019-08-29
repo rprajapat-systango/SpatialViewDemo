@@ -26,6 +26,7 @@ typedef enum : NSUInteger {
     CGPoint previousTouchPoint;
     Shape selectedShapeType;
     WMSpatialViewShape *shapeToCopy;
+    CGSize aspectRatio;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *viewShapeSelection;
@@ -37,6 +38,7 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    aspectRatio = CGSizeMake(8.5, 11.0);
     dataSource = [self getShapesModel];
     [self setupSpatialView];
     selectedShapeType = NONE;
@@ -50,7 +52,7 @@ typedef enum : NSUInteger {
 
 - (void)setupSpatialView {
     self.spatialView.allowOverlappingView = YES;
-    [self.spatialView setAspectRatio:CGSizeMake(8.5, 11.0)];
+    [self.spatialView setAspectRatio:aspectRatio];
     self.spatialView.actionDelegate = self;
     self.spatialView.dataSource = self;
     self.spatialView.margin = 2;
@@ -133,11 +135,11 @@ typedef enum : NSUInteger {
 - (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView viewForItem:(NSInteger)index{
     if (index < dataSource.count){
         WMShape *shapeModel = [dataSource objectAtIndex:index];
-        WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
+        WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel aspectRatio:spatialView.contentView.bounds.size];
         [shape rotateByAngle:shapeModel.angle];
         return shape;
     }
-     return nil;
+    return nil;
 }
 
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
@@ -169,13 +171,13 @@ typedef enum : NSUInteger {
     }else{
         float minSize = MIN(self.spatialView.contentView.bounds.size.width, self.spatialView.contentView.bounds.size.height);
         CGSize shapeSize = CGSizeMake(minSize*self.spatialView.zoomScale/7, minSize*self.spatialView.zoomScale/7);
-        shapeModel.frame = CGRectMake(0, 0, shapeSize.width, shapeSize.height);
+        shapeModel.frame = CGRectMake(point.x-shapeSize.width/2, point.y-shapeSize.height/2, shapeSize.width, shapeSize.height);
     }
     
     shapeModel.title = @"100";
     shapeModel.shapeType = (int)selectedShapeType;
     shapeModel.fillColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
-    WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel];
+    WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel aspectRatio:spatialView.contentView.bounds.size];
     [shape rotateByAngle:shapeModel.angle];
     shape.center = point;
     shapeModel.frame = shape.frame;
