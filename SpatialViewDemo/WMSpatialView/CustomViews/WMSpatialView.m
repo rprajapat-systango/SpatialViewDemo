@@ -505,7 +505,7 @@ typedef enum : NSUInteger {
     viewShapeOutline.center = CGPointMake(CGRectGetMidX(shape.frame), CGRectGetMidY(shape.frame));
 }
 
--(CGFloat) getDistanceBetweenPoint:(CGPoint )a andPoint:(CGPoint)b {
+- (CGFloat) getDistanceBetweenPoint:(CGPoint )a andPoint:(CGPoint)b {
     float xDist = a.x - b.x;
     float yDist = a.y - b.y;
     return sqrt(xDist * xDist + yDist * yDist);

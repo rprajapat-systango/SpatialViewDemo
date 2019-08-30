@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC30C4432319324B002689E7 /* SpatialView.json in Resources */ = {isa = PBXBuildFile; fileRef = DC30C4422319324B002689E7 /* SpatialView.json */; };
 		DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8C2C5922CF87110055D544 /* WMSpatialView.m */; };
 		DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97ABD22DCA00700B634B0 /* WMGraphView.m */; };
 		DCC97AC222DF330900B634B0 /* WMShape.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97AC122DF330900B634B0 /* WMShape.m */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DC30C4422319324B002689E7 /* SpatialView.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SpatialView.json; sourceTree = "<group>"; };
 		DC8C2C5822CF87110055D544 /* WMSpatialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMSpatialView.h; sourceTree = "<group>"; };
 		DC8C2C5922CF87110055D544 /* WMSpatialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMSpatialView.m; sourceTree = "<group>"; };
 		DCC97ABC22DCA00700B634B0 /* WMGraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMGraphView.h; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				DCFE285D22CB8B3800E250B8 /* Assets.xcassets */,
+				DC30C4422319324B002689E7 /* SpatialView.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCFE286122CB8B3800E250B8 /* LaunchScreen.storyboard in Resources */,
+				DC30C4432319324B002689E7 /* SpatialView.json in Resources */,
 				DCFE285E22CB8B3800E250B8 /* Assets.xcassets in Resources */,
 				DCFE285922CB8B2C00E250B8 /* Main.storyboard in Resources */,
 			);

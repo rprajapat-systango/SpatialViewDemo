@@ -19,4 +19,9 @@
     
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"{\"frame\": %@, \"title\": %@,\"shapeType\": %d,\"angle\": %f}",NSStringFromCGRect(_frame),self.title, self.shapeType,self.angle];
+}
+
 @end

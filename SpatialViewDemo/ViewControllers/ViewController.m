@@ -32,17 +32,50 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) IBOutlet UIView *viewShapeSelection;
 @property (strong, nonatomic) IBOutlet UIView *footerView;
 
+@property (weak, nonatomic) IBOutlet WMSpatialView *spatialView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segemnt;
+@property (weak, nonatomic) IBOutlet UIView *iPhoneContainer;
+@property (weak, nonatomic) IBOutlet UIView *iPadContainer;
+
 @end
 
 @implementation ViewController 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.segemnt addTarget:self action:@selector(changeLayout:) forControlEvents:UIControlEventValueChanged];
+    
     aspectRatio = CGSizeMake(8.5, 11.0);
     dataSource = [self getShapesModel];
     [self setupSpatialView];
     selectedShapeType = NONE;
     [self showFooterView:NO withAnimation:NO];
+    self.iPhoneContainer.hidden = YES;
+    _iPhoneContainer.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _iPhoneContainer.layer.borderWidth = 1.0f;
+    
+}
+
+- (void)changeLayout:(UISegmentedControl *)sender{
+     [self saveAllShapes:nil];
+    CGRect frame = CGRectZero;
+    [self.spatialView removeFromSuperview];
+    if (sender.selectedSegmentIndex == 0){
+        frame.size = self.iPadContainer.bounds.size;
+        [self.iPadContainer addSubview:self.spatialView];
+        self.spatialView.frame = frame;
+        self.iPhoneContainer.hidden = YES;
+        self.iPadContainer.hidden = NO;
+    }else{
+        frame.size = self.iPhoneContainer.bounds.size;
+        [self.iPhoneContainer addSubview:self.spatialView];
+        self.spatialView.frame = frame;
+        self.iPhoneContainer.hidden = NO;
+        self.iPadContainer.hidden = YES;
+    }
+    self.spatialView.contentOffset = CGPointMake(0, 0);
+    [self resetAllShapes:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -94,6 +127,14 @@ typedef enum : NSUInteger {
 
 - (IBAction)saveAllShapes:(id)sender {
     originalItems = [self.spatialView saveAllShapes];
+//    NSString *json = @"";
+//    for (WMShape *model in originalItems) {
+//        if (json.length != 0){
+//
+//        }else{
+//            json = [json stringByAppendingString:model.description];
+//        }
+//    }
 }
 
 - (void)perfomrActionOnShapeUsingMenuOption:(WMSpatialViewMenuOptions)option{

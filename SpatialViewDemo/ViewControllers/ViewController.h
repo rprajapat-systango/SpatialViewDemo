@@ -12,7 +12,7 @@
 
 @interface ViewController : UIViewController<UIScrollViewDelegate,WMShapeSelectionDelegate ,WMSpatialViewDelegate, WMSpatialViewDataSource>
 
-@property (weak, nonatomic) IBOutlet WMSpatialView *spatialView;
+
 
 @end
 
