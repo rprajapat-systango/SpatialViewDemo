@@ -39,7 +39,6 @@
     return cell;
 }
 
-
 #pragma mark UITable View delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

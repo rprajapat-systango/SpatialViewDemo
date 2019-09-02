@@ -33,9 +33,6 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) IBOutlet UIView *footerView;
 
 @property (weak, nonatomic) IBOutlet WMSpatialView *spatialView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segemnt;
-@property (weak, nonatomic) IBOutlet UIView *iPhoneContainer;
-@property (weak, nonatomic) IBOutlet UIView *iPadContainer;
 
 @end
 
@@ -43,39 +40,11 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.segemnt addTarget:self action:@selector(changeLayout:) forControlEvents:UIControlEventValueChanged];
-    
     aspectRatio = CGSizeMake(8.5, 11.0);
     dataSource = [self getShapesModel];
     [self setupSpatialView];
     selectedShapeType = NONE;
     [self showFooterView:NO withAnimation:NO];
-    self.iPhoneContainer.hidden = YES;
-    _iPhoneContainer.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    _iPhoneContainer.layer.borderWidth = 1.0f;
-    
-}
-
-- (void)changeLayout:(UISegmentedControl *)sender{
-     [self saveAllShapes:nil];
-    CGRect frame = CGRectZero;
-    [self.spatialView removeFromSuperview];
-    if (sender.selectedSegmentIndex == 0){
-        frame.size = self.iPadContainer.bounds.size;
-        [self.iPadContainer addSubview:self.spatialView];
-        self.spatialView.frame = frame;
-        self.iPhoneContainer.hidden = YES;
-        self.iPadContainer.hidden = NO;
-    }else{
-        frame.size = self.iPhoneContainer.bounds.size;
-        [self.iPhoneContainer addSubview:self.spatialView];
-        self.spatialView.frame = frame;
-        self.iPhoneContainer.hidden = NO;
-        self.iPadContainer.hidden = YES;
-    }
-    self.spatialView.contentOffset = CGPointMake(0, 0);
-    [self resetAllShapes:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -101,7 +70,6 @@ typedef enum : NSUInteger {
             break;
         }
     }
-    
     if (animated){
         [UIView animateWithDuration:0.4 animations:^{
             heightConstraint.constant = isShow ? 40.0 : 0.0;
@@ -127,14 +95,6 @@ typedef enum : NSUInteger {
 
 - (IBAction)saveAllShapes:(id)sender {
     originalItems = [self.spatialView saveAllShapes];
-//    NSString *json = @"";
-//    for (WMShape *model in originalItems) {
-//        if (json.length != 0){
-//
-//        }else{
-//            json = [json stringByAppendingString:model.description];
-//        }
-//    }
 }
 
 - (void)perfomrActionOnShapeUsingMenuOption:(WMSpatialViewMenuOptions)option{
@@ -245,56 +205,7 @@ typedef enum : NSUInteger {
 //    shapeModel.shapeType = ELLIPSE;
 //    shapeModel.fillColor = [UIColor redColor];
 //    [shapes addObject:shapeModel];
-//
-//    shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(300, 50, 300, 200);
-//    shapeModel.title = @"102";
-//    shapeModel.shapeType = ELLIPSE;
-//    shapeModel.fillColor = [UIColor blueColor];
-//    [shapes addObject:shapeModel];
-//
-//    shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(650, 50, 120, 570);
-//    shapeModel.title = @"103";
-//    shapeModel.shapeType = RECTANGLE;
-//    shapeModel.fillColor = [UIColor greenColor];
-//    [shapes addObject:shapeModel];
-//
-//    shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(50, 300, 200, 300);
-//    shapeModel.title = @"104";
-//    shapeModel.shapeType = RECTANGLE;
-//    shapeModel.fillColor = [UIColor greenColor];
-//    [shapes addObject:shapeModel];
-//
-//    shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(300, 300, 140, 140);
-//    shapeModel.title = @"105";
-//    shapeModel.shapeType = DIAMOND;
-//    shapeModel.fillColor = [UIColor yellowColor];
-//    [shapes addObject:shapeModel];
-//
-//    shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(460, 300, 140, 140);
-//    shapeModel.title = @"106";
-//    shapeModel.shapeType = DIAMOND;
-//    shapeModel.fillColor = [UIColor yellowColor];
-//    [shapes addObject:shapeModel];
-//
-//    shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(300, 460, 140, 140);
-//    shapeModel.title = @"107";
-//    shapeModel.shapeType = TRIANGLE;
-//    shapeModel.fillColor = [UIColor brownColor];
-//    [shapes addObject:shapeModel];
-//
-//    shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(460, 460, 140, 140);
-//    shapeModel.title = @"108";
-//    shapeModel.shapeType = TRIANGLE;
-//    shapeModel.fillColor = [UIColor brownColor];
-//    shapeModel.angle = 45;
-//    [shapes addObject:shapeModel];
+
     return [shapes copy];
 }
 
@@ -327,7 +238,5 @@ typedef enum : NSUInteger {
     [mArray removeObject:shape.shapeModel];
     dataSource = [mArray copy];
 }
-
-
 
 @end
