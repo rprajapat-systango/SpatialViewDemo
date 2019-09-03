@@ -29,7 +29,7 @@ typedef enum : NSUInteger {
     CGSize aspectRatio;
 }
 
-@property (strong, nonatomic) IBOutlet UIView *viewShapeSelection;
+@property (strong, nonatomic) IBOutlet WMShapeOutlineView *shapeOutlineView;
 @property (strong, nonatomic) IBOutlet UIView *footerView;
 
 @property (weak, nonatomic) IBOutlet WMSpatialView *spatialView;
@@ -53,6 +53,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)setupSpatialView {
+    
     self.spatialView.allowOverlappingView = YES;
     [self.spatialView setAspectRatio:aspectRatio];
     self.spatialView.actionDelegate = self;
@@ -101,17 +102,17 @@ typedef enum : NSUInteger {
     switch (option) {
         case Rotate:
             // Code for rotate shape
-            NSLog(@"Rotate");
-            [selectedShape rotateByAngle:M_PI_2/2];
-            [self.spatialView setOutlineViewOverShape:selectedShape];
-            [self.spatialView contentViewSizeToFit];
-            break;
+//            NSLog(@"Rotate");
+//            [selectedShape rotateByAngle:M_PI_2/2];
+//            [self.spatialView setOutlineViewOverShape:selectedShape];
+//            [self.spatialView contentViewSizeToFit];
+//            break;
         case Delete:
             // Code for delete shape
-            NSLog(@"Delete");
-            if (selectedShape){
-                [self removeItemFromDatasource:selectedShape];
-            }
+//            NSLog(@"Delete");
+//            if (selectedShape){
+//              //  [self removeItemFromDatasource:selectedShape];
+//            }
             break;
         case Copy:
             // Code for copy shape
@@ -144,11 +145,11 @@ typedef enum : NSUInteger {
 }
 
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
-    _viewShapeSelection.transform = CGAffineTransformIdentity;
+    _shapeOutlineView.transform = CGAffineTransformIdentity;
     if (selectedShape == shape)
     {
         selectedShape = nil;
-        [_viewShapeSelection removeFromSuperview];
+        [_shapeOutlineView removeFromSuperview];
     }else{
         selectedShape = shape;
         [spatialView.contentView bringSubviewToFront:shape];
@@ -156,8 +157,9 @@ typedef enum : NSUInteger {
     }
 }
 
-- (UIView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
-    return _viewShapeSelection;
+- (WMShapeOutlineView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
+    _shapeOutlineView.delegate = self;
+    return _shapeOutlineView;
 }
 
 - (BOOL)spatialView:(WMSpatialView *)spatialView shouldDrawShapeOnPosition:(CGPoint)pos{
@@ -232,11 +234,16 @@ typedef enum : NSUInteger {
     dataSource = [mArray copy];
 }
 
-- (void)removeItemFromDatasource:(WMSpatialViewShape *)shape{
+#pragma mark WMShapeOutlineViewDelegate
+- (void)removeShape:(WMSpatialViewShape *)shape{
     [self.spatialView removeShape:selectedShape];
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
     [mArray removeObject:shape.shapeModel];
     dataSource = [mArray copy];
+}
+
+- (void)copyShape:(WMSpatialViewShape *)shape{
+    
 }
 
 @end

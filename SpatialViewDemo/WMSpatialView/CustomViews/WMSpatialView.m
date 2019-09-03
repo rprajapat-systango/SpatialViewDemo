@@ -12,17 +12,9 @@
 //#define MIN_WIDTH 100
 //#define MIN_HEIGHT 100
 
-typedef enum : NSUInteger {
-    Up = 10,
-    Right = 20,
-    Down = 30,
-    Left = 40,
-    Aspect = 50,
-} WMSpatialViewDragDirection;
-
 @interface WMSpatialView(){
     NSMutableArray *arrSelectedItems;
-    UIView *viewShapeOutline;
+    WMShapeOutlineView *viewShapeOutline;
     CGPoint fromPosition;
     CGPoint previousTouchPosition;
     CGRect previousFrame;
@@ -119,7 +111,7 @@ typedef enum : NSUInteger {
 
 
 - (void)didTapOnView:(WMSpatialViewShape *)shape{
-
+    
     if (arrSelectedItems.count){
         WMSpatialViewShape *oldSelection = (WMSpatialViewShape *)arrSelectedItems.firstObject;
         oldSelection.isSelected = NO;
@@ -140,6 +132,7 @@ typedef enum : NSUInteger {
     if ([self.dataSource respondsToSelector:@selector(spatialView:outlineViewForShape:)]){
        viewShapeOutline = [self.dataSource spatialView:self outlineViewForShape:shape];
         if(viewShapeOutline){
+            viewShapeOutline.selectedShape = shape;
             [self.contentView addSubview:viewShapeOutline];
             [self setGestureOnButtons:viewShapeOutline];
             [self setOutlineViewOverShape:shape];

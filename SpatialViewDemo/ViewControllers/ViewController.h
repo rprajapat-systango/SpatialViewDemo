@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "WMSpatialView.h"
 #import "WMShapeSelectionViewController.h"
+#import "WMShapeOutlineView.h"
 
-@interface ViewController : UIViewController<UIScrollViewDelegate,WMShapeSelectionDelegate ,WMSpatialViewDelegate, WMSpatialViewDataSource>
+@interface ViewController : UIViewController<UIScrollViewDelegate,WMShapeSelectionDelegate ,WMSpatialViewDelegate, WMSpatialViewDataSource, WMShapeOutlineViewDelegate>
 
 
 

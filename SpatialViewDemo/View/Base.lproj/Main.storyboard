@@ -104,16 +104,16 @@
                     </view>
                     <connections>
                         <outlet property="footerView" destination="afK-cX-IX5" id="lW2-zT-THU"/>
+                        <outlet property="shapeOutlineView" destination="cdf-tJ-3nY" id="Rbu-cI-SQh"/>
                         <outlet property="spatialView" destination="6Jd-m3-IBi" id="lCK-R6-hA0"/>
-                        <outlet property="viewShapeSelection" destination="cdf-tJ-3nY" id="Rbu-cI-SQh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="cdf-tJ-3nY" userLabel="ShapeSelectionView">
+                <view contentMode="scaleToFill" id="cdf-tJ-3nY" userLabel="ShapeSelectionView" customClass="WMShapeOutlineView">
                     <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" tag="400" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFH-bI-ZmI" userLabel="CROSS">
+                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFH-bI-ZmI" userLabel="CROSS">
                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                             <color key="backgroundColor" red="0.82352941180000006" green="0.82352941180000006" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -132,6 +132,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
+                                <action selector="copyShape:" destination="cdf-tJ-3nY" eventType="touchUpInside" id="nYb-4x-hml"/>
                                 <action selector="menuOptionTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b6d-f9-6BQ"/>
                             </connections>
                         </button>
@@ -143,7 +144,7 @@
                                 <constraint firstAttribute="height" constant="2" id="l8u-sw-61D"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" tag="300" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uqc-oP-GDB" userLabel="DRAG">
+                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uqc-oP-GDB" userLabel="DRAG">
                             <rect key="frame" x="0.0" y="160" width="40" height="40"/>
                             <color key="backgroundColor" red="0.82352941180000006" green="0.82352941180000006" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -166,10 +167,11 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
+                                <action selector="deleteShape:" destination="cdf-tJ-3nY" eventType="touchUpInside" id="Ibn-Dh-wuF"/>
                                 <action selector="menuOptionTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3uz-ti-CVO"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="100" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHd-kf-kEC" userLabel="ROTATE">
+                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHd-kf-kEC" userLabel="ROTATE">
                             <rect key="frame" x="160" y="0.0" width="40" height="40"/>
                             <color key="backgroundColor" red="0.82352941180000006" green="0.82352941180000006" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -189,6 +191,7 @@
                             </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="menuOptionTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sNZ-rb-03d"/>
+                                <action selector="rotateShape:" destination="cdf-tJ-3nY" eventType="touchUpInside" id="3Lc-2D-z9z"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="50" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zaC-mt-pLX" userLabel="RESIZE">

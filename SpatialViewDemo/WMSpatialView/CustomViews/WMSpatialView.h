@@ -9,10 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "WMGraphView.h"
 #import "WMSpatialViewShape.h"
+#import "WMShapeOutlineView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+typedef enum : NSUInteger {
+    Up = 10,
+    Right = 20,
+    Down = 30,
+    Left = 40,
+    Aspect = 50,
+} WMSpatialViewDragDirection;
+
+
 @class WMSpatialView;
+@class WMShapeOutlineView;
 
 @protocol WMSpatialViewDelegate <NSObject>
 - (void) spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape;
@@ -24,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol WMSpatialViewDataSource <NSObject>
 - (NSInteger)numberOfItemsInSpatialView:(WMSpatialView *)spatialView;
 - (WMSpatialViewShape *) spatialView:(WMSpatialView *)spatialView viewForItem:(NSInteger)index;
-- (nullable UIView *) spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape;
+- (nullable WMShapeOutlineView *) spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape;
 
 @end
 

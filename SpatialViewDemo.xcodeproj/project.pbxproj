@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DC30C4432319324B002689E7 /* SpatialView.json in Resources */ = {isa = PBXBuildFile; fileRef = DC30C4422319324B002689E7 /* SpatialView.json */; };
+		DC56C440231EA89D00140006 /* WMShapeOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC56C43F231EA89D00140006 /* WMShapeOutlineView.m */; };
 		DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8C2C5922CF87110055D544 /* WMSpatialView.m */; };
 		DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97ABD22DCA00700B634B0 /* WMGraphView.m */; };
 		DCC97AC222DF330900B634B0 /* WMShape.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC97AC122DF330900B634B0 /* WMShape.m */; };
@@ -25,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		DC30C4422319324B002689E7 /* SpatialView.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SpatialView.json; sourceTree = "<group>"; };
+		DC56C43E231EA89D00140006 /* WMShapeOutlineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMShapeOutlineView.h; sourceTree = "<group>"; };
+		DC56C43F231EA89D00140006 /* WMShapeOutlineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMShapeOutlineView.m; sourceTree = "<group>"; };
 		DC8C2C5822CF87110055D544 /* WMSpatialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMSpatialView.h; sourceTree = "<group>"; };
 		DC8C2C5922CF87110055D544 /* WMSpatialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WMSpatialView.m; sourceTree = "<group>"; };
 		DCC97ABC22DCA00700B634B0 /* WMGraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WMGraphView.h; sourceTree = "<group>"; };
@@ -97,6 +100,8 @@
 				DC8C2C5922CF87110055D544 /* WMSpatialView.m */,
 				DCC97ABC22DCA00700B634B0 /* WMGraphView.h */,
 				DCC97ABD22DCA00700B634B0 /* WMGraphView.m */,
+				DC56C43E231EA89D00140006 /* WMShapeOutlineView.h */,
+				DC56C43F231EA89D00140006 /* WMShapeOutlineView.m */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 				DCFE285322CB8B2C00E250B8 /* AppDelegate.m in Sources */,
 				DCFE286422CB8B3800E250B8 /* main.m in Sources */,
 				DCC97ABE22DCA00700B634B0 /* WMGraphView.m in Sources */,
+				DC56C440231EA89D00140006 /* WMShapeOutlineView.m in Sources */,
 				DCFE285C22CB8B2C00E250B8 /* SpatialViewDemo.xcdatamodeld in Sources */,
 				DC8C2C5A22CF87110055D544 /* WMSpatialView.m in Sources */,
 			);
