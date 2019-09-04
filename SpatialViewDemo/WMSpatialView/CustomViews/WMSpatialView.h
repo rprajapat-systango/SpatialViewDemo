@@ -40,7 +40,7 @@ typedef enum : NSUInteger {
 
 @end
 
-@interface WMSpatialView : UIScrollView <WMSpatialViewShapeDelegate, UIScrollViewDelegate>
+@interface WMSpatialView : UIScrollView <WMSpatialViewShapeDelegate, UIScrollViewDelegate, WMShapeOutlineViewDelegate>
 @property (assign, nonatomic) NSInteger margin;
 
 @property (weak) id<WMSpatialViewDataSource> dataSource;

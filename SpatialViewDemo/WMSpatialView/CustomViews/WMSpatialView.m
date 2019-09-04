@@ -103,11 +103,11 @@
     }
 }
 
-- (void) removeShape:(WMSpatialViewShape *)selectedShape{
-    [self clearSelection];
-    [selectedShape removeFromSuperview];
-    [self contentViewSizeToFit];
-}
+//- (void) removeShape:(WMSpatialViewShape *)selectedShape{
+//    [self clearSelection];
+//    [selectedShape removeFromSuperview];
+//    [self contentViewSizeToFit];
+//}
 
 
 - (void)didTapOnView:(WMSpatialViewShape *)shape{
@@ -133,6 +133,7 @@
        viewShapeOutline = [self.dataSource spatialView:self outlineViewForShape:shape];
         if(viewShapeOutline){
             viewShapeOutline.selectedShape = shape;
+            viewShapeOutline.delegate = self;
             [self.contentView addSubview:viewShapeOutline];
             [self setGestureOnButtons:viewShapeOutline];
             [self setOutlineViewOverShape:shape];
@@ -561,5 +562,26 @@
     return  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 }
 
+#pragma mark WMShapeOutlineViewDelegate
+- (void)removeShape:(WMSpatialViewShape *)shape{
+    [self clearSelection];
+    [shape removeFromSuperview];
+    [self contentViewSizeToFit];
+    
+//    [self removeShape:shape];
+//    NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
+//    [mArray removeObject:shape.shapeModel];
+//    dataSource = [mArray copy];
+}
+
+- (void)copyShape:(WMSpatialViewShape *)shape{
+    
+}
+
+- (void)rotateShape:(WMSpatialViewShape *)shape{
+    [shape rotateByAngle:M_PI_2/2];
+    [self setOutlineViewOverShape:shape];
+    [self contentViewSizeToFit];
+}
 
 @end

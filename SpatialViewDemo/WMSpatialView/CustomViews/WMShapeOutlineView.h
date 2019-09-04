@@ -7,25 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WMSpatialView.h"
 #import "WMSpatialViewShape.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@class WMSpatialView;
 
 @protocol WMShapeOutlineViewDelegate <NSObject>
 - (void)removeShape:(WMSpatialViewShape *)shape;
 - (void)copyShape:(WMSpatialViewShape *)shape;
+- (void)rotateShape:(WMSpatialViewShape *)shape;
 @end
 
 @interface WMShapeOutlineView : UIView
-@property WMSpatialView *spatialView;
 @property WMSpatialViewShape *selectedShape;
 
 @property (weak) id<WMShapeOutlineViewDelegate> delegate;
-//- (IBAction)deleteShape:(UIButton *)sender;
-//- (IBAction)rotateShape:(UIButton *)sender;
-//- (IBAction)copyShape:(UIButton *)sender;
 
 @end
 

@@ -100,20 +100,6 @@ typedef enum : NSUInteger {
 
 - (void)perfomrActionOnShapeUsingMenuOption:(WMSpatialViewMenuOptions)option{
     switch (option) {
-        case Rotate:
-            // Code for rotate shape
-//            NSLog(@"Rotate");
-//            [selectedShape rotateByAngle:M_PI_2/2];
-//            [self.spatialView setOutlineViewOverShape:selectedShape];
-//            [self.spatialView contentViewSizeToFit];
-//            break;
-        case Delete:
-            // Code for delete shape
-//            NSLog(@"Delete");
-//            if (selectedShape){
-//              //  [self removeItemFromDatasource:selectedShape];
-//            }
-            break;
         case Copy:
             // Code for copy shape
             NSLog(@"Copy");
@@ -234,16 +220,6 @@ typedef enum : NSUInteger {
     dataSource = [mArray copy];
 }
 
-#pragma mark WMShapeOutlineViewDelegate
-- (void)removeShape:(WMSpatialViewShape *)shape{
-    [self.spatialView removeShape:selectedShape];
-    NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
-    [mArray removeObject:shape.shapeModel];
-    dataSource = [mArray copy];
-}
 
-- (void)copyShape:(WMSpatialViewShape *)shape{
-    
-}
 
 @end
