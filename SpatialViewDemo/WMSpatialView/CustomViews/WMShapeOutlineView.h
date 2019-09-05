@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WMShapeOutlineView : UIView
 @property WMSpatialViewShape *selectedShape;
-
+@property (weak, nonatomic) IBOutlet UIButton *buttonDelete;
+@property (weak, nonatomic) IBOutlet UIButton *buttonCopy;
 @property (weak) id<WMShapeOutlineViewDelegate> delegate;
 
 @end

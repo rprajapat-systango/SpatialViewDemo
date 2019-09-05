@@ -22,6 +22,7 @@
     CGFloat touchMovingDistance;
     CGFloat rotation;
     CGPoint layerAnchorPosition;
+    WMSpatialViewShape *copyingShape;
 }
 @end
 
@@ -71,10 +72,10 @@
     [self clearSelection];
     // Sending message to receiver when tapping outside of the shape
     if ([self.actionDelegate respondsToSelector:@selector(spatialView:shouldDrawShapeOnPosition:)]){
-        BOOL shouldDraw = [self.actionDelegate spatialView:self shouldDrawShapeOnPosition:[gesture locationInView:self.contentView]];
+        BOOL shouldDraw = (copyingShape != nil) || [self.actionDelegate spatialView:self shouldDrawShapeOnPosition:[gesture locationInView:self.contentView]];
         if (shouldDraw){
-            if ([self.actionDelegate respondsToSelector:@selector(spatialView:shapeToAddAt:)]){
-                    WMSpatialViewShape *shapeToDraw = [self.actionDelegate spatialView:self shapeToAddAt:[gesture locationInView:self.contentView]];
+            if ([self.actionDelegate respondsToSelector:@selector(spatialView:shapeToAddAt:copyShapeFrom:)]){
+               WMSpatialViewShape *shapeToDraw = [self.actionDelegate spatialView:self shapeToAddAt:[gesture locationInView:self.contentView] copyShapeFrom:copyingShape];
                     shapeToDraw.delegate = self;
                     if (shapeToDraw) {
                         [_contentView addSubview:shapeToDraw];
@@ -85,6 +86,7 @@
                         }
                     }
             }
+            copyingShape = nil;
         }
     }
 }
@@ -120,9 +122,13 @@
             shape.isSelected = YES;
             [arrSelectedItems addObject:shape];
         }
+        [viewShapeOutline removeFromSuperview];
     }else{
         [arrSelectedItems addObject:shape];
         shape.isSelected = YES;
+
+        [_contentView bringSubviewToFront:shape];
+        [self scrollRectToVisible:shape.frame animated:NO];
     }
 
     if ([self.actionDelegate respondsToSelector:@selector(spatialView:didSelectItem:)]){
@@ -235,7 +241,6 @@
     CGPoint location = [gesture locationInView:self.contentView];
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
-            NSLog(@"Begin");
             // Disable scroll view gesture to making focus on selected shape.
             self.userInteractionEnabled = NO;
             viewShapeOutline.alpha = 0.0;
@@ -245,8 +250,7 @@
             break;
         case UIGestureRecognizerStateChanged:
             self.userInteractionEnabled = YES;
-            // Avoid to drag the shape outside of graph view
-            NSLog(@"Location [%f, %f]",location.x, location.y);
+            
             // set the new location of the shape via drag an drop
             float deltaX = location.x - previousTouchPosition.x;
             float deltaY = location.y - previousTouchPosition.y;
@@ -337,7 +341,6 @@
     
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
-            NSLog(@"Begin");
             touchMovingDistance = 0.0;
             anchorView = [self->viewShapeOutline viewWithTag:button.tag/10];
             // Disable scroll view gesture to making focus on selected shape.
@@ -406,14 +409,12 @@
             }
             
             float newDistance = [self getDistanceBetweenPoint:layerAnchorPosition andPoint:location];
-            NSLog(@"New Distance = %f",newDistance);
             
             // After rotation is belongs to 90 to 180 or 270 to 360 degree then height and width will be exchange to each other
             BOOL shouldExchange = (multiplier == 1 || multiplier == 3);
             
             switch (newTag) {
                 case Left:
-                    NSLog(@"Left");
                     if (shouldExchange){
                         newRect.size.height -= deltaX;
                     }else{
@@ -421,7 +422,6 @@
                     }
                     break;
                 case Right:
-                    NSLog(@"Right");
                     if (shouldExchange){
                         newRect.size.height += deltaX;
                     }else{
@@ -429,7 +429,6 @@
                     }
                     break;
                 case Up:
-                    NSLog(@"Up");
                     if (shouldExchange){
                         newRect.size.width -= deltaY;
                     }else{
@@ -438,7 +437,6 @@
                     break;
                 case Down:
                     // Updating frame of selected shape;
-                    NSLog(@"Down");
                     if (shouldExchange){
                         newRect.size.width += deltaY;
                     }else{
@@ -517,10 +515,10 @@
     float mW = boundingSize.width / aspectRatio.width;
     float mH = boundingSize.height / aspectRatio.height;
     
-    if( mH < mW ) {
+    if(mH < mW) {
         boundingSize.width = boundingSize.height / aspectRatio.height * aspectRatio.width;
     }
-    else if( mW < mH ) {
+    else if(mW < mH) {
         boundingSize.height = boundingSize.width / aspectRatio.width * aspectRatio.height;
     }
     return boundingSize;
@@ -563,19 +561,18 @@
 }
 
 #pragma mark WMShapeOutlineViewDelegate
+
 - (void)removeShape:(WMSpatialViewShape *)shape{
     [self clearSelection];
     [shape removeFromSuperview];
     [self contentViewSizeToFit];
-    
-//    [self removeShape:shape];
-//    NSMutableArray *mArray = [[NSMutableArray alloc] initWithArray:dataSource];
-//    [mArray removeObject:shape.shapeModel];
-//    dataSource = [mArray copy];
 }
 
 - (void)copyShape:(WMSpatialViewShape *)shape{
-    
+    if([self.actionDelegate respondsToSelector:@selector(spatialView:willAddShape:)]){
+        [self.actionDelegate spatialView:self willAddShape:shape];
+        copyingShape = shape;
+    }
 }
 
 - (void)rotateShape:(WMSpatialViewShape *)shape{

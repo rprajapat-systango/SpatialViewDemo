@@ -30,19 +30,19 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afK-cX-IX5">
-                                <rect key="frame" x="0.0" y="984" width="768" height="40"/>
+                                <rect key="frame" x="0.0" y="994" width="768" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to place the shape" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n0-9j-syC">
-                                        <rect key="frame" x="287" y="0.0" width="194.5" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" red="0.43529411759999997" green="0.78823529410000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <rect key="frame" x="297.5" y="0.0" width="173.5" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.82352941180000006" green="0.82352941180000006" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.70269691780821919" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="9n0-9j-syC" firstAttribute="top" secondItem="afK-cX-IX5" secondAttribute="top" id="11U-zm-Yxn"/>
-                                    <constraint firstAttribute="height" constant="40" id="U1s-xB-avX"/>
+                                    <constraint firstAttribute="height" constant="30" id="U1s-xB-avX"/>
                                     <constraint firstItem="9n0-9j-syC" firstAttribute="centerX" secondItem="afK-cX-IX5" secondAttribute="centerX" id="Xxd-Af-VCf"/>
                                     <constraint firstAttribute="bottom" secondItem="9n0-9j-syC" secondAttribute="bottom" id="xEg-nc-AZU"/>
                                 </constraints>
@@ -133,7 +133,6 @@
                             </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="copyShape:" destination="cdf-tJ-3nY" eventType="touchUpInside" id="nYb-4x-hml"/>
-                                <action selector="menuOptionTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b6d-f9-6BQ"/>
                             </connections>
                         </button>
                         <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCV-kM-uAS" userLabel="TopLeftAnchor">
@@ -168,7 +167,6 @@
                             </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="deleteShape:" destination="cdf-tJ-3nY" eventType="touchUpInside" id="Ibn-Dh-wuF"/>
-                                <action selector="menuOptionTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3uz-ti-CVO"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHd-kf-kEC" userLabel="ROTATE">
@@ -363,6 +361,10 @@
                         <constraint firstItem="THM-Ca-ZG1" firstAttribute="bottom" secondItem="1Mq-JK-oIV" secondAttribute="bottom" constant="7" id="yVW-1a-w5c"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="8gG-Qz-tcN"/>
+                    <connections>
+                        <outlet property="buttonCopy" destination="eFH-bI-ZmI" id="4Fq-ic-HcI"/>
+                        <outlet property="buttonDelete" destination="Uqc-oP-GDB" id="XwY-d3-n2V"/>
+                    </connections>
                 </view>
             </objects>
             <point key="canvasLocation" x="-492.1875" y="25.78125"/>

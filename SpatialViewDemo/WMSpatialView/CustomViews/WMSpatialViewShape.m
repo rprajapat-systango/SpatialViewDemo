@@ -95,18 +95,18 @@
     /* Get the current context */
     CGContextRef context = UIGraphicsGetCurrentContext();
     switch (self.shapeType) {
-        case RECTANGLE:
+        case WMSpatialViewShapeRectangle:
             [self drawRectangle:context rect:&rect];
             [self addRectBorder:&rect];
             break;
-        case ELLIPSE:
+        case WMSpatialViewShapeEllips:
             [self drawEllipse:context rect:&rect];
             [self addEllipseBorder:&rect];
             break;
-        case DIAMOND:
+        case WMSpatialViewShapeDiamond:
             [self drawDiomond:context rect:&rect];
             break;
-        case TRIANGLE:
+        case WMSpatialViewShapeTriangle:
             [self drawTriangle:context rect:&rect];
             break;
         default:
@@ -254,12 +254,10 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    NSLog(@"\nView origin %@\n",NSStringFromCGPoint(self.frame.origin));
 }
 
 - (CGFloat)getAngleFromTransform{
     CGFloat angle = [(NSNumber *)[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
-    NSLog(@"\nView Rotation is : %f\n", angle); // 0.020000
     return angle;
 }
 

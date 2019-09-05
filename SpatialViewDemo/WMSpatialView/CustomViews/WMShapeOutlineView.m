@@ -7,8 +7,18 @@
 //
 
 #import "WMShapeOutlineView.h"
-
 @implementation WMShapeOutlineView
+
+- (void)setTransform:(CGAffineTransform)transform{
+    [super setTransform:transform];
+}
+
+
+- (CGFloat)getAngleFromTransform{
+    CGFloat angle = [(NSNumber *)[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    NSLog(@"\nView Rotation is : %f\n", angle); // 0.020000
+    return angle;
+}
 
 - (IBAction)copyShape:(UIButton *)sender {
     if([self.delegate respondsToSelector:@selector(copyShape:)]){

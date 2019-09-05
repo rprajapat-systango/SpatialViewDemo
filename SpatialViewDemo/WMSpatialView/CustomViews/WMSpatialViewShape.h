@@ -11,11 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef enum : NSUInteger {
-    RECTANGLE = 0,
-    ELLIPSE,
-    DIAMOND,
-    TRIANGLE,
-    NONE = -1
+    WMSpatialViewShapeRectangle = 0,
+    WMSpatialViewShapeEllips,
+    WMSpatialViewShapeDiamond,
+    WMSpatialViewShapeTriangle,
+    WMSpatialViewShapeNone = -1
     
 } Shape;
 @class WMSpatialViewShape;

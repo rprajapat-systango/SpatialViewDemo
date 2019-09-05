@@ -10,22 +10,10 @@
 #import "WMSpatialViewShape.h"
 #import "WMShapeSelectionViewController.h"
 
-typedef enum : NSUInteger {
-    Rotate = 100,
-    Resize = 200,
-    Delete = 300,
-      Copy = 400,
-} WMSpatialViewMenuOptions;
-
 @interface ViewController (){
     NSArray *dataSource;
     NSArray *originalItems;
-    WMSpatialViewShape *selectedShape;
-    CGRect previousShapeFrame;
-    CGRect previousOutlineFrame;
-    CGPoint previousTouchPoint;
     Shape selectedShapeType;
-    WMSpatialViewShape *shapeToCopy;
     CGSize aspectRatio;
 }
 
@@ -43,7 +31,7 @@ typedef enum : NSUInteger {
     aspectRatio = CGSizeMake(8.5, 11.0);
     dataSource = [self getShapesModel];
     [self setupSpatialView];
-    selectedShapeType = NONE;
+    selectedShapeType = WMSpatialViewShapeNone;
     [self showFooterView:NO withAnimation:NO];
 }
 
@@ -53,7 +41,6 @@ typedef enum : NSUInteger {
 }
 
 - (void)setupSpatialView {
-    
     self.spatialView.allowOverlappingView = YES;
     [self.spatialView setAspectRatio:aspectRatio];
     self.spatialView.actionDelegate = self;
@@ -81,7 +68,7 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)menuOptionTapped:(UIButton *)sender {
-    [self perfomrActionOnShapeUsingMenuOption:sender.tag];
+   
 }
 
 - (IBAction)allowOverlappingAction:(UISwitch *)sender {
@@ -96,23 +83,6 @@ typedef enum : NSUInteger {
 
 - (IBAction)saveAllShapes:(id)sender {
     originalItems = [self.spatialView saveAllShapes];
-}
-
-- (void)perfomrActionOnShapeUsingMenuOption:(WMSpatialViewMenuOptions)option{
-    switch (option) {
-        case Copy:
-            // Code for copy shape
-            NSLog(@"Copy");
-            if (selectedShape){
-                shapeToCopy = selectedShape;
-                selectedShapeType = selectedShape.shapeType;
-                [self showFooterView:YES withAnimation:YES];
-                [self.spatialView clearSelection];
-            }
-            break;
-        default:
-            break;
-    }
 }
 
 #pragma mark WMSpatialViewDatasource
@@ -131,50 +101,54 @@ typedef enum : NSUInteger {
 }
 
 - (void)spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape{
-    _shapeOutlineView.transform = CGAffineTransformIdentity;
-    if (selectedShape == shape)
-    {
-        selectedShape = nil;
-        [_shapeOutlineView removeFromSuperview];
-    }else{
-        selectedShape = shape;
-        [spatialView.contentView bringSubviewToFront:shape];
-        [self.spatialView scrollRectToVisible:selectedShape.frame animated:NO];
-    }
+    
 }
 
 - (WMShapeOutlineView *)spatialView:(WMSpatialView *)spatialView outlineViewForShape:(WMSpatialViewShape *)shape{
-    _shapeOutlineView.delegate = self;
     return _shapeOutlineView;
 }
 
 - (BOOL)spatialView:(WMSpatialView *)spatialView shouldDrawShapeOnPosition:(CGPoint)pos{
-    return selectedShapeType != NONE;
+    return selectedShapeType != WMSpatialViewShapeNone;
 }
 
-- (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView shapeToAddAt:(CGPoint) point{
+- (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView shapeToAddAt:(CGPoint) point copyShapeFrom:(WMSpatialViewShape *)copyingShape{
     WMShape *shapeModel = [[WMShape alloc] init];
-    if (shapeToCopy){
-        shapeModel.frame = shapeToCopy.bounds;
-        shapeModel.angle = [shapeToCopy getAngleFromTransform];
+    if (copyingShape){
+        CGSize shapeSize = copyingShape.bounds.size;
+        shapeModel.frame = CGRectMake(point.x-shapeSize.width/2, point.y-shapeSize.height/2, shapeSize.width, shapeSize.height);
+        shapeModel.shapeType = (int)copyingShape.shapeType;
+        shapeModel.angle = [copyingShape getAngleFromTransform];
     }else{
         float minSize = MIN(self.spatialView.contentView.bounds.size.width, self.spatialView.contentView.bounds.size.height);
         CGSize shapeSize = CGSizeMake(minSize*self.spatialView.zoomScale/7, minSize*self.spatialView.zoomScale/7);
         shapeModel.frame = CGRectMake(point.x-shapeSize.width/2, point.y-shapeSize.height/2, shapeSize.width, shapeSize.height);
+        shapeModel.shapeType = (int)selectedShapeType;
     }
     
     shapeModel.title = @"100";
-    shapeModel.shapeType = (int)selectedShapeType;
     shapeModel.fillColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+    
+    NSLog(@"shape Model color %@" , shapeModel);
+    
     WMSpatialViewShape *shape = [[WMSpatialViewShape alloc] initWithModel:shapeModel aspectRatio:spatialView.contentView.bounds.size];
-    [shape rotateByAngle:shapeModel.angle];
+    if(shapeModel.angle != 0.0){
+        [shape rotateByAngle:shapeModel.angle];
+    }
+    
     shape.center = point;
     shapeModel.frame = shape.frame;
     [self addItemIntoDatasource:shapeModel];
-    
-    selectedShapeType = NONE;
-    shapeToCopy = nil;
+    [shape setNeedsDisplay];
+    selectedShapeType = WMSpatialViewShapeNone;
+    copyingShape = nil;
     return shape;
+}
+
+
+- (void)spatialView:(WMSpatialView *)spatialView willAddShape:(WMSpatialViewShape *)shape{
+    [self showFooterView:YES withAnimation:YES];
+    [self.spatialView clearSelection];
 }
 
 - (void)spatialView:(WMSpatialView *)spatialView didAddShape:(WMSpatialViewShape *)shape{
@@ -186,13 +160,6 @@ typedef enum : NSUInteger {
 
 - (NSArray *)getShapesModel {
     NSMutableArray *shapes = [NSMutableArray new];
-
-//    WMShape *shapeModel = [[WMShape alloc] init];
-//    shapeModel.frame = CGRectMake(50, 50, 200, 200);
-//    shapeModel.title = @"100";
-//    shapeModel.shapeType = ELLIPSE;
-//    shapeModel.fillColor = [UIColor redColor];
-//    [shapes addObject:shapeModel];
 
     return [shapes copy];
 }
@@ -219,7 +186,5 @@ typedef enum : NSUInteger {
     [mArray addObject:shapeModel];
     dataSource = [mArray copy];
 }
-
-
 
 @end

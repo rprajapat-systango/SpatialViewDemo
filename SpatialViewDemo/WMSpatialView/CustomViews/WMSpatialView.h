@@ -29,7 +29,8 @@ typedef enum : NSUInteger {
 @protocol WMSpatialViewDelegate <NSObject>
 - (void) spatialView:(WMSpatialView *)spatialView didSelectItem:(WMSpatialViewShape *)shape;
 - (BOOL) spatialView:(WMSpatialView *) spatialView shouldDrawShapeOnPosition:(CGPoint)pos;
-- (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView shapeToAddAt:(CGPoint) point;
+- (WMSpatialViewShape *)spatialView:(WMSpatialView *)spatialView shapeToAddAt:(CGPoint) point copyShapeFrom:(WMSpatialViewShape *)copyingShape;
+- (void)spatialView:(WMSpatialView *)spatialView willAddShape:(WMSpatialViewShape *)shape;
 - (void)spatialView:(WMSpatialView *)spatialView didAddShape:(WMSpatialViewShape *) shape;
 @end
 
